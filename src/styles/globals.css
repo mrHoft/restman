@@ -1,0 +1,85 @@
+@import url("./variables.css");
+
+:root {
+  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  color-scheme: light dark;
+  color: var(--color100);
+  background-color: var(--color10);
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+@media (max-width: 640px) {
+  :root {
+    font-size: 12px;
+  }
+}
+@media (max-width: 480px) {
+  :root {
+    font-size: 10px;
+  }
+}
+
+body {
+  margin: 0;
+}
+
+.main {
+  margin: 1rem;
+  position: relative;
+  z-index: 1;
+  overflow-y: auto;
+}
+
+h1 {
+  font-size: 3.2em;
+  line-height: 1.1;
+}
+
+button:focus,
+input:focus,
+select:focus {
+  outline: none;
+}
+
+a {
+  color: var(--link-color);
+  text-decoration: none;
+  transition-duration: 250ms;
+}
+a:hover {
+  color: var(--link-color-hover);
+}
+
+.button {
+  border-radius: 0.375rem;
+  border: 2px solid var(--color40);
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  background-color: var(--color20);
+  cursor: pointer;
+  transition: background-color 0.25s linear, border-color 0.25s linear;
+
+  &:hover {
+    background-color: var(--color30);
+    border-color: var(--color50);
+  }
+}
+
+.align_center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.line-overflow {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
