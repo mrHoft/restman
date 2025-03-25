@@ -17,6 +17,7 @@
 
   --link-color: #4c9ce2;
   --link-color-hover: #386989;
+  --color-logo-bg: transparent;
 }
 
 @media (prefers-color-scheme: light) {
@@ -36,6 +37,7 @@
 
     --link-color: #386989;
     --link-color-hover: #4c9ce2;
+    --color-logo-bg: #2a3a4a;
   }
 }
 
@@ -55,4 +57,5 @@
 
   --link-color: #386989;
   --link-color-hover: #4c9ce2;
+  --color-logo-bg: #2a3a4a;
 }
