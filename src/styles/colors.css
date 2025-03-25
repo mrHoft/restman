@@ -38,3 +38,21 @@
     --link-color-hover: #4c9ce2;
   }
 }
+
+:root.theme-light {
+  --color-scheme: 1;
+  --color00: #fff;
+  --color10: #f5f5f5;
+  --color20: #e0e0e0;
+  --color30: #b8b8b8;
+  --color40: #999;
+  --color50: #7a7a7a;
+  --color60: #5c5c5c;
+  --color70: #3d3d3d;
+  --color80: #292929;
+  --color90: #141414;
+  --color100: #000;
+
+  --link-color: #386989;
+  --link-color-hover: #4c9ce2;
+}
