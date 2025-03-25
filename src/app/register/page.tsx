@@ -1,3 +1,5 @@
+import { InputPassword } from '~/components/password/password';
+
 import form from '~/styles/form.module.css';
 
 export default function Register() {
@@ -6,8 +8,8 @@ export default function Register() {
       <h1 className={form.title}>Register</h1>
       <form className={form.form}>
         <input className={form.input} type="email" name="email" placeholder="Email" />
-        <input className={form.input} type="password" name="password" placeholder="Password" />
-        <input className={form.input} type="password" name="confirmPassword" placeholder="Confirm password" />
+        <InputPassword name="password" placeholder="Password" />
+        <InputPassword name="confirmPassword" placeholder="Confirm password" />
         <button className="button" type="submit">
           Register
         </button>
