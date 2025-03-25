@@ -19,6 +19,9 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: 'Restman',
   description: 'REST api testing tool',
+  icons: {
+    icon: '/logo.svg',
+  },
 };
 
 export default function RootLayout({
