@@ -3,8 +3,6 @@ import ThemeSwitcher from '~/components/theme/theme';
 
 import styles from './header.module.css';
 
-const logoSrc = '/logo.svg';
-
 export function Header() {
   return (
     <header className={styles.header}>
