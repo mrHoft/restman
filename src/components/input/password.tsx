@@ -8,8 +8,8 @@ import styles from './input.module.css';
 const passwordValidity = (value: string) => {
   let matches = 0;
   if (value.match(/[0-9]/)) matches += 1;
-  if (value.match(/[A-ZА-Я]/)) matches += 1;
-  if (value.match(/[a-zа-я]/)) matches += 1;
+  if (value.match(/[A-Z\\p{Lu}]/)) matches += 1;
+  if (value.match(/[a-z\\p{Ll}]/)) matches += 1;
   if (value.match(/[\\-_#$%@&!=\\.\\?\\^\\*\\+\\{\\|\\}\\~]/)) matches += 1;
   if (value.length > 7) matches += 1;
   return matches;
