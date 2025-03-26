@@ -25,7 +25,6 @@
   border: none;
   background-color: inherit;
   color: inherit;
-  font-family: var(--font);
   font-size: 1rem;
   -webkit-text-fill-color: var(--color100);
 }

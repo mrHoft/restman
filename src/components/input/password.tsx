@@ -5,6 +5,16 @@ import { PATTERN } from './pattern';
 
 import styles from './input.module.css';
 
+const passwordValidity = (value: string) => {
+  let matches = 0;
+  if (value.match(/[0-9]/)) matches += 1;
+  if (value.match(/[A-ZА-Я]/)) matches += 1;
+  if (value.match(/[a-zа-я]/)) matches += 1;
+  if (value.match(/[\\-_#$%@&!=\\.\\?\\^\\*\\+\\{\\|\\}\\~]/)) matches += 1;
+  if (value.length > 7) matches += 1;
+  return matches;
+};
+
 export function InputPassword({ name, placeholder }: { name: string; placeholder: string }) {
   const [showPassword, setShowPassword] = useState(false);
   const strength = useRef<HTMLDivElement>(null);
@@ -15,16 +25,10 @@ export function InputPassword({ name, placeholder }: { name: string; placeholder
 
   const handleInput = (event: FormEvent<HTMLInputElement>) => {
     if (strength.current) {
-      const { value } = event.currentTarget;
-      let matches = 0;
-      if (value.match(/[0-9]/)) matches += 1;
-      if (value.match(/[A-ZА-Я]/)) matches += 1;
-      if (value.match(/[a-zа-я]/)) matches += 1;
-      if (value.match(/[\\-_#$%@&!=\\.\\?\\^\\*\\+\\{\\|\\}\\~]/)) matches += 1;
-      if (value.length > 7) matches += 1;
+      const matches = passwordValidity(event.currentTarget.value);
       strength.current.setAttribute(
         'style',
-        `height:5px;width:${(100 / 5) * matches}%;background-color:${matches > 4 ? 'green' : 'red'};`
+        `height:0.3rem;width:${(100 / 5) * matches}%;background-color:${matches > 4 ? 'green' : 'red'};`
       );
     }
   };
