@@ -20,6 +20,10 @@
   row-gap: 1rem;
 }
 
+.input_group {
+  position: relative;
+}
+
 .input {
   width: 100%;
   min-width: 12em;
@@ -33,6 +37,14 @@
   transition:
     background-color 0.25s linear,
     border-color 0.25s linear;
+}
+
+.input_error {
+  color: #ff0000;
+  font-size: 0.8rem;
+  position: absolute;
+  top: 95%;
+  left: 0;
 }
 
 @media (hover: hover) {
