@@ -41,21 +41,6 @@ export function Example() {
         />
         <Pagination page={page} total={100} pageSize={10} onChange={setPage} />
       </div>
-      <h2>1</h2>
-      <h2>1</h2>
-      <h2>1</h2>
-      <h2>1</h2>
-      <h2>1</h2>
-      <h2>1</h2>
-      <h2>1</h2>
-      <h2>1</h2>
-      <h2>1</h2>
-      <h2>1</h2>
-      <h2>1</h2>
-      <h2>1</h2>
-      <h2>1</h2>
-      <h2>1</h2>
-      <h2>1</h2>
     </div>
   );
 }

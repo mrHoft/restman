@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import ThemeSwitcher from '~/components/theme/theme';
+import LanguageSelector from '../language/language';
 
 import styles from './header.module.css';
 
@@ -28,6 +29,7 @@ export function Header() {
         <div className={styles.header__logo} />
         <h3>Restman</h3>
       </Link>
+      <LanguageSelector />
       <ThemeSwitcher />
     </header>
   );
