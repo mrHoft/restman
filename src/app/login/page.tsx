@@ -1,4 +1,4 @@
-import { InputPassword } from '~/components/password/password';
+import { InputEmail, InputPassword } from '~/components/input';
 
 import form from '~/styles/form.module.css';
 
@@ -7,7 +7,7 @@ export default function Login() {
     <div className={form.container}>
       <h1 className={form.title}>Login</h1>
       <form className={form.form}>
-        <input className={form.input} type="email" name="email" placeholder="Email" />
+        <InputEmail />
         <InputPassword name="password" placeholder="Password" />
         <button className="button" type="submit">
           Login
