@@ -28,7 +28,7 @@ export function InputPassword({ name, placeholder }: { name: string; placeholder
       const matches = passwordValidity(event.currentTarget.value);
       strength.current.setAttribute(
         'style',
-        `height:0.3rem;width:${(100 / 5) * matches}%;background-color:${matches > 4 ? 'green' : 'red'};`
+        `width:${(100 / 5) * matches}%;background-color:${matches > 4 ? 'green' : 'red'};`
       );
     }
   };
@@ -45,7 +45,7 @@ export function InputPassword({ name, placeholder }: { name: string; placeholder
           onInput={handleInput}
           required
         />
-        <div ref={strength} style={{ height: '5px' }} />
+        <div ref={strength} className={styles.password__strength} />
         <label className={styles.password__show} htmlFor={`show_${name}`}>
           <input type="checkbox" name={`show_${name}`} id={`show_${name}`} onChange={handleChange} />
         </label>
