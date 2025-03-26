@@ -5,6 +5,7 @@
   padding: 0 1rem;
   background: var(--color10);
   color: var(--color100);
+  transition: background-color 0.25s linear;
 }
 
 .header__title {
@@ -24,4 +25,11 @@
   background-position: center;
   background-repeat: no-repeat;
   background-size: 2rem;
+}
+
+.header_sticky {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background-color: var(--color30);
 }
