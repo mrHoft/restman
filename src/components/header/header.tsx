@@ -29,8 +29,11 @@ export function Header() {
         <div className={styles.header__logo} />
         <h3>Restman</h3>
       </Link>
-      <LanguageSelector />
-      <ThemeSwitcher />
+      <div className={styles.header__right}>
+        <LanguageSelector />
+        <button className={`${styles.header__btn}`}>Sign Out</button>
+        <ThemeSwitcher />
+      </div>
     </header>
   );
 }
