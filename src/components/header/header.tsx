@@ -3,21 +3,18 @@
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import ThemeSwitcher from '~/components/theme/theme';
-import LanguageSelector from '../language/language';
-import SignOutButton from '../signOut/signOut';
+// import LanguageSelector from '~/components/language/language';
+import { ButtonLogout } from '~/components/logout/logout';
+import type { UserData } from '~/utils/supabase/types';
 
 import styles from './header.module.css';
 
-export function Header() {
+export function Header({ user }: { user: UserData | null }) {
   const [isSticky, setIsSticky] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
-      if (window.scrollY > 50) {
-        setIsSticky(true);
-      } else {
-        setIsSticky(false);
-      }
+      setIsSticky(window.scrollY > 16);
     };
 
     window.addEventListener('scroll', handleScroll);
@@ -31,8 +28,8 @@ export function Header() {
         <h3 className={styles.header__title_text}>Restman</h3>
       </Link>
       <div className={styles.header__right}>
-        <LanguageSelector />
-        <SignOutButton />
+        <ButtonLogout user={user} />
+        {/* <LanguageSelector /> */}
         <ThemeSwitcher />
       </div>
     </header>
