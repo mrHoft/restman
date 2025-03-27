@@ -14,11 +14,7 @@ export function Header({ user }: { user: UserData | null }) {
 
   useEffect(() => {
     const handleScroll = () => {
-      if (window.scrollY > 40) {
-        setIsSticky(true);
-      } else {
-        setIsSticky(false);
-      }
+      setIsSticky(window.scrollY > 16);
     };
 
     window.addEventListener('scroll', handleScroll);
