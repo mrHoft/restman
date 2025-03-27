@@ -2,10 +2,11 @@
 import { redirect } from 'next/navigation';
 import { useState } from 'react';
 import { register } from '~/app/auth/actions';
+import { Loader } from '~/components/loader/loader';
+import { Message } from '~/components/message/message';
+import { registerSchema } from '~/utils/schemas';
+
 import form from '~/styles/form.module.css';
-import { Loader } from '../../components/loader/loader';
-import { Message } from '../../components/message/message';
-import { registerSchema } from '../../utils/schemas';
 
 export default function Register() {
   const [errors, setErrors] = useState<Record<string, string>>({});

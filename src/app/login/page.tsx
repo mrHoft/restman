@@ -1,12 +1,12 @@
 'use client';
+import { redirect } from 'next/navigation';
 import { useState } from 'react';
 import { login } from '~/app/auth/actions';
+import { Loader } from '~/components/loader/loader';
 import { Message } from '~/components/message/message';
 import { loginSchema } from '~/utils/schemas';
 
-import { redirect } from 'next/navigation';
 import form from '~/styles/form.module.css';
-import { Loader } from '../../components/loader/loader';
 
 export default function Login() {
   const [errors, setErrors] = useState<Record<string, string>>({});
