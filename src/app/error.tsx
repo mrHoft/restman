@@ -1,12 +1,7 @@
 'use client';
 
-import { useEffect } from 'react';
-import { Message } from '~/components/message/message';
+import Error from '~/components/error/error';
 
-export default function ErrorBoundary({ error }: { error: Error & { digest?: string } }) {
-  useEffect(() => {
-    Message.show(`${error.name}: ${error.message}`, 'error');
-  }, [error]);
-
-  return;
+export default function ErrorBoundary({ error, reset }: { error: Error & { digest?: string }; reset: () => void }) {
+  return <Error error={error} reset={reset} />;
 }
