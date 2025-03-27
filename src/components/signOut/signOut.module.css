@@ -10,8 +10,9 @@
   background-size: 1.2rem;
   cursor: pointer;
   transition: background-color 0.25s linear;
+  filter: invert(var(--color-scheme));
 
   &:hover {
-    background-color: var(--color20);
+    background-color: var(--color80);
   }
 }
