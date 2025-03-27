@@ -8,7 +8,7 @@ export default function Page404() {
       <h2>Page Not Found</h2>
       <div className={styles.page404__image} />
       <Link className={styles.page404__link} href="/">
-        Return Home
+        Back to the main page
       </Link>
     </div>
   );
