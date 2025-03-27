@@ -42,10 +42,12 @@
 
 .header_sticky {
   position: sticky;
+  height: 2.5rem;
   top: 0;
   z-index: 100;
   background-color: var(--color20a);
   backdrop-filter: blur(3px);
+  overflow: hidden;
 
   & .header__title_text {
     margin: 0;
