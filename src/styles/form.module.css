@@ -17,5 +17,18 @@
 .form {
   display: flex;
   flex-direction: column;
-  row-gap: 1rem;
+}
+
+.input_error {
+  color: red;
+  font-size: smaller;
+  height: 1lh;
+}
+
+@media (hover: hover) {
+  .input:hover,
+  .input:focus {
+    border-color: var(--color60);
+    background-color: var(--color10);
+  }
 }

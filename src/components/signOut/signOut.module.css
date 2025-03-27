@@ -1,0 +1,18 @@
+.sign_out {
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  border: 2px solid var(--color50);
+  background-color: inherit;
+  background-image: url('/icons/logout.svg');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 1.2rem;
+  cursor: pointer;
+  transition: background-color 0.25s linear;
+  filter: invert(var(--color-scheme));
+
+  &:hover {
+    background-color: var(--color80);
+  }
+}
