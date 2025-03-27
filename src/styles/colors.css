@@ -3,6 +3,7 @@
   --color00: #040608;
   --color10: #0a1a2a;
   --color20: #1a2a3a;
+  --color20a: #1a2a3a88;
   --color30: #2a3a4a;
   --color40: #3e4e5e;
   --color50: #586878;
@@ -26,6 +27,7 @@
     --color00: #fff;
     --color10: #f5f5f5;
     --color20: #e0e0e0;
+    --color20a: #e0e0e088;
     --color30: #b8b8b8;
     --color40: #999;
     --color50: #7a7a7a;
