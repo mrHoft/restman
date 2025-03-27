@@ -19,6 +19,7 @@ export function Example() {
     }, 2000);
   };
 
+  throw new Error('Example');
   return (
     <div className={styles.example}>
       <h3>Component usage examples</h3>
