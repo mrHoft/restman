@@ -34,7 +34,7 @@
   background-color: var(--color20a);
   backdrop-filter: blur(3px);
 
-  & .header__title {
+  & .header__title_text {
     margin: 0;
   }
 }
