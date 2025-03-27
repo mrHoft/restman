@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
+import Footer from '~/components/footer/footer';
 import { Loader } from '~/components/loader/loader';
 import { Message } from '~/components/message/message';
 import { Modal } from '~/components/modal/modal';
@@ -32,7 +33,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`body ${geistSans.variable} ${geistMono.variable}`}>
-        {children}
+        <div className="wrapper">
+          <div className="content">{children}</div>
+          <Footer />
+        </div>
         <Loader />
         <Message />
         <Modal />
