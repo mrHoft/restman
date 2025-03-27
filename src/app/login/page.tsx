@@ -2,6 +2,7 @@
 import { redirect } from 'next/navigation';
 import { useState } from 'react';
 import { login } from '~/app/auth/actions';
+import { InputEmail, InputPassword } from '~/components/input';
 import { Loader } from '~/components/loader/loader';
 import { Message } from '~/components/message/message';
 import { loginSchema } from '~/utils/schemas';
@@ -38,7 +39,7 @@ export default function Login() {
     await login(data).then(({ error, success }) => {
       Message.show(success ? "You've successfully logged in!" : error, success ? 'regular' : 'error');
       Loader.hide();
-      redirect('/');
+      if (success) redirect('/');
     });
   };
 
@@ -46,14 +47,10 @@ export default function Login() {
     <div className={form.container}>
       <h1 className={form.title}>Login</h1>
       <form className={form.form} onSubmit={handleSubmit}>
-        <div className={form.input_group}>
-          <input className={form.input} type="email" name="email" placeholder="Email" />
-          {errors.email && <span className={form.input_error}>{errors.email}</span>}
-        </div>
-        <div className={form.input_group}>
-          <input className={form.input} type="password" name="password" placeholder="Password" />
-          {errors.password && <span className={form.input_error}>{errors.password}</span>}
-        </div>
+        <InputEmail />
+        <span className={form.input_error}>{errors.email}</span>
+        <InputPassword name="password" placeholder="Password" />
+        <span className={form.input_error}>{errors.password}</span>
         <button className="button" type="submit">
           Login
         </button>

@@ -2,6 +2,7 @@
 import { redirect } from 'next/navigation';
 import { useState } from 'react';
 import { register } from '~/app/auth/actions';
+import { InputEmail, InputPassword } from '~/components/input';
 import { Loader } from '~/components/loader/loader';
 import { Message } from '~/components/message/message';
 import { registerSchema } from '~/utils/schemas';
@@ -38,7 +39,7 @@ export default function Register() {
     await register(data).then(({ error, success }) => {
       Message.show(success ? 'Registration successful!' : error, success ? 'regular' : 'error');
       Loader.hide();
-      redirect('/login');
+      if (success) redirect('/login');
     });
   };
 
@@ -46,18 +47,12 @@ export default function Register() {
     <div className={form.container}>
       <h1 className={form.title}>Register</h1>
       <form className={form.form} onSubmit={handleSubmit}>
-        <div className={form.input_group}>
-          <input className={form.input} type="email" name="email" placeholder="Email" />
-          {errors.email && <span className={form.input_error}>{errors.email}</span>}
-        </div>
-        <div className={form.input_group}>
-          <input className={form.input} type="password" name="password" placeholder="Password" />
-          {errors.password && <span className={form.input_error}>{errors.password}</span>}
-        </div>
-        <div className={form.input_group}>
-          <input className={form.input} type="password" name="confirmPassword" placeholder="Confirm password" />
-          {errors.confirmPassword && <span className={form.input_error}>{errors.confirmPassword}</span>}
-        </div>
+        <InputEmail />
+        <span className={form.input_error}>{errors.email}</span>
+        <InputPassword name="password" placeholder="Password" />
+        <span className={form.input_error}>{errors.password}</span>
+        <InputPassword name="confirmPassword" placeholder="Confirm password" />
+        <span className={form.input_error}>{errors.confirmPassword}</span>
         <button className="button" type="submit">
           Register
         </button>

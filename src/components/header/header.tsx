@@ -1,40 +1,40 @@
+'use client';
+
 import Link from 'next/link';
-import { signout } from '~/app/auth/actions';
+import { useEffect, useState } from 'react';
 import ThemeSwitcher from '~/components/theme/theme';
-import { createClient } from '~/utils/supabase/server';
+import LanguageSelector from '../language/language';
+import SignOutButton from '../signOut/signOut';
 
 import styles from './header.module.css';
 
-export async function Header() {
-  const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+export function Header() {
+  const [isSticky, setIsSticky] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 50) {
+        setIsSticky(true);
+      } else {
+        setIsSticky(false);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   return (
-    <header className={styles.header}>
+    <header className={isSticky ? `${styles.header} ${styles.header_sticky}` : styles.header}>
       <Link href="/" className={styles.header__title}>
         <div className={styles.header__logo} />
-        <h3>Restman</h3>
+        <h3 className={styles.header__title_text}>Restman</h3>
       </Link>
-      {!user ? (
-        <nav className={styles.header__links}>
-          <Link href="/register" className={`button ${styles.header__link}`}>
-            Register
-          </Link>
-          <Link href="/login" className={`button ${styles.header__link}`}>
-            Login
-          </Link>
-        </nav>
-      ) : (
-        <>
-          <h2 className={styles.header__user}>{user.email}</h2>
-          <form action={signout}>
-            <button className="button">Sign out</button>
-          </form>
-        </>
-      )}
-      <ThemeSwitcher />
+      <div className={styles.header__right}>
+        <LanguageSelector />
+        <SignOutButton />
+        <ThemeSwitcher />
+      </div>
     </header>
   );
 }
