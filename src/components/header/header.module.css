@@ -16,6 +16,17 @@
   text-decoration: none;
 }
 
+.header__links {
+  display: flex;
+  align-items: center;
+  column-gap: 1rem;
+}
+
+.header__link {
+  color: var(--color100);
+  text-decoration: none;
+}
+
 .header__logo {
   width: 2.5rem;
   height: 2.5rem;

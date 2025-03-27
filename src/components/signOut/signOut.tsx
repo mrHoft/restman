@@ -1,5 +1,10 @@
+import { signout } from '~/app/auth/actions';
 import styles from './signOut.module.css';
 
 export default function SignOutButton() {
-  return <button className={styles.sign_out}></button>;
+  return (
+    <form action={signout}>
+      <button className={styles.sign_out}></button>
+    </form>
+  );
 }
