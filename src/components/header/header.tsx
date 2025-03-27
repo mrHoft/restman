@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import ThemeSwitcher from '~/components/theme/theme';
 import LanguageSelector from '../language/language';
+import SignOutButton from '../signOut/signOut';
 
 import styles from './header.module.css';
 
@@ -24,14 +25,14 @@ export function Header() {
   }, []);
 
   return (
-    <header className={`${styles.header} ${isSticky ? styles.header_sticky : ''}`}>
+    <header className={isSticky ? `${styles.header} ${styles.header_sticky}` : styles.header}>
       <Link href="/" className={styles.header__title}>
         <div className={styles.header__logo} />
-        <h3>Restman</h3>
+        <h3 className={styles.header__title}>Restman</h3>
       </Link>
       <div className={styles.header__right}>
         <LanguageSelector />
-        <button className={`${styles.header__btn}`}>Sign Out</button>
+        <SignOutButton />
         <ThemeSwitcher />
       </div>
     </header>
