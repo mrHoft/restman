@@ -33,10 +33,8 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`body ${geistSans.variable} ${geistMono.variable}`}>
-        <div className="wrapper">
-          <div className="content">{children}</div>
-          <Footer />
-        </div>
+        {children}
+        <Footer />
         <Loader />
         <Message />
         <Modal />
