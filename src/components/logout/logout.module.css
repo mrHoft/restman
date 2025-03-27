@@ -1,0 +1,39 @@
+.sign {
+  position: relative;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  border: 2px solid var(--color40);
+  background-color: var(--color10);
+  transition: background-color 0.25s linear;
+  cursor: pointer;
+}
+
+.sign::after {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  display: block;
+  width: 2rem;
+  height: 2rem;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 1.25rem;
+  filter: invert(var(--color-scheme));
+}
+
+.sign.out::after {
+  background-image: url('/icons/logout.svg');
+}
+
+.sign.in::after {
+  background-image: url('/icons/login.svg');
+}
+
+@media (hover: hover) {
+  .sign:hover {
+    background-color: var(--color20);
+    border-color: var(--color50);
+  }
+}
