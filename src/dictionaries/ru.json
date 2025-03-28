@@ -1,0 +1,12 @@
+{
+  "MainPage": {
+    "title": "Примеры использования компонентов",
+    "buttonForLoader": "Показать лоадер",
+    "buttonForModal": "Показать модальное окно",
+    "buttonForMessage": "Показать сообщение",
+    "selectorPlaceholder": "Выберите вариант",
+    "option1": "Вариант 1",
+    "option2": "Вариант 2",
+    "option3": "Вариант 3"
+  }
+}
