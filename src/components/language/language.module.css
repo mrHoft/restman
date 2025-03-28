@@ -19,6 +19,7 @@
   font-size: 0.8em;
   width: calc(100% - 4px);
   height: 1.1em;
+  color: var(--color00);
   border: inherit;
   border-radius: 1em;
   background-color: var(--color50);

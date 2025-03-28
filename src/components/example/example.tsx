@@ -28,10 +28,10 @@ export function Example() {
         <button className="button" onClick={handleShowLoader}>
           {t('buttonForLoader')}
         </button>
-        <button className="button" onClick={() => Modal.show(<h3>Modal example</h3>)}>
+        <button className="button" onClick={() => Modal.show(<h3>{t('modalText')}</h3>)}>
           {t('buttonForModal')}
         </button>
-        <button className="button" onClick={() => Message.show('Example message', 'regular')}>
+        <button className="button" onClick={() => Message.show(t('messageText'), 'regular')}>
           {t('buttonForMessage')}
         </button>
         <Select

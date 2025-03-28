@@ -1,3 +1,4 @@
+import { NextIntlClientProvider } from 'next-intl';
 import { ReactNode } from 'react';
 
 type Props = {
@@ -5,5 +6,5 @@ type Props = {
 };
 
 export default function RootLayout({ children }: Props) {
-  return children;
+  return <NextIntlClientProvider>{children}</NextIntlClientProvider>;
 }

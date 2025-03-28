@@ -7,7 +7,9 @@
     "selectorPlaceholder": "Выберите вариант",
     "option1": "Вариант 1",
     "option2": "Вариант 2",
-    "option3": "Вариант 3"
+    "option3": "Вариант 3",
+    "modalText": "Пример модального окна",
+    "messageText": "Пример всплывающего сообщения"
   },
   "RegisterPage": {
     "title": "Регистрация",
