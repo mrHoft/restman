@@ -55,6 +55,7 @@ select:focus {
 
 .button {
   color: var(--color100);
+  text-decoration: none;
   border-radius: 0.375rem;
   border: 2px solid var(--color40);
   padding: 0.5rem 1rem;
