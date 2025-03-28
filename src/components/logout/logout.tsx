@@ -7,7 +7,7 @@ import styles from './logout.module.css';
 export function ButtonLogout({ user }: { user: UserData | null }) {
   return (
     <form action={user ? signout : () => redirect('/login')}>
-      <button className={`${styles.sign} ${user ? styles.out : styles.in}`}></button>
+      <button className={`${styles.sign} ${user ? styles.out : styles.in}`}>{user ? 'Logout' : 'Login'}</button>
     </form>
   );
 }

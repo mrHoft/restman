@@ -1,43 +1,41 @@
 import Link from 'next/link';
-import { createClient } from '~/utils/supabase/server';
+import { getUser } from '~/app/auth/actions';
 
-import styles from './welcome.module.css';
+import form from '~/styles/form.module.css';
 
 export async function Welcome() {
-  const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
-  if (user)
-    return (
-      <div className={styles.welcome}>
-        <h2>Welcome Back, {user.email}!</h2>
-        <div className="align_center">
-          <Link href="/rest" className={`button ${styles.welcome__link}`}>
-            REST Client
-          </Link>
-          <Link href="/history" className={`button ${styles.welcome__link}`}>
-            History
-          </Link>
-          <Link href="/variables" className={`button ${styles.welcome__link}`}>
-            Variables
-          </Link>
-        </div>
-      </div>
-    );
+  const user = await getUser();
 
   return (
-    <div className={styles.welcome}>
-      <h2>Welcome</h2>
-      <div className="align_center">
-        <Link href="/login" className={`button ${styles.welcome__link}`}>
-          Login
-        </Link>
-        <Link href="/register" className={`button ${styles.welcome__link}`}>
-          Register
-        </Link>
-      </div>
+    <div className={form.container}>
+      {user ? (
+        <>
+          <h2 className={form.title}>Welcome Back, {user.email}!</h2>
+          <div className="align_center">
+            <Link href="/rest" className="button">
+              REST Client
+            </Link>
+            <Link href="/history" className="button">
+              History
+            </Link>
+            <Link href="/variables" className="button">
+              Variables
+            </Link>
+          </div>
+        </>
+      ) : (
+        <>
+          <h2 className={form.title}>Welcome</h2>
+          <div className="align_center">
+            <Link href="/login" className="button">
+              Login
+            </Link>
+            <Link href="/register" className="button">
+              Sign up
+            </Link>
+          </div>
+        </>
+      )}
     </div>
   );
 }
