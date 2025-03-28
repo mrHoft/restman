@@ -1,5 +1,6 @@
 'use client';
 
+import { useTranslations } from 'next-intl';
 import React from 'react';
 import { Message } from '~/components/message/message';
 import { Modal } from '~/components/modal/modal';
@@ -7,7 +8,6 @@ import { Loader } from '../loader/loader';
 import Pagination from '../pagination/pagination';
 import { Select } from '../select/select';
 
-import { useTranslations } from 'next-intl';
 import styles from './example.module.css';
 
 export function Example() {

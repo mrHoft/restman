@@ -1,4 +1,5 @@
 'use client';
+import { useTranslations } from 'next-intl';
 import { redirect } from 'next/navigation';
 import { useState } from 'react';
 import { register } from '~/app/auth/actions';
@@ -11,6 +12,7 @@ import form from '~/styles/form.module.css';
 
 export default function Register() {
   const [errors, setErrors] = useState<Record<string, string>>({});
+  const t = useTranslations('RegisterPage');
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -45,16 +47,16 @@ export default function Register() {
 
   return (
     <div className={form.container}>
-      <h1 className={form.title}>Register</h1>
+      <h1 className={form.title}>{t('title')}</h1>
       <form className={form.form} onSubmit={handleSubmit}>
         <InputEmail />
         <span className={form.input_error}>{errors.email}</span>
-        <InputPassword name="password" placeholder="Password" />
+        <InputPassword name="password" placeholder={t('password')} />
         <span className={form.input_error}>{errors.password}</span>
-        <InputPassword name="confirmPassword" placeholder="Confirm password" />
+        <InputPassword name="confirmPassword" placeholder={t('confirmPassword')} />
         <span className={form.input_error}>{errors.confirmPassword}</span>
         <button className="button" type="submit">
-          Register
+          {t('submit')}
         </button>
       </form>
     </div>
