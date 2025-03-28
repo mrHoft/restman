@@ -11,7 +11,6 @@ import styles from './example.module.css';
 
 export function Example({ dict }: { dict: Record<string, string> }) {
   const [page, setPage] = React.useState(0);
-  // const t = useTranslations('MainPage');
 
   const handleShowLoader = () => {
     Loader.show();
@@ -36,7 +35,7 @@ export function Example({ dict }: { dict: Record<string, string> }) {
         <Select
           options={[dict.option1, dict.option2, dict.option3]}
           name="select"
-          placeholder={dict.selectPlaceholder}
+          placeholder={dict.selectorPlaceholder}
           defaultValue={dict.option1}
           onChange={value => console.log(value)}
         />

@@ -1,5 +1,4 @@
 'use client';
-import { useTranslations } from 'next-intl';
 import { redirect } from 'next/navigation';
 import { useState } from 'react';
 import { login } from '~/app/auth/actions';
@@ -12,7 +11,6 @@ import form from '~/styles/form.module.css';
 
 export default function Login() {
   const [errors, setErrors] = useState<Record<string, string>>({});
-  const t = useTranslations('LoginPage');
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -39,7 +37,7 @@ export default function Login() {
     }
 
     await login(data).then(({ error, success }) => {
-      Message.show(success ? t('success') : error, success ? 'regular' : 'error');
+      Message.show(success ? "You've successfully logged in!" : error, success ? 'regular' : 'error');
       Loader.hide();
       if (success) redirect('/');
     });
@@ -47,14 +45,14 @@ export default function Login() {
 
   return (
     <div className={form.container}>
-      <h1 className={form.title}>{t('title')}</h1>
+      <h1 className={form.title}>Login</h1>
       <form className={form.form} onSubmit={handleSubmit}>
         <InputEmail />
         <span className={form.input_error}>{errors.email}</span>
-        <InputPassword name="password" placeholder={t('password')} />
+        <InputPassword name="password" placeholder="Password" />
         <span className={form.input_error}>{errors.password}</span>
         <button className="button" type="submit">
-          {t('submit')}
+          Login
         </button>
       </form>
     </div>

@@ -1,7 +1,6 @@
 'use client';
-import { useTranslations } from 'next-intl';
 import { redirect } from 'next/navigation';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { register } from '~/app/auth/actions';
 import { InputEmail, InputPassword } from '~/components/input';
 import { Loader } from '~/components/loader/loader';
@@ -9,10 +8,22 @@ import { Message } from '~/components/message/message';
 import { registerSchema } from '~/utils/schemas';
 
 import form from '~/styles/form.module.css';
+import { getDictionary } from '../dictionaries';
 
-export default function Register() {
+export default function Register({ params }: { params: Promise<{ locale: 'en' | 'ru' }> }) {
+  const [dict, setDict] = useState<Record<string, string>>();
+
+  useEffect(() => {
+    async function loadLocale() {
+      const { locale } = await params;
+      const dict = await getDictionary(locale);
+      setDict(dict.RegisterPage);
+    }
+    loadLocale();
+  });
+
+  console.log(dict);
   const [errors, setErrors] = useState<Record<string, string>>({});
-  const t = useTranslations('RegisterPage');
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -47,16 +58,16 @@ export default function Register() {
 
   return (
     <div className={form.container}>
-      <h1 className={form.title}>{t('title')}</h1>
+      <h1 className={form.title}>Register</h1>
       <form className={form.form} onSubmit={handleSubmit}>
         <InputEmail />
         <span className={form.input_error}>{errors.email}</span>
-        <InputPassword name="password" placeholder={t('password')} />
+        <InputPassword name="password" placeholder="Password" />
         <span className={form.input_error}>{errors.password}</span>
-        <InputPassword name="confirmPassword" placeholder={t('confirmPassword')} />
+        <InputPassword name="confirmPassword" placeholder="Confirm password" />
         <span className={form.input_error}>{errors.confirmPassword}</span>
         <button className="button" type="submit">
-          {t('submit')}
+          Register
         </button>
       </form>
     </div>

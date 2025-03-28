@@ -29,22 +29,23 @@ export const metadata: Metadata = {
 };
 
 export async function generateStaticParams() {
-  return [{ lang: 'en' }, { lang: 'ru' }];
+  return [{ locale: 'en' }, { locale: 'ru' }];
 }
 
 export default async function RootLayout({
   children,
   params,
-}: Readonly<{ children: React.ReactNode; params: Promise<{ lang: string }> }>) {
+}: Readonly<{ children: React.ReactNode; params: Promise<{ locale: string }> }>) {
   // TODO: move to middleware
   const supabase = await createClient();
   const {
     data: { user },
   } = await supabase.auth.getUser();
 
-  const { lang } = await params;
+  const { locale } = await params;
+
   return (
-    <html lang={lang}>
+    <html lang={locale}>
       <body className={`body ${geistSans.variable} ${geistMono.variable}`}>
         <Backdop />
         <Header user={user} />
