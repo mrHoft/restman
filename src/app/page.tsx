@@ -1,10 +1,5 @@
-import { Welcome } from '../components/welcome/welcome';
+import { Welcome } from '~/components/welcome/welcome';
 
 export default async function Home() {
-  return (
-    <>
-      {/* <Example /> */}
-      <Welcome />
-    </>
-  );
+  return <Welcome />;
 }
