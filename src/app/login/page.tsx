@@ -1,4 +1,6 @@
 'use client';
+
+import Link from 'next/link';
 import { redirect } from 'next/navigation';
 import { useState } from 'react';
 import { login } from '~/app/auth/actions';
@@ -51,9 +53,14 @@ export default function Login() {
         <span className={form.input_error}>{errors.email}</span>
         <InputPassword name="password" placeholder="Password" />
         <span className={form.input_error}>{errors.password}</span>
-        <button className="button" type="submit">
-          Login
-        </button>
+        <div className={form.form__btns}>
+          <button className="button" type="submit">
+            Login
+          </button>
+          <Link href="/register" className="button" type="submit">
+            Register
+          </Link>
+        </div>
       </form>
     </div>
   );

@@ -25,6 +25,12 @@
   height: 1lh;
 }
 
+.form__btns {
+  display: flex;
+  justify-content: center;
+  column-gap: 1rem;
+}
+
 @media (hover: hover) {
   .input:hover,
   .input:focus {
