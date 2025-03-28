@@ -2,9 +2,9 @@
 
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
-import ThemeSwitcher from '~/components/theme/theme';
-// import LanguageSelector from '~/components/language/language';
+import LanguageSelector from '~/components/language/language';
 import { ButtonLogout } from '~/components/logout/logout';
+import ThemeSwitcher from '~/components/theme/theme';
 import type { UserData } from '~/utils/supabase/types';
 
 import styles from './header.module.css';
@@ -29,7 +29,7 @@ export function Header({ user }: { user: UserData | null }) {
       </Link>
       <div className={styles.header__right}>
         <ButtonLogout user={user} />
-        {/* <LanguageSelector /> */}
+        <LanguageSelector />
         <ThemeSwitcher />
       </div>
     </header>
