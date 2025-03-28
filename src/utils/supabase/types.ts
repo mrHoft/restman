@@ -7,5 +7,4 @@ export interface UserData {
   role?: string;
   updated_at?: string;
   is_anonymous?: boolean;
-  is_sso_user?: boolean;
 }
