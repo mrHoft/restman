@@ -28,6 +28,11 @@ export function Header({ user }: { user: UserData | null }) {
         <h3 className={styles.header__title_text}>Restman</h3>
       </Link>
       <div className={styles.header__right}>
+        {!user && (
+          <Link href="/register" className={`button ${styles.header__link}`}>
+            Sign up
+          </Link>
+        )}
         <ButtonLogout user={user} />
         {/* <LanguageSelector /> */}
         <ThemeSwitcher />

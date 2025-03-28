@@ -1,9 +1,5 @@
-import { Example } from '~/components/example/example';
+import { Welcome } from '~/components/welcome/welcome';
 
-export default function Home() {
-  return (
-    <>
-      <Example />
-    </>
-  );
+export default async function Home() {
+  return <Welcome />;
 }
