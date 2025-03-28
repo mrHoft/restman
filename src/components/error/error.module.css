@@ -5,6 +5,12 @@
   row-gap: 1rem;
 }
 
+.error__name {
+  margin: 0 5%;
+  align-self: flex-start;
+  color: var(--color-accent50);
+}
+
 .error__stack {
   width: 90%;
   height: 20rem;
