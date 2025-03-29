@@ -31,6 +31,17 @@ export default class Storage {
     this.emit();
   }
 
+  public push<T = TIndexed>(key: string, value: T) {
+    const prev = this.getValue(key) as T | undefined;
+    if (!prev) {
+      this.setValue(key, [value]);
+    } else {
+      if (!Array.isArray(prev)) throw new Error(`${key} is not an array`);
+      this.setValue(key, [...prev, value]);
+    }
+    this.emit();
+  }
+
   protected getState() {
     return this._state;
   }
