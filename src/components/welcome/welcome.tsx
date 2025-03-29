@@ -3,35 +3,37 @@ import { getUser } from '~/app/auth/actions';
 
 import form from '~/styles/form.module.css';
 
-export async function Welcome() {
+export async function Welcome({ dict }: { dict: Record<string, string> }) {
   const user = await getUser();
 
   return (
     <div className={form.container}>
       {user ? (
         <>
-          <h2 className={form.title}>Welcome Back, {user.email}!</h2>
+          <h2 className={form.title}>
+            {dict.greetingWithUser} {user.email}!
+          </h2>
           <div className="align_center">
             <Link href="/rest" className="button">
-              REST Client
+              {dict.restClient}
             </Link>
             <Link href="/history" className="button">
-              History
+              {dict.history}
             </Link>
             <Link href="/variables" className="button">
-              Variables
+              {dict.variables}
             </Link>
           </div>
         </>
       ) : (
         <>
-          <h2 className={form.title}>Welcome</h2>
+          <h2 className={form.title}>{dict.greetingWithoutUser}</h2>
           <div className="align_center">
             <Link href="/login" className="button">
-              Login
+              {dict.login}
             </Link>
             <Link href="/register" className="button">
-              Sign up
+              {dict.signUp}
             </Link>
           </div>
         </>

@@ -6,7 +6,7 @@ import { Header } from '~/components/header/header';
 import { Loader } from '~/components/loader/loader';
 import { Message } from '~/components/message/message';
 import { Modal } from '~/components/modal/modal';
-import { getUser } from './auth/actions';
+import { getUser } from '../auth/actions';
 
 import '~/styles/globals.css';
 
@@ -28,11 +28,19 @@ export const metadata: Metadata = {
   },
 };
 
-export default async function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
+export async function generateStaticParams() {
+  return [{ locale: 'en' }, { locale: 'ru' }];
+}
+
+export default async function RootLayout({
+  children,
+  params,
+}: Readonly<{ children: React.ReactNode; params: Promise<{ locale: string }> }>) {
+  const { locale } = await params;
   const user = await getUser();
 
   return (
-    <html lang="en">
+    <html lang={locale}>
       <body className={`body ${geistSans.variable} ${geistMono.variable}`}>
         <Backdop />
         <Header user={user} />

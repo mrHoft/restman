@@ -9,7 +9,7 @@ import { Select } from '../select/select';
 
 import styles from './example.module.css';
 
-export function Example() {
+export function Example({ dict }: { dict: Record<string, string> }) {
   const [page, setPage] = React.useState(0);
 
   const handleShowLoader = () => {
@@ -21,22 +21,22 @@ export function Example() {
 
   return (
     <div className={styles.example}>
-      <h3>Component usage examples</h3>
+      <h3>{dict.title}</h3>
       <div className={styles.example__btns}>
         <button className="button" onClick={handleShowLoader}>
-          Show loader
+          {dict.buttonForLoader}
         </button>
-        <button className="button" onClick={() => Modal.show(<h3>Modal example</h3>)}>
-          Show modal
+        <button className="button" onClick={() => Modal.show(<h3>{dict.modalText}</h3>)}>
+          {dict.buttonForModal}
         </button>
-        <button className="button" onClick={() => Message.show('Example message', 'regular')}>
-          Show message
+        <button className="button" onClick={() => Message.show(dict.messageText, 'regular')}>
+          {dict.buttonForMessage}
         </button>
         <Select
-          options={['Option 1', 'Option 2', 'Option 3']}
+          options={[dict.option1, dict.option2, dict.option3]}
           name="select"
-          placeholder="Select option"
-          defaultValue="Option 1"
+          placeholder={dict.selectorPlaceholder}
+          defaultValue={dict.option1}
           onChange={value => console.log(value)}
         />
         <Pagination page={page} total={100} pageSize={10} onChange={setPage} />

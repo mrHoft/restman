@@ -1,0 +1,41 @@
+{
+  "examplePage": {
+    "title": "Примеры использования компонентов",
+    "buttonForLoader": "Показать лоадер",
+    "buttonForModal": "Показать модальное окно",
+    "buttonForMessage": "Показать сообщение",
+    "selectorPlaceholder": "Выберите вариант",
+    "option1": "Вариант 1",
+    "option2": "Вариант 2",
+    "option3": "Вариант 3",
+    "modalText": "Пример модального окна",
+    "messageText": "Пример всплывающего сообщения"
+  },
+  "RegisterPage": {
+    "title": "Регистрация",
+    "email": "Электронная почта",
+    "password": "Пароль",
+    "confirmPassword": "Подтвердите пароль",
+    "submit": "Зарегистрироваться"
+  },
+  "LoginPage": {
+    "title": "Вход",
+    "email": "Электронная почта",
+    "password": "Пароль",
+    "submit": "Войти",
+    "success": "Вход выполнен успешно!"
+  },
+  "NotFoundPage": {
+    "title": "Страница не найдена",
+    "linkToMain": "Вернуться на главную"
+  },
+  "MainPage": {
+    "greetingWithUser": "С возвращением,",
+    "greetingWithoutUser": "Добро пожаловать",
+    "restClient": "REST Клиент",
+    "history": "История",
+    "variables": "Переменные",
+    "login": "Войти",
+    "signUp": "Зарегистрироваться"
+  }
+}
