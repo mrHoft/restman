@@ -1,5 +1,5 @@
 {
-  "MainPage": {
+  "examplePage": {
     "title": "Component usage examples",
     "buttonForLoader": "Show loader",
     "buttonForModal": "Show modal",
@@ -28,5 +28,14 @@
   "NotFoundPage": {
     "title": "Page not found",
     "linkToMain": "Back to the main page"
+  },
+  "MainPage": {
+    "greetingWithUser": "Welcome Back,",
+    "greetingWithoutUser": "Welcome",
+    "restClient": "REST Client",
+    "history": "History",
+    "variables": "Variables",
+    "login": "Login",
+    "signUp": "Sign up"
   }
 }

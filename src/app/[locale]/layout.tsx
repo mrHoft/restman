@@ -6,7 +6,7 @@ import { Header } from '~/components/header/header';
 import { Loader } from '~/components/loader/loader';
 import { Message } from '~/components/message/message';
 import { Modal } from '~/components/modal/modal';
-import { createClient } from '~/utils/supabase/server';
+import { getUser } from '../auth/actions';
 
 import '~/styles/globals.css';
 
@@ -36,13 +36,8 @@ export default async function RootLayout({
   children,
   params,
 }: Readonly<{ children: React.ReactNode; params: Promise<{ locale: string }> }>) {
-  // TODO: move to middleware
-  const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
   const { locale } = await params;
+  const user = await getUser();
 
   return (
     <html lang={locale}>

@@ -1,5 +1,5 @@
 {
-  "MainPage": {
+  "examplePage": {
     "title": "Примеры использования компонентов",
     "buttonForLoader": "Показать лоадер",
     "buttonForModal": "Показать модальное окно",
@@ -28,5 +28,14 @@
   "NotFoundPage": {
     "title": "Страница не найдена",
     "linkToMain": "Вернуться на главную"
+  },
+  "MainPage": {
+    "greetingWithUser": "С возвращением,",
+    "greetingWithoutUser": "Добро пожаловать",
+    "restClient": "REST Клиент",
+    "history": "История",
+    "variables": "Переменные",
+    "login": "Войти",
+    "signUp": "Зарегистрироваться"
   }
 }

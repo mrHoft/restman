@@ -1,6 +1,6 @@
 'use client';
 import { redirect } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { register } from '~/app/auth/actions';
 import { InputEmail, InputPassword } from '~/components/input';
 import { Loader } from '~/components/loader/loader';
@@ -8,21 +8,8 @@ import { Message } from '~/components/message/message';
 import { registerSchema } from '~/utils/schemas';
 
 import form from '~/styles/form.module.css';
-import { getDictionary } from '../dictionaries';
 
-export default function Register({ params }: { params: Promise<{ locale: 'en' | 'ru' }> }) {
-  const [dict, setDict] = useState<Record<string, string>>();
-
-  useEffect(() => {
-    async function loadLocale() {
-      const { locale } = await params;
-      const dict = await getDictionary(locale);
-      setDict(dict.RegisterPage);
-    }
-    loadLocale();
-  });
-
-  console.log(dict);
+export default function Register() {
   const [errors, setErrors] = useState<Record<string, string>>({});
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
