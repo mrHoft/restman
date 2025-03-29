@@ -2,7 +2,6 @@ import Link from 'next/link';
 import { getUser } from '~/app/auth/actions';
 
 import form from '~/styles/form.module.css';
-import HeadersEditor from '../headersEditor/headersEditor';
 
 export async function Welcome({ dict }: { dict: Record<string, string> }) {
   const user = await getUser();
@@ -41,7 +40,6 @@ export async function Welcome({ dict }: { dict: Record<string, string> }) {
           </>
         )}
       </div>
-      <HeadersEditor />
     </>
   );
 }
