@@ -1,5 +1,6 @@
 import { useParams, usePathname, useRouter } from 'next/navigation';
 import { ChangeEvent } from 'react';
+
 import styles from './language.module.css';
 
 export default function LanguageSelector() {
