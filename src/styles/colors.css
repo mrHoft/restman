@@ -19,6 +19,10 @@
   --link-color: #4c9ce2;
   --link-color-hover: #386989;
   --color-logo-bg: transparent;
+
+  --code-tag: #9cdcfe;
+  --code-string: #ce9178;
+  --code-number: #b5cea8;
 }
 
 @media (prefers-color-scheme: light) {
@@ -40,6 +44,10 @@
     --link-color: #386989;
     --link-color-hover: #4c9ce2;
     --color-logo-bg: #2a3a4a;
+
+    --code-tag: #0451ad;
+    --code-string: #a31514;
+    --code-number: #098658;
   }
 }
 
@@ -60,4 +68,8 @@
   --link-color: #386989;
   --link-color-hover: #4c9ce2;
   --color-logo-bg: #2a3a4a;
+
+  --code-tag: #0451ad;
+  --code-string: #a31514;
+  --code-number: #098658;
 }
