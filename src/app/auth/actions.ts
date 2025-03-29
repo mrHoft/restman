@@ -3,6 +3,8 @@
 import { createClient } from '~/utils/supabase/server';
 import { UserData } from '~/utils/supabase/types';
 
+const isProduction = process.env.NODE_ENV === 'production';
+
 class UserHolder {
   private _user: UserData | null = null;
 
@@ -71,10 +73,8 @@ export async function signout() {
 }
 
 export async function getUser() {
-  if (userHolder.user) return userHolder.user;
+  if (!isProduction && userHolder.user) return userHolder.user;
 
-  // TODO: Remove console.log
-  console.log('Fetching user...');
   const supabase = await createClient();
   userHolder.user = (await supabase.auth.getUser()).data.user;
 
