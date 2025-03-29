@@ -14,9 +14,9 @@ export default function LanguageSelector() {
     router.replace(newPath);
   }
   return (
-    <div className={styles.language__selector}>
+    <div className={styles.language}>
       <select
-        className={`${styles.language__switcher} ${params.locale === 'en' ? styles.en : styles.ru}`}
+        className={`${styles.language__select} ${styles[String(params.locale)]}`}
         onChange={onSelectChange}
         defaultValue={params.locale}
       >

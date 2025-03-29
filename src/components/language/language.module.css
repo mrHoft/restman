@@ -1,4 +1,4 @@
-.language__selector {
+.language {
   position: relative;
   display: inline-block;
   appearance: none;
@@ -10,7 +10,7 @@
   background-color: var(--color50);
 }
 
-.language__switcher {
+.language__select {
   position: absolute;
   margin: 0;
   padding: 2px 0 0 1.5rem;
