@@ -1,0 +1,20 @@
+.editor__row {
+  width: 100%;
+  display: flex;
+}
+
+.editor__key {
+  display: block;
+  width: 30%;
+  padding: 0.3rem 1rem;
+}
+
+.editor__value {
+  display: block;
+  width: 70%;
+  padding: 0.3rem 1rem;
+}
+
+.headers__hidden {
+  display: none;
+}
