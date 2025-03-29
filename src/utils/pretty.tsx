@@ -58,7 +58,7 @@ export function PrettyJson({ data }: { data: string }) {
   );
 }
 
-export function PrettHtml({ data }: { data: string }) {
+export function PrettyHtml({ data }: { data: string }) {
   const lines = data.split('\n');
   const prettifyLine = (line: string): React.ReactNode => {
     const regex = /<([^>]+)>/g;
@@ -96,7 +96,7 @@ export function prettify(data: string) {
     return { format: 'JSON', result: <PrettyJson data={data} /> };
   }
   if (data.startsWith('<')) {
-    return { format: 'HTML', result: <PrettHtml data={data} /> };
+    return { format: 'HTML', result: <PrettyHtml data={data} /> };
   }
   return { format: 'plain', result: <pre>{data}</pre> };
 }
