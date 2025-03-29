@@ -30,15 +30,15 @@ export function PrettyJson({ data }: { data: string }) {
       const rest = line.slice(index + match[0].length);
       let restElement: React.ReactNode = rest;
       if (rest.charCodeAt(0) >= 48 && rest.charCodeAt(0) <= 57) {
-        restElement = <span style={{ color: '#b5cea8' }}>{rest}</span>;
+        restElement = <span style={{ color: 'var(--code-number)' }}>{rest}</span>;
       }
       if (rest[0] === '"' || rest[0] === 'n') {
-        restElement = <span style={{ color: '#ce9178' }}>{rest}</span>;
+        restElement = <span style={{ color: 'var(--code-string)' }}>{rest}</span>;
       }
       return (
         <>
           {space}
-          <span style={{ color: '#9cdcfe' }}>{match[0]}</span>
+          <span style={{ color: 'var(--code-tag)' }}>{match[0]}</span>
           {restElement}
         </>
       );
@@ -71,7 +71,7 @@ export function PrettHtml({ data }: { data: string }) {
       return (
         <>
           {prev}
-          <span style={{ color: '#7cacf8' }}>{match[0]}</span>
+          <span style={{ color: 'var(--code-tag)' }}>{match[0]}</span>
           {last}
         </>
       );
