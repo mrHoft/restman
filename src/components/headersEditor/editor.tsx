@@ -3,7 +3,6 @@
 import { useMemo, useState } from 'react';
 
 import styles from './editor.module.css';
-import HeadersTable from './headersTable';
 
 export interface HeadersItem {
   key: string;
@@ -13,11 +12,28 @@ export interface HeadersItem {
 export default function HeadersEditor({ defauldHeaders }: { defauldHeaders: HeadersItem[] }) {
   const [headers, setHeaders] = useState<HeadersItem[]>([...defauldHeaders, { key: '', value: '' }]);
 
-  const handleInputChange = (id: number, input: 'key' | 'value', value: string) => {
-    const newHeaders = [...headers];
-    newHeaders[id][input] = value;
-    setHeaders(newHeaders);
+  const handleAdd = () => setHeaders(prev => [...prev, { key: '', value: '' }]);
+
+  const handleInputChange = (id: number, field: 'key' | 'value', value: string) => {
+    setHeaders(prev => {
+      const headers = [...prev];
+      headers[id][field] = value;
+      return headers;
+    });
   };
+
+  const headersTable = useMemo(() => {
+    return (
+      <>
+        {headers.map((header, index) => (
+          <div key={index} className={styles.header_editor__row}>
+            <input type="text" value={header.key} onChange={e => handleInputChange(index, 'key', e.target.value)} />
+            <input type="text" value={header.value} onChange={e => handleInputChange(index, 'value', e.target.value)} />
+          </div>
+        ))}
+      </>
+    );
+  }, [headers]);
 
   const result = useMemo(
     () =>
@@ -32,13 +48,13 @@ export default function HeadersEditor({ defauldHeaders }: { defauldHeaders: Head
   return (
     <div>
       <div className={styles.header_editor__title}>Headers:</div>
+      {headersTable}
       <div className={styles.header_editor__row}>
         <div className={styles.header_editor__item}></div>
-        <div className={styles.header_editor__button} onClick={() => setHeaders([...headers, { key: '', value: '' }])}>
+        <div className={styles.header_editor__button} onClick={handleAdd}>
           Add
         </div>
       </div>
-      <HeadersTable headers={headers} onChange={handleInputChange} />
       <input
         type="text"
         readOnly
