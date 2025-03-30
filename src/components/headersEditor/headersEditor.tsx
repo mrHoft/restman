@@ -1,96 +1,64 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useMemo, useState } from 'react';
 
 import styles from './headersEditor.module.css';
 
 export interface HeadersItem {
-  id: number;
-  headerKey: string;
-  headerValue: string;
+  key: string;
+  value: string;
 }
 
-export default function HeadersEditor() {
-  const [headers, setHeaders] = useState<HeadersItem[]>([{ id: Date.now(), headerKey: '', headerValue: '' }]);
+export default function HeadersEditor({ defauldHeaders }: { defauldHeaders: Record<string, string>[] }) {
+  const defaultHeadersState = useMemo(() => {
+    if (!defauldHeaders) return [{ key: '', value: '' }];
+    const newheaders = defauldHeaders.map(header => ({
+      key: Object.keys(header)[0],
+      value: Object.values(header)[0],
+    }));
+    newheaders.push({ key: '', value: '' });
+    return newheaders;
+  }, [defauldHeaders]);
 
-  const [hiddenValue, setHiddenValue] = useState({});
+  const [headers, setHeaders] = useState<HeadersItem[]>(defaultHeadersState);
 
-  const transformHeaders = () => {
-    return headers.reduce(
-      (acc, header) => {
-        if (header.headerKey === '' && header.headerValue === '') return acc;
-        acc[header.headerKey] = header.headerValue;
+  const handleInputChange = (id: number, input: 'key' | 'value', value: string) => {
+    const newHeaders = [...headers];
+    newHeaders[id][input] = value;
+    setHeaders(newHeaders);
+  };
+
+  const result = useMemo(
+    () =>
+      headers.reduce<Record<string, string>>((acc, header) => {
+        if (header.key === '' && header.value === '') return acc;
+        acc[header.key] = header.value;
         return acc;
-      },
-      {} as Record<string, string>
-    );
-  };
-
-  useEffect(() => {
-    setHiddenValue(transformHeaders());
-  }, [headers]);
-
-  const handleInputChange = (id: number, input: 'headerKey' | 'headerValue', value: string) => {
-    const newHeaders = headers.map(header => {
-      if (header.id === id) {
-        return { ...header, [input]: value };
-      }
-      return header;
-    });
-
-    const lastHeadersRow = newHeaders[newHeaders.length - 1];
-
-    if (lastHeadersRow.headerKey !== '' || lastHeadersRow.headerValue !== '') {
-      newHeaders.push({ id: Date.now(), headerKey: '', headerValue: '' });
-    }
-
-    setHeaders(newHeaders);
-  };
-
-  const handleEmptyRow = () => {
-    const newHeaders = headers
-      .filter((header, index) => {
-        if (index === headers.length - 1) return true;
-        return header.headerKey !== '' || header.headerValue !== '';
-      })
-      .map(header => {
-        return { id: header.id, headerKey: header.headerKey.trim(), headerValue: header.headerValue.trim() };
-      });
-
-    setHeaders(newHeaders);
-  };
+      }, {}),
+    [headers]
+  );
 
   return (
-    <div className={styles.editor}>
-      <div className={styles.editor__row}>
-        <div className={styles.editor__key}>Header Key</div>
-        <div className={styles.editor__value}>Header Value</div>
+    <div>
+      <div className={styles.header_editor__title}>Headers:</div>
+      <div className={styles.header_editor__row}>
+        <div className={styles.header_editor__item}></div>
+        <div className={styles.header_editor__button} onClick={() => setHeaders([...headers, { key: '', value: '' }])}>
+          Add
+        </div>
       </div>
-      {headers.map(header => (
-        <div key={header.id} className={styles.editor__row}>
-          <input
-            type="text"
-            value={header.headerKey}
-            onChange={e => handleInputChange(header.id, 'headerKey', e.target.value)}
-            onBlur={handleEmptyRow}
-            className={styles.editor__key}
-          />
-          <input
-            type="text"
-            placeholder="Add"
-            value={header.headerValue}
-            onChange={e => handleInputChange(header.id, 'headerValue', e.target.value)}
-            onBlur={handleEmptyRow}
-            className={styles.editor__value}
-          />
+      {headers.map((header, index) => (
+        <div key={index} className={styles.header_editor__row}>
+          <input type="text" value={header.key} onChange={e => handleInputChange(index, 'key', e.target.value)} />
+          <input type="text" value={header.value} onChange={e => handleInputChange(index, 'value', e.target.value)} />
         </div>
       ))}
       <input
         type="text"
         readOnly
         name="headers"
-        className={styles.headers__hidden}
-        value={JSON.stringify(hiddenValue)}
+        className={styles.header_editor__result}
+        value={JSON.stringify(result)}
       />
     </div>
   );
