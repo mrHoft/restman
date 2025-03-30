@@ -19,17 +19,6 @@
   background-color: var(--color10);
 }
 
-/* 
-.header_editor__item {
-  box-sizing: border-box;
-  color: var(--color100);
-  text-decoration: none;
-  border: 2px solid var(--color40);
-  padding: 0.5rem 1rem;
-  font-size: 1rem;
-  background-color: var(--color10);
-} */
-
 .header_editor__button {
   cursor: pointer;
   transition:
@@ -41,18 +30,6 @@
     border-color: var(--color50);
   }
 }
-
-/* .editor__key {
-  display: block;
-  width: 30%;
-  padding: 0.3rem 1rem;
-}
-
-.editor__value {
-  display: block;
-  width: 70%;
-  padding: 0.3rem 1rem;
-}*/
 
 .header_editor__result {
   display: none;
