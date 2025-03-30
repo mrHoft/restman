@@ -2,7 +2,7 @@
 
 import { useMemo, useState } from 'react';
 
-import styles from './headersEditor.module.css';
+import styles from './editor.module.css';
 import HeadersTable from './headersTable';
 
 export interface HeadersItem {

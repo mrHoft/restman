@@ -1,7 +1,7 @@
 import React from 'react';
-import { HeadersItem } from './headersEditor';
+import { HeadersItem } from './editor';
 
-import styles from './headersEditor.module.css';
+import styles from './editor.module.css';
 
 interface HeadersTableProps {
   headers: HeadersItem[];
