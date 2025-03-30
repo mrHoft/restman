@@ -3,24 +3,15 @@
 import { useMemo, useState } from 'react';
 
 import styles from './headersEditor.module.css';
+import HeadersTable from './headersTable';
 
 export interface HeadersItem {
   key: string;
   value: string;
 }
 
-export default function HeadersEditor({ defauldHeaders }: { defauldHeaders: Record<string, string>[] }) {
-  const defaultHeadersState = useMemo(() => {
-    if (!defauldHeaders) return [{ key: '', value: '' }];
-    const newheaders = defauldHeaders.map(header => ({
-      key: Object.keys(header)[0],
-      value: Object.values(header)[0],
-    }));
-    newheaders.push({ key: '', value: '' });
-    return newheaders;
-  }, [defauldHeaders]);
-
-  const [headers, setHeaders] = useState<HeadersItem[]>(defaultHeadersState);
+export default function HeadersEditor({ defauldHeaders }: { defauldHeaders: HeadersItem[] }) {
+  const [headers, setHeaders] = useState<HeadersItem[]>([...defauldHeaders, { key: '', value: '' }]);
 
   const handleInputChange = (id: number, input: 'key' | 'value', value: string) => {
     const newHeaders = [...headers];
@@ -47,12 +38,7 @@ export default function HeadersEditor({ defauldHeaders }: { defauldHeaders: Reco
           Add
         </div>
       </div>
-      {headers.map((header, index) => (
-        <div key={index} className={styles.header_editor__row}>
-          <input type="text" value={header.key} onChange={e => handleInputChange(index, 'key', e.target.value)} />
-          <input type="text" value={header.value} onChange={e => handleInputChange(index, 'value', e.target.value)} />
-        </div>
-      ))}
+      <HeadersTable headers={headers} onChange={handleInputChange} />
       <input
         type="text"
         readOnly
