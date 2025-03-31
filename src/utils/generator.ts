@@ -10,42 +10,40 @@ export function generateCode(
   switch (runtime) {
     case 'fetch': {
       return `
-    fetch('${url}', {
-      method: '${method}',
-      body: '${body}',
-      headers: {
-        ${Object.entries(headers)
-          .map(([key, value]) => `'${key}': '${value}'`)
-          .join(', ')}
-      }
-    })
-    .then(response => response.text())
-    .then(data => console.log(data))
-    .catch(error => console.error(error));
-  `;
+fetch('${url}', {
+  method: '${method}',
+  body: '${body}',
+  headers: {
+    ${Object.entries(headers)
+      .map(([key, value]) => `'${key}': '${value}'`)
+      .join(', ')}
+  }
+})
+.then(response => response.text())
+.then(data => console.log(data))
+.catch(error => console.error(error));`;
     }
 
     case 'xhr': {
       return `
-    const xhr = new XMLHttpRequest();
-    xhr.open('${method}', '${url}', true);
+const xhr = new XMLHttpRequest();
+xhr.open('${method}', '${url}', true);
 
-    ${Object.entries(headers)
-      .map(([key, value]) => `xhr.setRequestHeader('${key}', '${value}');`)
-      .join('\n')}
+${Object.entries(headers)
+  .map(([key, value]) => `xhr.setRequestHeader('${key}', '${value}');`)
+  .join('\n')}
 
-    xhr.onreadystatechange = function() {
-      if (xhr.readyState == 4) {
-        if (xhr.status == 200) {
-          console.log(xhr.responseText);
-        } else {
-          console.error('Error:', xhr.statusText);
-        }
-      }
-    };
+xhr.onreadystatechange = function() {
+  if (xhr.readyState == 4) {
+    if (xhr.status == 200) {
+      console.log(xhr.responseText);
+    } else {
+      console.error('Error:', xhr.statusText);
+    }
+  }
+};
 
-    xhr.send('${body}');
-  `;
+xhr.send('${body}');`;
     }
 
     case 'curl': {
@@ -53,9 +51,7 @@ export function generateCode(
         .map(([key, value]) => `-H '${key}: ${value}'`)
         .join(' ');
 
-      return `
-    curl -X ${method} ${url} ${headersString} -d '${body}'
-  `;
+      return `curl -X ${method} ${url} ${headersString} -d '${body}'`;
     }
 
     case 'node': {
@@ -64,35 +60,34 @@ export function generateCode(
         .join(', ');
 
       return `
-    const https = require('https');
+const https = require('https');
 
-    const options = {
-      hostname: '${new URL(url).hostname}',
-      port: ${new URL(url).port || (new URL(url).protocol === 'https:' ? 443 : 80)},
-      path: '${new URL(url).pathname}',
-      method: '${method}',
-      headers: {
-        ${headersString}
-      }
-    };
+const options = {
+  hostname: '${new URL(url).hostname}',
+  port: ${new URL(url).port || (new URL(url).protocol === 'https:' ? 443 : 80)},
+  path: '${new URL(url).pathname}',
+  method: '${method}',
+  headers: {
+    ${headersString}
+  }
+};
 
-    const req = https.request(options, (res) => {
-      console.log('statusCode:', res.statusCode);
-      res.on('data', (d) => {
-        process.stdout.write(d);
-      });
-    });
+const req = https.request(options, (res) => {
+  console.log('statusCode:', res.statusCode);
+  res.on('data', (d) => {
+    process.stdout.write(d);
+  });
+});
 
-    req.on('error', (e) => {
-      console.error(e);
-    });
+req.on('error', (e) => {
+  console.error(e);
+});
 
-    if (body) {
-      req.write('${body}');
-    }
+if (body) {
+  req.write('${body}');
+}
 
-    req.end();
-  `;
+req.end();`;
     }
 
     case 'python': {
@@ -101,16 +96,15 @@ export function generateCode(
         .join(', ');
 
       return `
-  import requests
+import requests
 
-  url = '${url}'
-  headers = {${headersString}}
-  body = '${body}'
+url = '${url}'
+headers = {${headersString}}
+body = '${body}'
 
-  response = requests.${method.toLowerCase()}(${url}, data=body, headers=headers)
+response = requests.${method.toLowerCase()}(${url}, data=body, headers=headers)
 
-  print(response.text)
-  `;
+print(response.text)`;
     }
 
     case 'java': {
@@ -119,39 +113,38 @@ export function generateCode(
         .join('\n');
 
       return `
-  import java.io.IOException;
-  import java.net.HttpURLConnection;
-  import java.net.URL;
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.URL;
 
-  public class Main {
-    public static void main(String[] args) throws IOException {
-      URL obj = new URL("${url}");
-      HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+public class Main {
+  public static void main(String[] args) throws IOException {
+    URL obj = new URL("${url}");
+    HttpURLConnection con = (HttpURLConnection) obj.openConnection();
 
-      con.setRequestMethod("${method}");
+    con.setRequestMethod("${method}");
 
-      ${headersString}
+    ${headersString}
 
-      if ("${body}" != null) {
-          con.setDoOutput(true);
-          con.getOutputStream().write("${body}".getBytes());
-      }
-
-      int responseCode = con.getResponseCode();
-      System.out.println("Response Code: " + responseCode);
-
-      java.io.BufferedReader in = new java.io.BufferedReader(new java.io.InputStreamReader(con.getInputStream()));
-      String inputLine;
-      StringBuffer content = new StringBuffer();
-      while ((inputLine = in.readLine()) != null) {
-          content.append(inputLine);
-      }
-      in.close();
-
-      System.out.println("Response Content: " + content.toString());
+    if ("${body}" != null) {
+        con.setDoOutput(true);
+        con.getOutputStream().write("${body}".getBytes());
     }
+
+    int responseCode = con.getResponseCode();
+    System.out.println("Response Code: " + responseCode);
+
+    java.io.BufferedReader in = new java.io.BufferedReader(new java.io.InputStreamReader(con.getInputStream()));
+    String inputLine;
+    StringBuffer content = new StringBuffer();
+    while ((inputLine = in.readLine()) != null) {
+        content.append(inputLine);
+    }
+    in.close();
+
+    System.out.println("Response Content: " + content.toString());
   }
-  `;
+}`;
     }
 
     case 'csharp': {
@@ -160,40 +153,39 @@ export function generateCode(
         .join('\n');
 
       return `
-  using System;
-  using System.IO;
-  using System.Net;
+using System;
+using System.IO;
+using System.Net;
 
-  class Program
+class Program
+{{
+  static void Main(string[] args)
   {{
-    static void Main(string[] args)
+    var httpWebRequest = (HttpWebRequest)WebRequest.Create("${url}");
+    httpWebRequest.Method = "${method}";
+
+    ${headersString}
+
+    if ("${body}" != null)
     {{
-      var httpWebRequest = (HttpWebRequest)WebRequest.Create("${url}");
-      httpWebRequest.Method = "${method}";
+        var byteArray = System.Text.Encoding.UTF8.GetBytes("${body}");
+        httpWebRequest.ContentLength = byteArray.Length;
+        using (var stream = httpWebRequest.GetRequestStream())
+        {{
+            stream.Write(byteArray, 0, byteArray.Length);
+        }}
+    }}
 
-      ${headersString}
+    var httpResponse = (HttpWebResponse)httpWebRequest.GetResponse();
+    Console.WriteLine("Response Status Code: " + httpResponse.StatusCode);
+    Console.WriteLine("Response Status Description: " + httpResponse.StatusDescription);
 
-      if ("${body}" != null)
-      {{
-          var byteArray = System.Text.Encoding.UTF8.GetBytes("${body}");
-          httpWebRequest.ContentLength = byteArray.Length;
-          using (var stream = httpWebRequest.GetRequestStream())
-          {{
-              stream.Write(byteArray, 0, byteArray.Length);
-          }}
-      }}
-
-      var httpResponse = (HttpWebResponse)httpWebRequest.GetResponse();
-      Console.WriteLine("Response Status Code: " + httpResponse.StatusCode);
-      Console.WriteLine("Response Status Description: " + httpResponse.StatusDescription);
-
-      using (var streamReader = new StreamReader(httpResponse.GetResponseStream()))
-      {{
-          Console.WriteLine("Response Content: " + streamReader.ReadToEnd());
-      }}
+    using (var streamReader = new StreamReader(httpResponse.GetResponseStream()))
+    {{
+        Console.WriteLine("Response Content: " + streamReader.ReadToEnd());
     }}
   }}
-  `;
+}}`;
     }
 
     case 'go': {
@@ -202,37 +194,36 @@ export function generateCode(
         .join('\n');
 
       return `
-  package main
+package main
 
-  import (
-      "fmt"
-      "io/ioutil"
-      "net/http"
-  )
+import (
+    "fmt"
+    "io/ioutil"
+    "net/http"
+)
 
-  func main() {
-      client := &http.Client{}
-      req, err := http.NewRequest("${method}", "${url}", []byte("${body}"))
-      if err != nil {
-          panic(err)
-      }
+func main() {
+    client := &http.Client{}
+    req, err := http.NewRequest("${method}", "${url}", []byte("${body}"))
+    if err != nil {
+        panic(err)
+    }
 
-      ${headersString}
+    ${headersString}
 
-      resp, err := client.Do(req)
-      if err != nil {
-          panic(err)
-      }
-      defer resp.Body.Close()
+    resp, err := client.Do(req)
+    if err != nil {
+        panic(err)
+    }
+    defer resp.Body.Close()
 
-      bodyBytes, err := ioutil.ReadAll(resp.Body)
-      if err != nil {
-          panic(err)
-      }
-      fmt.Println("Response Status Code:", resp.StatusCode)
-      fmt.Println("Response Body:", string(bodyBytes))
-  }
-  `;
+    bodyBytes, err := ioutil.ReadAll(resp.Body)
+    if err != nil {
+        panic(err)
+    }
+    fmt.Println("Response Status Code:", resp.StatusCode)
+    fmt.Println("Response Body:", string(bodyBytes))
+}`;
     }
 
     default:
