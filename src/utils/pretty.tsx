@@ -1,4 +1,5 @@
 import React from 'react';
+import { Message } from '../components/message/message';
 
 const getLineNumber = (i: number) => {
   const n = (i + 1).toString();
@@ -100,3 +101,12 @@ export function prettify(data: string) {
   }
   return { format: 'plain', result: <pre>{data}</pre> };
 }
+
+export const tryParseJson = (data: string) => {
+  try {
+    return JSON.stringify(JSON.parse(data), null, 2);
+  } catch {
+    Message.show('Invalid JSON', 'error');
+    return null;
+  }
+};
