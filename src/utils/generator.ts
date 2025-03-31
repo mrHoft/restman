@@ -1,5 +1,15 @@
-export function generateFetchCode(method: string, url: string, body: string, headers: Record<string, string>) {
-  return `
+export type TRuntime = 'node' | 'go' | 'python' | 'java' | 'csharp' | 'curl' | 'fetch' | 'xhr';
+
+export function generateCode(
+  runtime: TRuntime,
+  method: string,
+  url: string,
+  body: string,
+  headers: Record<string, string>
+) {
+  switch (runtime) {
+    case 'fetch': {
+      return `
     fetch('${url}', {
       method: '${method}',
       body: '${body}',
@@ -13,10 +23,10 @@ export function generateFetchCode(method: string, url: string, body: string, hea
     .then(data => console.log(data))
     .catch(error => console.error(error));
   `;
-}
+    }
 
-export function generateXHRCode(method: string, url: string, body: string, headers: Record<string, string>) {
-  return `
+    case 'xhr': {
+      return `
     const xhr = new XMLHttpRequest();
     xhr.open('${method}', '${url}', true);
 
@@ -36,24 +46,24 @@ export function generateXHRCode(method: string, url: string, body: string, heade
 
     xhr.send('${body}');
   `;
-}
+    }
 
-export function generateCurlCode(method: string, url: string, body: string, headers: Record<string, string>) {
-  const headersString = Object.entries(headers)
-    .map(([key, value]) => `-H '${key}: ${value}'`)
-    .join(' ');
+    case 'curl': {
+      const headersString = Object.entries(headers)
+        .map(([key, value]) => `-H '${key}: ${value}'`)
+        .join(' ');
 
-  return `
+      return `
     curl -X ${method} ${url} ${headersString} -d '${body}'
   `;
-}
+    }
 
-export function generateNodeRequestCode(method: string, url: string, body: string, headers: Record<string, string>) {
-  const headersString = Object.entries(headers)
-    .map(([key, value]) => `'${key}': '${value}'`)
-    .join(', ');
+    case 'node': {
+      const headersString = Object.entries(headers)
+        .map(([key, value]) => `'${key}': '${value}'`)
+        .join(', ');
 
-  return `
+      return `
     const https = require('https');
 
     const options = {
@@ -83,14 +93,14 @@ export function generateNodeRequestCode(method: string, url: string, body: strin
 
     req.end();
   `;
-}
+    }
 
-export function generatePythonRequestCode(method: string, url: string, body: string, headers: Record<string, string>) {
-  const headersString = Object.entries(headers)
-    .map(([key, value]) => `'${key}': '${value}'`)
-    .join(', ');
+    case 'python': {
+      const headersString = Object.entries(headers)
+        .map(([key, value]) => `'${key}': '${value}'`)
+        .join(', ');
 
-  return `
+      return `
   import requests
 
   url = '${url}'
@@ -101,14 +111,14 @@ export function generatePythonRequestCode(method: string, url: string, body: str
 
   print(response.text)
   `;
-}
+    }
 
-export function generateJavaRequestCode(method: string, url: string, body: string, headers: Record<string, string>) {
-  const headersString = Object.entries(headers)
-    .map(([key, value]) => `.setHeader("${key}", "${value}")`)
-    .join('\n');
+    case 'java': {
+      const headersString = Object.entries(headers)
+        .map(([key, value]) => `.setHeader("${key}", "${value}")`)
+        .join('\n');
 
-  return `
+      return `
   import java.io.IOException;
   import java.net.HttpURLConnection;
   import java.net.URL;
@@ -142,14 +152,14 @@ export function generateJavaRequestCode(method: string, url: string, body: strin
     }
   }
   `;
-}
+    }
 
-export function generateCSharpRequestCode(method: string, url: string, body: string, headers: Record<string, string>) {
-  const headersString = Object.entries(headers)
-    .map(([key, value]) => `httpWebRequest.Headers.Add("${key}", "${value}");`)
-    .join('\n');
+    case 'csharp': {
+      const headersString = Object.entries(headers)
+        .map(([key, value]) => `httpWebRequest.Headers.Add("${key}", "${value}");`)
+        .join('\n');
 
-  return `
+      return `
   using System;
   using System.IO;
   using System.Net;
@@ -184,14 +194,14 @@ export function generateCSharpRequestCode(method: string, url: string, body: str
     }}
   }}
   `;
-}
+    }
 
-export function generateGoRequestCode(method: string, url: string, body: string, headers: Record<string, string>) {
-  const headersString = Object.entries(headers)
-    .map(([key, value]) => `client.Header.Add("${key}", "${value}")`)
-    .join('\n');
+    case 'go': {
+      const headersString = Object.entries(headers)
+        .map(([key, value]) => `client.Header.Add("${key}", "${value}")`)
+        .join('\n');
 
-  return `
+      return `
   package main
 
   import (
@@ -223,4 +233,9 @@ export function generateGoRequestCode(method: string, url: string, body: string,
       fmt.Println("Response Body:", string(bodyBytes))
   }
   `;
+    }
+
+    default:
+      return `${runtime} not supported`;
+  }
 }
