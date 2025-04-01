@@ -18,10 +18,11 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-bottom: 0.5rem;
 }
 
 .editor__title {
-  font-size: 1.4rem;
+  font-size: 1.2rem;
   margin: 0;
 }
 

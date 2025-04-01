@@ -1,6 +1,6 @@
 'use client';
 
-import { useMemo, useState } from 'react';
+import { useMemo } from 'react';
 
 import styles from './editor.module.css';
 
@@ -9,31 +9,37 @@ export interface HeadersItem {
   value: string;
 }
 
-export default function HeadersEditor({ defauldHeaders }: { defauldHeaders: HeadersItem[] }) {
-  const [headers, setHeaders] = useState<HeadersItem[]>([...defauldHeaders, { key: '', value: '' }]);
+interface HeadersEditorProps {
+  headers: HeadersItem[];
+  setHeaders: React.Dispatch<React.SetStateAction<HeadersItem[]>>;
+}
 
+export default function HeadersEditor({ headers, setHeaders }: HeadersEditorProps) {
   const handleAdd = () => setHeaders(prev => [...prev, { key: '', value: '' }]);
 
-  const handleInputChange = (id: number, field: 'key' | 'value', value: string) => {
-    setHeaders(prev => {
-      const headers = [...prev];
-      headers[id][field] = value;
-      return headers;
-    });
-  };
-
   const headersTable = useMemo(() => {
+    const handleInputChange = (id: number, field: 'key' | 'value', value: string) => {
+      setHeaders(prev => {
+        const headers = [...prev];
+        headers[id][field] = value;
+        return headers;
+      });
+    };
+
     return (
       <>
         {headers.map((header, index) => (
           <div key={index} className={styles.header_editor__row}>
             <input type="text" value={header.key} onChange={e => handleInputChange(index, 'key', e.target.value)} />
             <input type="text" value={header.value} onChange={e => handleInputChange(index, 'value', e.target.value)} />
+            <button onClick={() => setHeaders(prev => prev.filter((_, i) => i !== index))}>
+              <img src="/icons/cross.svg" alt="delete" />
+            </button>
           </div>
         ))}
       </>
     );
-  }, [headers]);
+  }, [headers, setHeaders]);
 
   const result = useMemo(
     () =>
@@ -47,7 +53,7 @@ export default function HeadersEditor({ defauldHeaders }: { defauldHeaders: Head
 
   return (
     <div>
-      <div className={styles.header_editor__title}>Headers:</div>
+      <h3 className={styles.header_editor__title}>Headers</h3>
       {headersTable}
       <div className={styles.header_editor__row}>
         <div className={styles.header_editor__item}></div>

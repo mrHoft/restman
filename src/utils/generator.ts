@@ -1,12 +1,8 @@
+import { HeadersItem } from '~/widgets/headersEditor/editor';
+
 export type TRuntime = 'node' | 'go' | 'python' | 'java' | 'csharp' | 'curl' | 'fetch' | 'xhr';
 
-export function generateCode(
-  runtime: TRuntime,
-  method: string,
-  url: string,
-  body: string,
-  headers: Record<string, string>
-) {
+export function generateCode(runtime: TRuntime, method: string, url: string, body: string, headers: HeadersItem[]) {
   switch (runtime) {
     case 'fetch': {
       return `
@@ -14,9 +10,7 @@ fetch('${url}', {
   method: '${method}',
   body: '${body}',
   headers: {
-    ${Object.entries(headers)
-      .map(([key, value]) => `'${key}': '${value}'`)
-      .join(', ')}
+    ${headers.map(({ key, value }) => `'${key}': '${value}'`).join(', ')}
   }
 })
 .then(response => response.text())
@@ -29,9 +23,7 @@ fetch('${url}', {
 const xhr = new XMLHttpRequest();
 xhr.open('${method}', '${url}', true);
 
-${Object.entries(headers)
-  .map(([key, value]) => `xhr.setRequestHeader('${key}', '${value}');`)
-  .join('\n')}
+${headers.map(({ key, value }) => `xhr.setRequestHeader('${key}', '${value}');`).join('\n')}
 
 xhr.onreadystatechange = function() {
   if (xhr.readyState == 4) {
@@ -47,17 +39,13 @@ xhr.send('${body}');`;
     }
 
     case 'curl': {
-      const headersString = Object.entries(headers)
-        .map(([key, value]) => `-H '${key}: ${value}'`)
-        .join(' ');
+      const headersString = headers.map(({ key, value }) => `-H '${key}: ${value}'`).join(' ');
 
       return `curl -X ${method} ${url} ${headersString} -d '${body}'`;
     }
 
     case 'node': {
-      const headersString = Object.entries(headers)
-        .map(([key, value]) => `'${key}': '${value}'`)
-        .join(', ');
+      const headersString = headers.map(({ key, value }) => `'${key}': '${value}'`).join(', ');
 
       return `
 const https = require('https');
@@ -91,9 +79,7 @@ req.end();`;
     }
 
     case 'python': {
-      const headersString = Object.entries(headers)
-        .map(([key, value]) => `'${key}': '${value}'`)
-        .join(', ');
+      const headersString = headers.map(({ key, value }) => `'${key}': '${value}'`).join(', ');
 
       return `
 import requests
@@ -108,9 +94,7 @@ print(response.text)`;
     }
 
     case 'java': {
-      const headersString = Object.entries(headers)
-        .map(([key, value]) => `.setHeader("${key}", "${value}")`)
-        .join('\n');
+      const headersString = headers.map(({ key, value }) => `.setHeader("${key}", "${value}")`).join('\n');
 
       return `
 import java.io.IOException;
@@ -148,8 +132,8 @@ public class Main {
     }
 
     case 'csharp': {
-      const headersString = Object.entries(headers)
-        .map(([key, value]) => `httpWebRequest.Headers.Add("${key}", "${value}");`)
+      const headersString = headers
+        .map(({ key, value }) => `httpWebRequest.Headers.Add("${key}", "${value}");`)
         .join('\n');
 
       return `
@@ -189,9 +173,7 @@ class Program
     }
 
     case 'go': {
-      const headersString = Object.entries(headers)
-        .map(([key, value]) => `client.Header.Add("${key}", "${value}")`)
-        .join('\n');
+      const headersString = headers.map(({ key, value }) => `client.Header.Add("${key}", "${value}")`).join('\n');
 
       return `
 package main
