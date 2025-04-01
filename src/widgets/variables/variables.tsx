@@ -5,45 +5,41 @@ import useVariables from '~/entities/useVariables';
 
 import styles from './variables.module.css';
 
-interface VariablesItem {
-  name: string;
-  value: string;
-}
-
-const initialVariablesState: VariablesItem[] = [{ name: '', value: '' }];
+const initialVariablesState = [{ '': '' }];
 
 export default function Variables() {
-  const { getVariables, setAllVariables } = useVariables();
+  const { setVariable, getVariables, setAllVariables } = useVariables();
 
-  const [variables, setVariables] = useState<VariablesItem[]>(initialVariablesState);
-  const [isClient, setIsClient] = useState(false);
+  const [variables, setVariables] = useState<Record<string, string>[]>(initialVariablesState);
 
   useEffect(() => {
-    setIsClient(true);
     const storedVariables = getVariables();
+    console.log(storedVariables);
     if (storedVariables) {
-      const transformedVariables = Object.entries(storedVariables).reduce<VariablesItem[]>((acc, [name, value]) => {
-        if (name === '' && value === '') return acc;
-        return [...acc, { name, value }];
-      }, []);
-      transformedVariables.push({ name: '', value: '' });
-      setVariables(transformedVariables);
+      const newVariables = Object.entries(storedVariables).map(([name, value]) => ({ [name]: value }));
+
+      console.log(newVariables);
+      setVariables(() => [...newVariables, { '': '' }]);
     }
   }, []);
 
-  const handleAdd = () => setVariables(prev => [...prev, { name: '', value: '' }]);
+  const handleAdd = () => setVariables(prev => [...prev, { '': '' }]);
 
   const variablesTable = useMemo(() => {
-    const handleInputChange = (id: number, field: 'name' | 'value', value: string) => {
-      const newVariables = variables.map((item, index) => {
-        if (index === id) {
-          return { ...item, [field]: value };
-        }
-        return item;
-      });
-      setVariables(newVariables);
-      const result = createResult(newVariables);
+    const handleNameChange = (i: number, varuableValue: string, value: string) => {
+      const newvariables = [...variables];
+      newvariables[i] = { [value]: varuableValue };
+      setVariables(() => newvariables);
+
+      const result = createResult(newvariables);
       setAllVariables(result);
+    };
+
+    const handleValueChange = (i: number, name: string, value: string) => {
+      setVariable(name, value);
+      const newVariables = [...variables];
+      newVariables[i] = { [name]: value };
+      setVariables(() => newVariables);
     };
 
     const handleRemove = (index: number) => {
@@ -53,40 +49,41 @@ export default function Variables() {
       setAllVariables(result);
     };
 
-    if (!isClient) {
-      return null;
-    }
-
     return (
       <>
-        {variables.map((el, index) => (
-          <div key={index} className={styles.variables__row}>
-            <input
-              type="text"
-              placeholder="Name"
-              value={el.name}
-              onChange={e => handleInputChange(index, 'name', e.target.value)}
-            />
-            <input
-              type="text"
-              placeholder="Value"
-              value={el.value}
-              onChange={e => handleInputChange(index, 'value', e.target.value)}
-            />
-            <button onClick={() => handleRemove(index)}>
-              <img src="/icons/cross.svg" alt="delete" />
-            </button>
-          </div>
-        ))}
+        {variables.map((el, index) => {
+          const name = Object.keys(el)[0];
+          const value = Object.values(el)[0];
+          return (
+            <div key={index} className={styles.variables__row}>
+              <input
+                type="text"
+                placeholder="Name"
+                value={name}
+                onChange={e => handleNameChange(index, value, e.target.value)}
+              />
+              <input
+                type="text"
+                placeholder="Value"
+                value={value}
+                onChange={e => handleValueChange(index, name, e.target.value)}
+              />
+              <button className={styles.variables__remove} onClick={() => handleRemove(index)}>
+                <img src="/icons/cross.svg" alt="delete" />
+              </button>
+            </div>
+          );
+        })}
       </>
     );
-  }, [variables, setVariables, isClient]);
+  }, [variables, setVariables]);
 
   const createResult = useCallback(
-    (items: VariablesItem[]) =>
-      items.reduce<Record<string, string>>((acc, header) => {
-        if (header.name === '' && header.value === '') return acc;
-        acc[header.name] = header.value;
+    (items: Record<string, string>[]) =>
+      items.reduce<Record<string, string>>((acc, item) => {
+        const name = Object.keys(item)[0];
+        if (name === '') return acc;
+        acc[name] = item[name];
         return acc;
       }, {}),
     []
@@ -98,7 +95,7 @@ export default function Variables() {
       {variablesTable}
       <div className={styles.variables__row}>
         <div className={styles.variables__item}></div>
-        <div className={styles.variables__button} onClick={handleAdd}>
+        <div className={styles.variables__add} onClick={handleAdd}>
           Add
         </div>
       </div>
