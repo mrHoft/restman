@@ -57,7 +57,7 @@ export default class Storage {
   }
 
   protected emit() {
-    localStorage.setItem(Storage.STORE_NAME, JSON.stringify(this._state));
+    if (typeof window !== 'undefined') localStorage.setItem(Storage.STORE_NAME, JSON.stringify(this._state));
   }
 
   private setValue = (path: string, value: unknown) => {
