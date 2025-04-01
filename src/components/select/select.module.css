@@ -1,9 +1,9 @@
 .select {
-  flex: 0 1 40%;
   position: relative;
-  min-width: 12rem;
+  width: 100%;
   box-sizing: border-box;
   padding: 0 0.6rem;
+  border-radius: 0.375rem;
   border: 2px solid var(--color50);
   background-color: var(--color10);
   color: var(--color100);

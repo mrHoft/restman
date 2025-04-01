@@ -3,6 +3,7 @@
 import React from 'react';
 import { Select } from '~/components/select/select';
 import { generateCode, type TRuntime } from '~/utils/generator';
+import type { HeadersItem } from '~/widgets/headersEditor/editor';
 
 const options: TRuntime[] = ['curl', 'fetch', 'xhr', 'node', 'go', 'python', 'java', 'csharp'];
 
@@ -10,7 +11,7 @@ interface GeneratorProps {
   method: string;
   url: string;
   body: string;
-  headers: Record<string, string>;
+  headers: HeadersItem[];
 }
 
 export function CodeGenerator({ method, url, body, headers }: GeneratorProps) {
