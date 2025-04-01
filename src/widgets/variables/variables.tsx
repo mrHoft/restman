@@ -42,7 +42,6 @@ export default function Variables() {
         return item;
       });
       setVariables(newVariables);
-
       const result = createResult(newVariables);
       setAllVariables(result);
     };

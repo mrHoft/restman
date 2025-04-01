@@ -44,9 +44,7 @@ export default async function RootLayout({
       <body className={`body ${geistSans.variable} ${geistMono.variable}`}>
         <Backdop />
         <Header user={user} />
-        <main suppressHydrationWarning className="main">
-          {children}
-        </main>
+        <main className="main">{children}</main>
         <Footer />
         <Loader />
         <Message />
