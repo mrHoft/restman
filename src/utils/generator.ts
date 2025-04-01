@@ -1,4 +1,4 @@
-import { HeadersItem } from '~/widgets/headersEditor/editor';
+import type { HeadersItem } from '~/widgets/headersEditor/editor';
 
 export type TRuntime = 'node' | 'go' | 'python' | 'java' | 'csharp' | 'curl' | 'fetch' | 'xhr';
 

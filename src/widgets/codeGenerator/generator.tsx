@@ -3,7 +3,7 @@
 import React from 'react';
 import { Select } from '~/components/select/select';
 import { generateCode, type TRuntime } from '~/utils/generator';
-import { HeadersItem } from '~/widgets/headersEditor/editor';
+import type { HeadersItem } from '~/widgets/headersEditor/editor';
 
 const options: TRuntime[] = ['curl', 'fetch', 'xhr', 'node', 'go', 'python', 'java', 'csharp'];
 

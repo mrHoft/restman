@@ -42,7 +42,3 @@
     border-color: var(--color50);
   }
 }
-
-.header_editor__result {
-  display: none;
-}

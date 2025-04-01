@@ -26,13 +26,17 @@ export default function HeadersEditor({ headers, setHeaders }: HeadersEditorProp
       });
     };
 
+    const handleDelete = (id: number) => {
+      setHeaders(prev => prev.filter((_, i) => i !== id));
+    };
+
     return (
       <>
         {headers.map((header, index) => (
           <div key={index} className={styles.header_editor__row}>
             <input type="text" value={header.key} onChange={e => handleInputChange(index, 'key', e.target.value)} />
             <input type="text" value={header.value} onChange={e => handleInputChange(index, 'value', e.target.value)} />
-            <button onClick={() => setHeaders(prev => prev.filter((_, i) => i !== index))}>
+            <button onClick={() => handleDelete(index)}>
               <img src="/icons/cross.svg" alt="delete" />
             </button>
           </div>
@@ -40,16 +44,6 @@ export default function HeadersEditor({ headers, setHeaders }: HeadersEditorProp
       </>
     );
   }, [headers, setHeaders]);
-
-  const result = useMemo(
-    () =>
-      headers.reduce<Record<string, string>>((acc, header) => {
-        if (header.key === '' && header.value === '') return acc;
-        acc[header.key] = header.value;
-        return acc;
-      }, {}),
-    [headers]
-  );
 
   return (
     <div>
@@ -61,13 +55,6 @@ export default function HeadersEditor({ headers, setHeaders }: HeadersEditorProp
           Add
         </div>
       </div>
-      <input
-        type="text"
-        readOnly
-        name="headers"
-        className={styles.header_editor__result}
-        value={JSON.stringify(result)}
-      />
     </div>
   );
 }
