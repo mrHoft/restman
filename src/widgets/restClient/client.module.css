@@ -18,12 +18,8 @@
   display: flex;
 }
 
-.client_method {
-  flex: 1;
-}
-
 .client__url {
-  flex: 10;
+  flex-grow: 1;
   margin-right: 0.5rem;
   border: 2px solid var(--color50);
   border-top-right-radius: 0.375rem;
