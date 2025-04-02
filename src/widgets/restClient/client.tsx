@@ -26,17 +26,13 @@ export function RestClient({ locale, initUrl, initBody, initQuery, method = 'GET
   const decodedUrl = useMemo(() => (initUrl ? base64Decode(initUrl) : ' '), [initUrl]);
   const decodedBody = useMemo(() => (initBody ? base64Decode(initBody) : ''), [initBody]);
   const router = useRouter();
-
   const [url, setUrl] = useState(decodedUrl || '');
-
   const initHeaders = useMemo(
     () => (initQuery ? Object.entries(initQuery).map(([key, value]) => ({ key, value: value?.toString() || '' })) : []),
     [initQuery]
   );
-
   const [headers, setHeaders] = useState<HeadersItem[]>([...initHeaders]);
   const [response, setResponse] = useState<{ data: string; status: number | null }>({ data: '', status: null });
-
   const [body, setBody] = useState(decodedBody);
 
   const queryString = useMemo(() => headers.map(({ key, value }) => `${key}=${value}`).join('&'), [headers]);
