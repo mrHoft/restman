@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import useVariables from '~/entities/useVariables';
 
 import styles from './variables.module.css';
@@ -14,7 +14,6 @@ export default function Variables() {
 
   useEffect(() => {
     const storedVariables = getVariables();
-    console.log(storedVariables);
     if (storedVariables) {
       const newVariables = Object.entries(storedVariables).map(([name, value]) => ({ [name]: value }));
       setVars(() => [...newVariables, { '': '' }]);
@@ -33,20 +32,6 @@ export default function Variables() {
       setAllVariables(result);
     };
 
-    // const handleNameChange = (oldName: string, newName: string) => {
-    //   setVars(prev => {
-    //     const [{ [oldName]: value }, ...rest] = prev;
-    //     const newVars = newName ? [...rest, { [newName]: value }] : rest;
-    //     const result = newVars.reduce<Record<string, string>>((acc, item) => {
-    //       const name = Object.keys(item)[0];
-    //       if (name === '') return acc;
-    //       acc[name] = item[name];
-    //       return acc;
-    //     }, {});
-    //     setAllVariables(result);
-    //     return newVars;
-    //   });
-    // };
     const handleValueChange = (i: number, name: string, value: string) => {
       setVariable(name, value);
       const newVariables = [...vars];
@@ -90,16 +75,13 @@ export default function Variables() {
     );
   }, [vars, setVars]);
 
-  const createResult = useCallback(
-    (items: Record<string, string>[]) =>
-      items.reduce<Record<string, string>>((acc, item) => {
-        const name = Object.keys(item)[0];
-        if (name === '') return acc;
-        acc[name] = item[name];
-        return acc;
-      }, {}),
-    []
-  );
+  const createResult = (items: Record<string, string>[]) =>
+    items.reduce<Record<string, string>>((acc, item) => {
+      const name = Object.keys(item)[0];
+      if (name === '') return acc;
+      acc[name] = item[name];
+      return acc;
+    }, {});
 
   return (
     <div className={styles.variables}>
