@@ -1,7 +1,7 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { Message } from '~/components/message/message';
 import { Select } from '~/components/select/select';
 import { base64Decode, base64Encode } from '~/utils/base64';
@@ -16,39 +16,33 @@ const methods = ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'];
 
 interface RestClientProps {
   locale: string;
-  initMethod: (typeof methods)[number];
+  method: (typeof methods)[number];
   initUrl: string;
   initBody: string;
   initQuery: { [key: string]: string | string[] | undefined };
 }
 
-export function RestClient({ locale, initMethod, initUrl, initBody, initQuery }: Partial<RestClientProps>) {
-  const decodedUrl = initUrl ? base64Decode(initUrl) : ' ';
-  const decodedBody = initBody ? base64Decode(initBody) : '';
+export function RestClient({ locale, initUrl, initBody, initQuery, method = 'GET' }: Partial<RestClientProps>) {
+  const decodedUrl = useMemo(() => (initUrl ? base64Decode(initUrl) : ' '), [initUrl]);
+  const decodedBody = useMemo(() => (initBody ? base64Decode(initBody) : ''), [initBody]);
   const router = useRouter();
 
-  const [method, setMethod] = useState(initMethod || 'GET');
   const [url, setUrl] = useState(decodedUrl || '');
 
-  const initHeaders = initQuery
-    ? Object.entries(initQuery).map(([key, value]) => ({ key, value: value?.toString() || '' }))
-    : [];
+  const initHeaders = useMemo(
+    () => (initQuery ? Object.entries(initQuery).map(([key, value]) => ({ key, value: value?.toString() || '' })) : []),
+    [initQuery]
+  );
 
   const [headers, setHeaders] = useState<HeadersItem[]>([...initHeaders]);
   const [response, setResponse] = useState<{ data: string; status: number | null }>({ data: '', status: null });
 
-  const [body, setBody] = useState(decodedBody || '');
+  const [body, setBody] = useState(decodedBody);
 
-  const createQueryString = () => {
-    const query = headers.map(({ key, value }) => `${key}=${value}`).join('&');
-    return query;
-  };
+  const queryString = useMemo(() => headers.map(({ key, value }) => `${key}=${value}`).join('&'), [headers]);
 
   const handleMethod = (method: string) => {
-    setMethod(method);
-
-    const queryParams = createQueryString();
-    router.push(`/${locale}/client/${method}/${base64Encode(url) || ' '}/${base64Encode(body) || ''}?${queryParams}`);
+    router.push(`/${locale}/client/${method}/${base64Encode(url) || ' '}/${base64Encode(body) || ''}?${queryString}`);
   };
 
   const handleSendRequest = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -66,9 +60,8 @@ export function RestClient({ locale, initMethod, initUrl, initBody, initQuery }:
       const data = await res.json();
       setResponse({ data: JSON.stringify(data, null, 2), status: res.status });
 
-      const queryParams = createQueryString();
       router.push(
-        `/${locale}/client/${method}/${base64Encode(url) || ' '}/${base64Encode(reqBody) || ''}?${queryParams}`
+        `/${locale}/client/${method}/${base64Encode(url) || ' '}/${base64Encode(reqBody) || ''}?${queryString}`
       );
     } catch (error) {
       Message.show('Request failed', 'error');

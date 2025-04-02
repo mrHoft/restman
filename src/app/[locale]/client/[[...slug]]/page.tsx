@@ -12,5 +12,5 @@ export default async function Page({
 
   const search = await searchParams;
 
-  return <RestClient locale={locale} initMethod={method} initUrl={url} initBody={body} initQuery={search} />;
+  return <RestClient locale={locale} method={method} initUrl={url} initBody={body} initQuery={search} />;
 }
