@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Message } from '~/components/message/message';
 
 import styles from './editor.module.css';
@@ -16,6 +16,12 @@ interface RequestBodyEditorProps {
 export default function RequestBodyEditor({ value, onChange, className = '' }: RequestBodyEditorProps) {
   const [mode, setMode] = useState('json');
   const editorRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (editorRef.current) {
+      editorRef.current.innerText = value;
+    }
+  }, []);
 
   const tryParseJson = (data: string) => {
     try {

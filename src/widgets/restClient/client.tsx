@@ -1,8 +1,10 @@
 'use client';
 
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { Message } from '~/components/message/message';
 import { Select } from '~/components/select/select';
+import { base64Decode, base64Encode } from '~/utils/base64';
 import { prettify } from '~/utils/pretty';
 import { CodeGenerator } from '~/widgets/codeGenerator/generator';
 import HeadersEditor, { HeadersItem } from '~/widgets/headersEditor/editor';
@@ -12,19 +14,49 @@ import styles from './client.module.css';
 
 const methods = ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'];
 
-export function RestClient() {
-  const defaultHeaders: HeadersItem[] = [{ key: 'Content-Type', value: 'application/json' }];
-  const [method, setMethod] = useState('GET');
-  const [url, setUrl] = useState('');
-  const [headers, setHeaders] = useState<HeadersItem[]>(defaultHeaders);
+interface RestClientProps {
+  locale: string;
+  initMethod: (typeof methods)[number];
+  initUrl: string;
+  initBody: string;
+  initQuery: { [key: string]: string | string[] | undefined };
+}
+
+export function RestClient({ locale, initMethod, initUrl, initBody, initQuery }: Partial<RestClientProps>) {
+  const decodedUrl = initUrl ? base64Decode(initUrl) : ' ';
+  const decodedBody = initBody ? base64Decode(initBody) : '';
+  const router = useRouter();
+
+  const [method, setMethod] = useState(initMethod || 'GET');
+  const [url, setUrl] = useState(decodedUrl || '');
+
+  const initHeaders = initQuery
+    ? Object.entries(initQuery).map(([key, value]) => ({ key, value: value?.toString() || '' }))
+    : [];
+
+  const [headers, setHeaders] = useState<HeadersItem[]>([...initHeaders]);
   const [response, setResponse] = useState<{ data: string; status: number | null }>({ data: '', status: null });
-  const [body, setBody] = useState('');
+
+  const [body, setBody] = useState(decodedBody || '');
+
+  const createQueryString = () => {
+    const query = headers.map(({ key, value }) => `${key}=${value}`).join('&');
+    return query;
+  };
+
+  const handleMethod = (method: string) => {
+    setMethod(method);
+
+    const queryParams = createQueryString();
+    router.push(`/${locale}/client/${method}/${base64Encode(url) || ' '}/${base64Encode(body) || ''}?${queryParams}`);
+  };
 
   const handleSendRequest = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     try {
-      const reqBody = JSON.stringify(JSON.parse(body));
+      const reqBody = body ? JSON.stringify(JSON.parse(body)) : '';
+
       const res = await fetch(url, {
         method,
         headers: new Headers(Object.fromEntries(headers.map(({ key, value }) => [key, value]))),
@@ -33,6 +65,11 @@ export function RestClient() {
 
       const data = await res.json();
       setResponse({ data: JSON.stringify(data, null, 2), status: res.status });
+
+      const queryParams = createQueryString();
+      router.push(
+        `/${locale}/client/${method}/${base64Encode(url) || ' '}/${base64Encode(reqBody) || ''}?${queryParams}`
+      );
     } catch (error) {
       Message.show('Request failed', 'error');
       console.error(error);
@@ -44,7 +81,14 @@ export function RestClient() {
       <h1 className={styles.client__title}>REST Client</h1>
       <form onSubmit={handleSendRequest} className={styles.client__form}>
         <div>
-          <Select options={methods} name="method" value={method} onChange={setMethod} placeholder="Method" />
+          <Select
+            options={methods}
+            name="method"
+            value={method}
+            onChange={value => handleMethod(value)}
+            required={true}
+            placeholder="Method"
+          />
         </div>
         <input
           type="text"
