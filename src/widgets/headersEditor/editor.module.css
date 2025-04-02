@@ -1,8 +1,10 @@
 .header_editor__title {
-  margin: 1rem 0;
+  margin: 0 0 0.5rem;
+  font-size: 1.2rem;
 }
 
 .header_editor__row {
+  position: relative;
   display: grid;
   grid-template-columns: 1fr 1fr;
 }
@@ -19,6 +21,16 @@
   background-color: var(--color10);
 }
 
+.header_editor__row button {
+  cursor: pointer;
+  position: absolute;
+  top: 50%;
+  right: 0.5rem;
+  transform: translateY(-50%);
+  background-color: transparent;
+  border: none;
+}
+
 .header_editor__button {
   cursor: pointer;
   transition:
@@ -29,8 +41,4 @@
     background-color: var(--color20);
     border-color: var(--color50);
   }
-}
-
-.header_editor__result {
-  display: none;
 }

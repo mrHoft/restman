@@ -1,0 +1,46 @@
+.editor {
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  outline: none;
+  line-height: 1.5;
+  tab-size: 2;
+  padding: 0.75rem;
+  border-radius: 0.375rem;
+  border: 2px solid var(--color50);
+  min-height: 150px;
+  max-height: 12rem;
+  overflow: scroll;
+  font-size: 0.875rem;
+  background-color: var(--color10);
+}
+
+.editor__controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.editor__title {
+  font-size: 1.2rem;
+  margin: 0;
+}
+
+.editor__btns {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.editor__mode {
+  padding: 0.25rem;
+  border-radius: 0.375rem;
+  border: 2px solid var(--color50);
+  font-size: 0.8rem;
+  background-color: var(--color10);
+}
+
+.editor__prettify {
+  padding: 0.25rem 0.5rem;
+  font-size: 0.8rem;
+}
