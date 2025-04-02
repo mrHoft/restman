@@ -10,48 +10,60 @@ const initialVariablesState = [{ '': '' }];
 export default function Variables() {
   const { setVariable, getVariables, setAllVariables } = useVariables();
 
-  const [variables, setVariables] = useState<Record<string, string>[]>(initialVariablesState);
+  const [vars, setVars] = useState<Record<string, string>[]>(initialVariablesState);
 
   useEffect(() => {
     const storedVariables = getVariables();
     console.log(storedVariables);
     if (storedVariables) {
       const newVariables = Object.entries(storedVariables).map(([name, value]) => ({ [name]: value }));
-
-      console.log(newVariables);
-      setVariables(() => [...newVariables, { '': '' }]);
+      setVars(() => [...newVariables, { '': '' }]);
     }
   }, []);
 
-  const handleAdd = () => setVariables(prev => [...prev, { '': '' }]);
+  const handleAdd = () => setVars(prev => [...prev, { '': '' }]);
 
   const variablesTable = useMemo(() => {
-    const handleNameChange = (i: number, varuableValue: string, value: string) => {
-      const newvariables = [...variables];
-      newvariables[i] = { [value]: varuableValue };
-      setVariables(() => newvariables);
+    const handleNameChange = (i: number, value: string, name: string) => {
+      const newVariables = [...vars];
+      newVariables[i] = { [name]: value };
+      setVars(() => newVariables);
 
-      const result = createResult(newvariables);
+      const result = createResult(newVariables);
       setAllVariables(result);
     };
 
+    // const handleNameChange = (oldName: string, newName: string) => {
+    //   setVars(prev => {
+    //     const [{ [oldName]: value }, ...rest] = prev;
+    //     const newVars = newName ? [...rest, { [newName]: value }] : rest;
+    //     const result = newVars.reduce<Record<string, string>>((acc, item) => {
+    //       const name = Object.keys(item)[0];
+    //       if (name === '') return acc;
+    //       acc[name] = item[name];
+    //       return acc;
+    //     }, {});
+    //     setAllVariables(result);
+    //     return newVars;
+    //   });
+    // };
     const handleValueChange = (i: number, name: string, value: string) => {
       setVariable(name, value);
-      const newVariables = [...variables];
+      const newVariables = [...vars];
       newVariables[i] = { [name]: value };
-      setVariables(() => newVariables);
+      setVars(() => newVariables);
     };
 
     const handleRemove = (index: number) => {
-      const newVariables = variables.filter((_, i) => i !== index);
-      setVariables(newVariables);
+      const newVariables = vars.filter((_, i) => i !== index);
+      setVars(newVariables);
       const result = createResult(newVariables);
       setAllVariables(result);
     };
 
     return (
       <>
-        {variables.map((el, index) => {
+        {vars.map((el, index) => {
           const name = Object.keys(el)[0];
           const value = Object.values(el)[0];
           return (
@@ -76,7 +88,7 @@ export default function Variables() {
         })}
       </>
     );
-  }, [variables, setVariables]);
+  }, [vars, setVars]);
 
   const createResult = useCallback(
     (items: Record<string, string>[]) =>
