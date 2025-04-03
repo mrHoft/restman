@@ -48,12 +48,7 @@ export default function History({ locale }: { locale: string }) {
             </div>
           ))}
           <div>
-            <Pagination
-              page={currentPage - 1}
-              pageSize={ItemsForPage}
-              total={history.length}
-              onChange={page => switchPage(page)}
-            />
+            <Pagination page={currentPage - 1} pageSize={ItemsForPage} total={history.length} onChange={switchPage} />
           </div>
         </>
       ) : (
