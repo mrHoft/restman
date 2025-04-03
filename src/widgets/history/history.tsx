@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useMemo, useState } from 'react';
+import Pagination from '~/components/pagination/pagination';
 import useHistory, { type HistoryRecord } from '~/entities/useHistory';
 
 import styles from './history.module.css';
@@ -15,11 +16,11 @@ export default function History({ locale }: { locale: string }) {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
-  const lastPage = Math.ceil(history.length / ItemsForPage);
   const currentPage = Number(searchParams.get('page')) || 1;
-  const lastItemIndex = useMemo(() => currentPage * ItemsForPage, [currentPage]);
-  const firstItemIndex = useMemo(() => lastItemIndex - ItemsForPage, [lastItemIndex]);
-  const currentHistory = useMemo(() => history.slice(firstItemIndex, lastItemIndex), [history, currentPage]);
+  const currentHistory = useMemo(
+    () => history.slice((currentPage - 1) * ItemsForPage, currentPage * ItemsForPage),
+    [history, currentPage]
+  );
 
   useEffect(() => {
     const storedHistory = getHistory();
@@ -28,31 +29,9 @@ export default function History({ locale }: { locale: string }) {
     }
   }, [getHistory]);
 
-  const Pagination = useMemo(() => {
-    const handlePrev = () => {
-      router.push(`${pathname}?page=${currentPage - 1}`);
-    };
-    const handleNext = () => {
-      router.push(`${pathname}?page=${currentPage + 1}`);
-    };
-    return (
-      <div className={styles.history__pagination}>
-        <button
-          disabled={currentPage === 1}
-          className={`${styles.history__page} ${styles.prev} `}
-          onClick={handlePrev}
-        ></button>
-        <span>
-          {currentPage} / {lastPage}
-        </span>
-        <button
-          disabled={currentPage === lastPage}
-          className={`${styles.history__page} ${styles.next}`}
-          onClick={handleNext}
-        ></button>
-      </div>
-    );
-  }, [currentPage, history, pathname, router]);
+  const switchPage = (page: number) => {
+    router.push(`${pathname}?page=${page + 1}`);
+  };
 
   return (
     <div className={styles.history}>
@@ -68,7 +47,14 @@ export default function History({ locale }: { locale: string }) {
               </Link>
             </div>
           ))}
-          {Pagination}
+          <div>
+            <Pagination
+              page={currentPage - 1}
+              pageSize={ItemsForPage}
+              total={history.length}
+              onChange={page => switchPage(page)}
+            />
+          </div>
         </>
       ) : (
         <div className={styles.history__empty}>
