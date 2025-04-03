@@ -24,8 +24,7 @@ export default function History({ locale }: { locale: string }) {
   useEffect(() => {
     const storedHistory = getHistory();
     if (storedHistory) {
-      const newHistory = storedHistory.sort((a, b) => b.date - a.date);
-      setHistory(newHistory);
+      setHistory(storedHistory.sort((a, b) => b.date - a.date));
     }
   }, [getHistory]);
 
