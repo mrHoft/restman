@@ -1,16 +1,15 @@
 'use server';
 
-export async function executeRestRequest({
-  method,
-  url,
-  headers,
-  body,
-}: {
+export interface RestRequestProps {
   method: string;
   url: string;
   headers: Record<string, string>;
   body?: string;
-}) {
+}
+
+export async function executeRestRequest({ method, url, headers, body }: RestRequestProps) {
+  let status = 500;
+
   try {
     const res = await fetch(url, {
       method,
@@ -18,18 +17,20 @@ export async function executeRestRequest({
       body: method !== 'GET' && method !== 'DELETE' ? body : undefined,
     });
 
-    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    status = res.status;
+
+    if (Math.floor(status / 100) >= 4) throw new Error(`HTTP ${status}`);
 
     const data = await res.json();
     return {
       data: JSON.stringify(data, null, 2),
-      status: res.status,
+      status,
     };
   } catch (error) {
     console.error('REST Request failed:', error);
     return {
-      data: JSON.stringify({ error: (error as Error).message }, null, 2),
-      status: 500,
+      data: JSON.stringify({ error: (error as Error).message }),
+      status,
     };
   }
 }

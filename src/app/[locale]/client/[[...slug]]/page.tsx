@@ -15,7 +15,6 @@ export default async function Page({
   const url = encodedUrl ? base64Decode(encodedUrl) : '';
   const body = encodedBody ? base64Decode(encodedBody) : '';
   const reqMethod = isMethod(method) ? method : 'GET';
-
   const search = await searchParams;
   const response = url
     ? await executeRestRequest({
