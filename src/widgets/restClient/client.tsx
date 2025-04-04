@@ -34,9 +34,6 @@ export function RestClient({ locale, initUrl, initBody, initQuery, method, respo
     const requestUrl = getRequestUrlString({
       locale,
       method: newMethod,
-      url,
-      body,
-      headers,
     });
     router.push(requestUrl);
   };
