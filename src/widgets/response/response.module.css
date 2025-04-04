@@ -1,0 +1,33 @@
+.response__body {
+  box-sizing: border-box;
+  width: 100%;
+  height: 12rem;
+  font-size: 1rem;
+  padding: 0 0.5rem;
+  border-radius: 0.5rem;
+  background-color: var(--color10);
+  border: 2px solid var(--color50);
+  cursor: text;
+  user-select: text;
+  -webkit-user-select: text;
+  overflow: scroll;
+}
+
+.response__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.response__header > h3 {
+  margin: 0 0 0.5rem;
+  font-size: 1.2rem;
+}
+
+.response__status {
+  font-size: 1rem;
+  font-weight: bold;
+  background-color: var(--color20);
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.5rem;
+}

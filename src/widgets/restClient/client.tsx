@@ -1,78 +1,66 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import { useMemo, useState } from 'react';
-import { Message } from '~/components/message/message';
+import { useState } from 'react';
 import { Select } from '~/components/select/select';
-import { base64Decode, base64Encode } from '~/utils/base64';
-import { prettify } from '~/utils/pretty';
+import useHistory from '~/entities/useHistory';
+import { getRequestUrlString, methods, type TMethod } from '~/utils/rest';
 import { CodeGenerator } from '~/widgets/codeGenerator/generator';
 import HeadersEditor, { HeadersItem } from '~/widgets/headersEditor/editor';
 import RequestBodyEditor from '~/widgets/requestBodyEditor/editor';
+import { ResponseViewer } from '~/widgets/response/response';
 
 import styles from './client.module.css';
 
-const methods = ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'];
-
 interface RestClientProps {
   locale: string;
-  method: (typeof methods)[number];
+  method: TMethod;
   initUrl: string;
   initBody: string;
   initQuery: { [key: string]: string | string[] | undefined };
+  response: { data: string; status: number | null };
 }
 
-export function RestClient({ locale, initUrl, initBody, initQuery, method = 'GET' }: Partial<RestClientProps>) {
-  const decodedUrl = useMemo(() => (initUrl ? base64Decode(initUrl) : ' '), [initUrl]);
-  const decodedBody = useMemo(() => (initBody ? base64Decode(initBody) : ''), [initBody]);
+export function RestClient({ locale, initUrl, initBody, initQuery, method, response }: RestClientProps) {
+  const { pushHistory } = useHistory();
   const router = useRouter();
-  const [url, setUrl] = useState(decodedUrl || '');
+  const [url, setUrl] = useState(initUrl || '');
   const [headers, setHeaders] = useState<HeadersItem[]>(
     initQuery ? Object.entries(initQuery).map(([key, value]) => ({ key, value: value?.toString() ?? '' })) : []
   );
-  const [response, setResponse] = useState<{ data: string; status: number | null }>({ data: '', status: null });
-  const [body, setBody] = useState(decodedBody);
+  const [body, setBody] = useState(initBody);
 
-  const queryString = useMemo(() => headers.map(({ key, value }) => `${key}=${value}`).join('&'), [headers]);
-
-  const handleMethod = (method: string) => {
-    router.push(`/${locale}/client/${method}/${base64Encode(url) || ' '}/${base64Encode(body) || ''}?${queryString}`);
+  const handleMethodChange = (newMethod: string) => {
+    const requestUrl = getRequestUrlString({
+      locale,
+      method: newMethod,
+    });
+    router.push(requestUrl);
   };
 
-  const handleSendRequest = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
-    try {
-      const reqBody = body ? JSON.stringify(JSON.parse(body)) : '';
-
-      const res = await fetch(url, {
-        method,
-        headers: new Headers(Object.fromEntries(headers.map(({ key, value }) => [key, value]))),
-        body: method !== 'GET' && method !== 'DELETE' ? reqBody : undefined,
-      });
-
-      const data = await res.json();
-      setResponse({ data: JSON.stringify(data, null, 2), status: res.status });
-
-      router.push(
-        `/${locale}/client/${method}/${base64Encode(url) || ' '}/${base64Encode(reqBody) || ''}?${queryString}`
-      );
-    } catch (error) {
-      Message.show('Request failed', 'error');
-      console.error(error);
-    }
+    const requestUrl = getRequestUrlString({
+      locale,
+      method,
+      url,
+      body,
+      headers,
+    });
+    pushHistory({ method, url: requestUrl, date: Date.now() });
+    router.push(requestUrl);
   };
 
   return (
     <div className={styles.client}>
       <h1 className={styles.client__title}>REST Client</h1>
-      <form onSubmit={handleSendRequest} className={styles.client__form}>
+      <form onSubmit={handleSubmit} className={styles.client__form}>
         <div>
           <Select
-            options={methods}
+            options={[...methods]}
             name="method"
             value={method}
-            onChange={value => handleMethod(value)}
+            onChange={value => handleMethodChange(value)}
             required={true}
             placeholder="Method"
           />
@@ -93,13 +81,7 @@ export function RestClient({ locale, initUrl, initBody, initQuery, method = 'GET
       <RequestBodyEditor value={body} onChange={setBody} />
       <CodeGenerator method={method} url={url} body={body} headers={headers} />
       <div className="horizontal_line" />
-      <section className={styles.client__response}>
-        <div className={styles.client__response_header}>
-          <h3>Response</h3>
-          {response.status && <span className={styles.client__response_status}>Status: {response.status}</span>}
-        </div>
-        <div className={styles.client__response_body}>{prettify(response.data).result}</div>
-      </section>
+      <ResponseViewer data={response.data} status={response.status} />
     </div>
   );
 }
