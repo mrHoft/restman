@@ -1,12 +1,13 @@
 'use client';
 
+import { TMethod } from '~/utils/rest';
 import Storage from '~/utils/storage';
 
 const storage = new Storage();
 
 export interface HistoryRecord {
   date: number;
-  method: 'GET' | 'POST' | 'PUT' | 'DELETE';
+  method: TMethod;
   url: string;
 }
 
