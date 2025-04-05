@@ -31,7 +31,6 @@ export function RestClient({ locale, initUrl, initBody, initQuery, method, respo
   );
   const [body, setBody] = useState(initBody);
   const { getVariables } = useVariables();
-  const variables = getVariables() || {};
 
   const handleMethodChange = (newMethod: string) => {
     const requestUrl = getRequestUrlString({
@@ -41,14 +40,14 @@ export function RestClient({ locale, initUrl, initBody, initQuery, method, respo
     router.push(requestUrl);
   };
 
-  const replaceVariables = (value: string) => {
-    return value.replace(/\{\{(\w+)\}\}/g, (match, variable) => {
-      return variables[variable] || match;
-    });
-  };
-
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    const variables = getVariables() ?? {};
+    const replaceVariables = (value: string) => {
+      return value.replace(/\{\{(\w+)\}\}/g, (match, variable) => {
+        return variables[variable] ?? match;
+      });
+    };
     const requestUrl = getRequestUrlString({
       locale,
       method,
