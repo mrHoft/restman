@@ -4,13 +4,13 @@ import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { Select } from '~/components/select/select';
 import useHistory from '~/entities/useHistory';
+import useVariables from '~/entities/useVariables';
 import { getRequestUrlString, methods, type TMethod } from '~/utils/rest';
 import { CodeGenerator } from '~/widgets/codeGenerator/generator';
 import HeadersEditor, { HeadersItem } from '~/widgets/headersEditor/editor';
 import RequestBodyEditor from '~/widgets/requestBodyEditor/editor';
 import { ResponseViewer } from '~/widgets/response/response';
 
-import useVariables from '~/entities/useVariables';
 import styles from './client.module.css';
 
 interface RestClientProps {
