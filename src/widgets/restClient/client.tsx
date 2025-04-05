@@ -10,6 +10,7 @@ import HeadersEditor, { HeadersItem } from '~/widgets/headersEditor/editor';
 import RequestBodyEditor from '~/widgets/requestBodyEditor/editor';
 import { ResponseViewer } from '~/widgets/response/response';
 
+import useVariables from '~/entities/useVariables';
 import styles from './client.module.css';
 
 interface RestClientProps {
@@ -29,6 +30,8 @@ export function RestClient({ locale, initUrl, initBody, initQuery, method, respo
     initQuery ? Object.entries(initQuery).map(([key, value]) => ({ key, value: value?.toString() ?? '' })) : []
   );
   const [body, setBody] = useState(initBody);
+  const { getVariables } = useVariables();
+  const variables = getVariables() || {};
 
   const handleMethodChange = (newMethod: string) => {
     const requestUrl = getRequestUrlString({
@@ -38,15 +41,22 @@ export function RestClient({ locale, initUrl, initBody, initQuery, method, respo
     router.push(requestUrl);
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const replaceVariables = (value: string) => {
+    return value.replace(/\{\{(\w+)\}\}/g, (match, variable) => {
+      return variables[variable] || match;
+    });
+  };
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const requestUrl = getRequestUrlString({
       locale,
       method,
-      url,
-      body,
-      headers,
+      url: replaceVariables(url),
+      body: replaceVariables(body),
+      headers: headers.map(({ key, value }) => ({ key, value: replaceVariables(value) })),
     });
+
     pushHistory({ method, url: requestUrl, date: Date.now() });
     router.push(requestUrl);
   };
