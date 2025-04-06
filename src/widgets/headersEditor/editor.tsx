@@ -39,19 +39,26 @@ export default function HeadersEditor({ headers, setHeaders }: HeadersEditorProp
 
     return (
       <>
-        {headers.map((header, index) => (
-          <div key={index} className={styles.header_editor__row} style={{ opacity: header.enabled ? 1 : 0.5 }}>
+        {headers.map((item, index) => (
+          <div
+            key={index}
+            className={item.enabled ? `${styles.header_editor__row}` : `${styles.header_editor__row_disabled}`}
+          >
             <div className={styles.header_editor__item}>
               <input
                 type="checkbox"
-                checked={header.enabled}
+                checked={item.enabled}
                 onChange={() => handleToggleEnabled(index)}
                 className={styles.header_editor__toggle}
               />
             </div>
-            <input type="text" value={header.key} onChange={e => handleInputChange(index, 'key', e.target.value)} />
-            <input type="text" value={header.value} onChange={e => handleInputChange(index, 'value', e.target.value)} />
-            <button onClick={() => handleDelete(index)}>
+            <div className={styles.header_editor__item}>
+              <input type="text" value={item.key} onChange={e => handleInputChange(index, 'key', e.target.value)} />
+            </div>
+            <div className={styles.header_editor__item}>
+              <input type="text" value={item.value} onChange={e => handleInputChange(index, 'value', e.target.value)} />
+            </div>
+            <button className={styles.header_editor__del} onClick={() => handleDelete(index)}>
               <img src="/icons/cross.svg" alt="delete" />
             </button>
           </div>
@@ -66,8 +73,8 @@ export default function HeadersEditor({ headers, setHeaders }: HeadersEditorProp
       <div className={styles.header_editor}>
         {headersTable}
         <div className={styles.header_editor__row}>
-          <div className={styles.header_editor__item}></div>
-          <div className={styles.header_editor__item}></div>
+          <div className={styles.header_editor__item} />
+          <div className={styles.header_editor__item} />
           <div className={styles.header_editor__add} onClick={handleAdd}>
             Add
           </div>
