@@ -7,7 +7,7 @@
   width: 80%;
   max-width: 500px;
   border: 2px solid var(--color50);
-  border-radius: 0.375rem;
+  border-radius: var(--border-radius);
 }
 
 .title {

@@ -28,7 +28,9 @@ export function RestClient({ locale, initUrl, initBody, initQuery, method, respo
   const router = useRouter();
   const [url, setUrl] = useState(initUrl || '');
   const [headers, setHeaders] = useState<HeadersItem[]>(
-    initQuery ? Object.entries(initQuery).map(([key, value]) => ({ key, value: value?.toString() ?? '' })) : []
+    initQuery
+      ? Object.entries(initQuery).map(([key, value]) => ({ key, value: value?.toString() ?? '', enabled: true }))
+      : []
   );
   const [body, setBody] = useState(initBody);
   const { getVariables } = useVariables();
@@ -50,12 +52,13 @@ export function RestClient({ locale, initUrl, initBody, initQuery, method, respo
         return variables[variable] ?? match;
       });
     };
+    const activeHeaders = headers.filter(h => h.enabled && h.key && h.value).map(({ key, value }) => ({ key, value: replaceVariables(value) }));
     const requestUrl = getRequestUrlString({
       locale,
       method,
       url: replaceVariables(url),
       body: replaceVariables(body),
-      headers: headers.map(({ key, value }) => ({ key, value: replaceVariables(value) })),
+      headers: activeHeaders,
     });
 
     pushHistory({ method, url: requestUrl, date: Date.now() });

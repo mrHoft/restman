@@ -17,7 +17,7 @@
   padding: 1rem;
   box-sizing: border-box;
   border: 2px solid var(--color40);
-  border-radius: 0.5rem;
+  border-radius: var(--border-radius);
   background-color: var(--color10);
   resize: none;
 }
