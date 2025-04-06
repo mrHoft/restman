@@ -7,7 +7,7 @@ import styles from './variables.module.css';
 
 const initialVariablesState = [{ '': '' }];
 
-export default function Variables() {
+export default function Variables({ dict }: { dict: Record<string, string> }) {
   const { setVariable, getVariables, setAllVariables } = useVariables();
 
   const [vars, setVars] = useState<Record<string, string>[]>(initialVariablesState);
@@ -55,13 +55,13 @@ export default function Variables() {
             <div key={index} className={styles.variables__row}>
               <input
                 type="text"
-                placeholder="Name"
+                placeholder={dict.namePlaceholder}
                 value={name}
                 onChange={e => handleNameChange(index, value, e.target.value)}
               />
               <input
                 type="text"
-                placeholder="Value"
+                placeholder={dict.valuePlaceholder}
                 value={value}
                 onChange={e => handleValueChange(index, name, e.target.value)}
               />
@@ -85,12 +85,12 @@ export default function Variables() {
 
   return (
     <div className={styles.variables}>
-      <h3 className={styles.variables__title}>Variables</h3>
+      <h3 className={styles.variables__title}>{dict.title}</h3>
       {variablesTable}
       <div className={styles.variables__row}>
         <div className={styles.variables__item}></div>
         <div className={styles.variables__add} onClick={handleAdd}>
-          Add
+          {dict.add}
         </div>
       </div>
     </div>

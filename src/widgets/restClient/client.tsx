@@ -6,6 +6,7 @@ import { Loader } from '~/components/loader/loader';
 import { Select } from '~/components/select/select';
 import useHistory from '~/entities/useHistory';
 import useVariables from '~/entities/useVariables';
+import type { Locale } from '~/i18n-config';
 import { getRequestUrlString, methods, type TMethod } from '~/utils/rest';
 import { CodeGenerator } from '~/widgets/codeGenerator/generator';
 import HeadersEditor, { HeadersItem } from '~/widgets/headersEditor/editor';
@@ -15,7 +16,7 @@ import { ResponseViewer } from '~/widgets/response/response';
 import styles from './client.module.css';
 
 interface RestClientProps {
-  locale: string;
+  locale: Locale;
   method: TMethod;
   initUrl: string;
   initBody: string;
