@@ -1,9 +1,11 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { Loader } from '~/components/loader/loader';
 import { Select } from '~/components/select/select';
 import useHistory from '~/entities/useHistory';
+import useVariables from '~/entities/useVariables';
 import { getRequestUrlString, methods, type TMethod } from '~/utils/rest';
 import { CodeGenerator } from '~/widgets/codeGenerator/generator';
 import HeadersEditor, { HeadersItem } from '~/widgets/headersEditor/editor';
@@ -29,6 +31,7 @@ export function RestClient({ locale, initUrl, initBody, initQuery, method, respo
     initQuery ? Object.entries(initQuery).map(([key, value]) => ({ key, value: value?.toString() ?? '' })) : []
   );
   const [body, setBody] = useState(initBody);
+  const { getVariables } = useVariables();
 
   const handleMethodChange = (newMethod: string) => {
     const requestUrl = getRequestUrlString({
@@ -40,16 +43,28 @@ export function RestClient({ locale, initUrl, initBody, initQuery, method, respo
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    Loader.show();
+    const variables = getVariables() ?? {};
+    const replaceVariables = (value: string) => {
+      return value.replace(/\{\{(\w+)\}\}/g, (match, variable) => {
+        return variables[variable] ?? match;
+      });
+    };
     const requestUrl = getRequestUrlString({
       locale,
       method,
-      url,
-      body,
-      headers,
+      url: replaceVariables(url),
+      body: replaceVariables(body),
+      headers: headers.map(({ key, value }) => ({ key, value: replaceVariables(value) })),
     });
+
     pushHistory({ method, url: requestUrl, date: Date.now() });
     router.push(requestUrl);
   };
+
+  useEffect(() => {
+    Loader.hide();
+  }, [response]);
 
   return (
     <div className={styles.client}>
