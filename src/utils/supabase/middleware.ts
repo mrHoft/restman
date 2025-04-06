@@ -2,9 +2,14 @@ import { createServerClient } from '@supabase/ssr';
 import { NextResponse, type NextRequest } from 'next/server';
 
 const protectedRoutes = ['/client', '/history', '/variables'];
+const authRoutes = ['/login', '/register'];
 
 function isProtectedRoute(pathname: string) {
   return protectedRoutes.some(route => pathname.startsWith(route) || pathname.slice(3).startsWith(route));
+}
+
+function isAuthRoute(pathname: string) {
+  return authRoutes.some(route => pathname.startsWith(route) || pathname.slice(3).startsWith(route));
 }
 
 export async function updateSession(request: NextRequest) {
@@ -38,6 +43,11 @@ export async function updateSession(request: NextRequest) {
   if (!user && isProtectedRoute(pathname)) {
     const url = request.nextUrl.clone();
     url.pathname = '/login';
+    return NextResponse.redirect(url);
+  }
+  if (user && isAuthRoute(pathname)) {
+    const url = request.nextUrl.clone();
+    url.pathname = '/';
     return NextResponse.redirect(url);
   }
 
