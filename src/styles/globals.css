@@ -69,7 +69,7 @@ select:focus {
 
   &:hover {
     background-color: var(--color20);
-    border-color: var(--color50);
+    border-color: var(--color40);
   }
 }
 

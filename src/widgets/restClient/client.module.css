@@ -21,7 +21,7 @@
 
 .client__url {
   flex-grow: 1;
-  border: 2px solid var(--color50);
+  border: 2px solid var(--color40);
   border-radius: var(--border-radius);
   background-color: var(--color10);
   color: var(--color100);

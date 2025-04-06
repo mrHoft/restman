@@ -4,7 +4,7 @@
   box-sizing: border-box;
   padding: 0 0.6rem;
   border-radius: var(--border-radius);
-  border: 2px solid var(--color50);
+  border: 2px solid var(--color40);
   background-color: var(--color10);
   color: var(--color100);
   font-size: 1rem;

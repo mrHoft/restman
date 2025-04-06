@@ -34,7 +34,7 @@
 }
 
 .container:has(.input:read-only) {
-  border-color: var(--color50);
+  border-color: var(--color40);
   background-color: var(--color00);
 }
 
@@ -131,7 +131,7 @@
   }
 
   .container:has(.input:read-only):hover {
-    border-color: var(--color50);
+    border-color: var(--color40);
     background-color: var(--color00);
   }
 
