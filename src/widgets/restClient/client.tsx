@@ -14,16 +14,17 @@ import styles from './client.module.css';
 
 interface RestClientProps {
   locale: string;
-  method: TMethod;
+  initMethod: TMethod;
   initUrl: string;
   initBody: string;
   initQuery: { [key: string]: string | string[] | undefined };
   response: { data: string; status: number | null };
 }
 
-export function RestClient({ locale, initUrl, initBody, initQuery, method, response }: RestClientProps) {
+export function RestClient({ locale, initUrl, initBody, initQuery, initMethod, response }: RestClientProps) {
   const { pushHistory } = useHistory();
   const router = useRouter();
+  const [method, setMethod] = useState(initMethod);
   const [url, setUrl] = useState(initUrl || '');
   const [headers, setHeaders] = useState<HeadersItem[]>(
     initQuery
@@ -31,15 +32,7 @@ export function RestClient({ locale, initUrl, initBody, initQuery, method, respo
       : []
   );
   const [body, setBody] = useState(initBody);
-  const activeHeaders = useMemo(() => headers.filter(h => h.enabled), [headers]);
-
-  const handleMethodChange = (newMethod: string) => {
-    const requestUrl = getRequestUrlString({
-      locale,
-      method: newMethod,
-    });
-    router.push(requestUrl);
-  };
+  const activeHeaders = useMemo(() => headers.filter(h => h.enabled && h.key && h.value), [headers]);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -63,7 +56,7 @@ export function RestClient({ locale, initUrl, initBody, initQuery, method, respo
             options={[...methods]}
             name="method"
             value={method}
-            onChange={value => handleMethodChange(value)}
+            onChange={value => setMethod(value as TMethod)}
             required={true}
             placeholder="Method"
           />

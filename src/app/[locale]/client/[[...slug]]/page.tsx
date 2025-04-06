@@ -28,7 +28,7 @@ export default async function Page({
   return (
     <RestClient
       locale={locale}
-      method={reqMethod}
+      initMethod={reqMethod}
       initUrl={url}
       initBody={body}
       initQuery={search}
