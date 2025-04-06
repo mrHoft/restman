@@ -38,10 +38,6 @@
   border-right: 1px solid var(--color40);
 }
 
-.header_editor__add {
-  padding: 0.5rem;
-}
-
 .header_editor__item input[type='text'] {
   width: 100%;
   background-color: transparent;
@@ -71,14 +67,11 @@
 .header_editor__add {
   cursor: pointer;
   color: var(--color90);
-  transition:
-    background-color 0.25s linear,
-    border-color 0.25s linear;
+  transition: background-color 0.25s linear;
 
   &:hover {
     color: var(--color100);
     background-color: var(--color20);
-    border-color: var(--color40);
   }
 }
 
@@ -89,6 +82,5 @@
   transform: translateY(-50%);
   left: 0.5rem;
   width: 1.2rem;
-  height: 1.2rem;
   margin: 0;
 }
