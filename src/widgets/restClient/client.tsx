@@ -2,6 +2,7 @@
 
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
+import { Loader } from '~/components/loader/loader';
 import { Select } from '~/components/select/select';
 import useHistory from '~/entities/useHistory';
 import useVariables from '~/entities/useVariables';
@@ -11,7 +12,6 @@ import HeadersEditor, { HeadersItem } from '~/widgets/headersEditor/editor';
 import RequestBodyEditor from '~/widgets/requestBodyEditor/editor';
 import { ResponseViewer } from '~/widgets/response/response';
 
-import { Loader } from '~/components/loader/loader';
 import styles from './client.module.css';
 
 interface RestClientProps {
