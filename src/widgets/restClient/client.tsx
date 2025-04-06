@@ -24,7 +24,7 @@ interface RestClientProps {
   response: { data: string; status: number | null };
 }
 
-export function RestClient({ locale, initUrl, initBody, initQuery, method, response }: RestClientProps) {
+export default function RestClient({ locale, initUrl, initBody, initQuery, method, response }: RestClientProps) {
   const { pushHistory } = useHistory();
   const router = useRouter();
   const [url, setUrl] = useState(initUrl || '');
