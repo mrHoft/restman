@@ -1,7 +1,7 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import { useMemo, useState } from 'react';
+import { useState } from 'react';
 import { Select } from '~/components/select/select';
 import useHistory from '~/entities/useHistory';
 import { getRequestUrlString, methods, type TMethod } from '~/utils/rest';
@@ -14,17 +14,16 @@ import styles from './client.module.css';
 
 interface RestClientProps {
   locale: string;
-  initMethod: TMethod;
+  method: TMethod;
   initUrl: string;
   initBody: string;
   initQuery: { [key: string]: string | string[] | undefined };
   response: { data: string; status: number | null };
 }
 
-export function RestClient({ locale, initUrl, initBody, initQuery, initMethod, response }: RestClientProps) {
+export function RestClient({ locale, initUrl, initBody, initQuery, method, response }: RestClientProps) {
   const { pushHistory } = useHistory();
   const router = useRouter();
-  const [method, setMethod] = useState(initMethod);
   const [url, setUrl] = useState(initUrl || '');
   const [headers, setHeaders] = useState<HeadersItem[]>(
     initQuery
@@ -32,10 +31,18 @@ export function RestClient({ locale, initUrl, initBody, initQuery, initMethod, r
       : []
   );
   const [body, setBody] = useState(initBody);
-  const activeHeaders = useMemo(() => headers.filter(h => h.enabled && h.key && h.value), [headers]);
+
+  const handleMethodChange = (newMethod: string) => {
+    const requestUrl = getRequestUrlString({
+      locale,
+      method: newMethod,
+    });
+    router.push(requestUrl);
+  };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    const activeHeaders = headers.filter(h => h.enabled && h.key && h.value);
     const requestUrl = getRequestUrlString({
       locale,
       method,
@@ -56,7 +63,7 @@ export function RestClient({ locale, initUrl, initBody, initQuery, initMethod, r
             options={[...methods]}
             name="method"
             value={method}
-            onChange={value => setMethod(value as TMethod)}
+            onChange={value => handleMethodChange(value)}
             required={true}
             placeholder="Method"
           />

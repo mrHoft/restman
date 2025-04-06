@@ -16,14 +16,13 @@
 
 .client__form {
   display: flex;
+  gap: 0.4rem;
 }
 
 .client__url {
   flex-grow: 1;
-  margin-right: 0.5rem;
   border: 2px solid var(--color50);
-  border-top-right-radius: var(--border-radius);
-  border-bottom-right-radius: var(--border-radius);
+  border-radius: var(--border-radius);
   background-color: var(--color10);
   color: var(--color100);
   font-size: 1rem;
