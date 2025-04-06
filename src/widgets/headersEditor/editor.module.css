@@ -31,11 +31,11 @@
 .header_editor__add {
   box-sizing: border-box;
   text-decoration: none;
+  padding: 0.5rem;
 }
 
-.header_editor__item {
+.header_editor__item:not(:last-of-type) {
   border-right: 1px solid var(--color40);
-  padding: 0.5rem;
 }
 
 .header_editor__add {
@@ -65,6 +65,7 @@
   border: none;
   padding: 0;
   height: 1.125rem;
+  filter: invert(var(--color-scheme));
 }
 
 .header_editor__add {
