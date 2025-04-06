@@ -1,8 +1,16 @@
-import { type NextRequest } from 'next/server';
+import { NextResponse, type NextRequest } from 'next/server';
 import { updateSession } from '~/utils/supabase/middleware';
+import { i18n } from './i18n-config';
 
 export async function middleware(request: NextRequest) {
-  return await updateSession(request);
+  const { pathname } = request.nextUrl;
+  const pathnameHasLocale = i18n.locales.some(
+    locale => pathname.startsWith(`/${locale}/`) || pathname === `/${locale}`
+  );
+  if (pathnameHasLocale) return await updateSession(request);
+
+  request.nextUrl.pathname = `/${i18n.defaultLocale}${pathname}`;
+  return NextResponse.redirect(request.nextUrl);
 }
 
 export const config = {

@@ -6,11 +6,11 @@
   padding: 0 0.5rem;
   border-radius: var(--border-radius);
   background-color: var(--color10);
-  border: 2px solid var(--color50);
+  border: 2px solid var(--color40);
   cursor: text;
   user-select: text;
   -webkit-user-select: text;
-  overflow: scroll;
+  overflow: auto;
 }
 
 .response__header {
