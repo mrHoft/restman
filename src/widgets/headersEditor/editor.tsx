@@ -7,6 +7,7 @@ import styles from './editor.module.css';
 export interface HeadersItem {
   key: string;
   value: string;
+  enabled: boolean;
 }
 
 interface HeadersEditorProps {
@@ -15,7 +16,7 @@ interface HeadersEditorProps {
 }
 
 export default function HeadersEditor({ headers, setHeaders }: HeadersEditorProps) {
-  const handleAdd = () => setHeaders(prev => [...prev, { key: '', value: '' }]);
+  const handleAdd = () => setHeaders(prev => [...prev, { key: '', value: '', enabled: true }]);
 
   const headersTable = useMemo(() => {
     const handleInputChange = (id: number, field: 'key' | 'value', value: string) => {
@@ -26,6 +27,12 @@ export default function HeadersEditor({ headers, setHeaders }: HeadersEditorProp
       });
     };
 
+    const handleToggleEnabled = (id: number) => {
+      setHeaders(prev =>
+        prev.map((header, index) => (index === id ? { ...header, enabled: !header.enabled } : header))
+      );
+    };
+
     const handleDelete = (id: number) => {
       setHeaders(prev => prev.filter((_, i) => i !== id));
     };
@@ -33,7 +40,15 @@ export default function HeadersEditor({ headers, setHeaders }: HeadersEditorProp
     return (
       <>
         {headers.map((header, index) => (
-          <div key={index} className={styles.header_editor__row}>
+          <div key={index} className={styles.header_editor__row} style={{ opacity: header.enabled ? 1 : 0.5 }}>
+            <div className={styles.header_editor__item}>
+              <input
+                type="checkbox"
+                checked={header.enabled}
+                onChange={() => handleToggleEnabled(index)}
+                className={styles.header_editor__toggle}
+              />
+            </div>
             <input type="text" value={header.key} onChange={e => handleInputChange(index, 'key', e.target.value)} />
             <input type="text" value={header.value} onChange={e => handleInputChange(index, 'value', e.target.value)} />
             <button onClick={() => handleDelete(index)}>
@@ -48,11 +63,14 @@ export default function HeadersEditor({ headers, setHeaders }: HeadersEditorProp
   return (
     <div>
       <h3 className={styles.header_editor__title}>Headers</h3>
-      {headersTable}
-      <div className={styles.header_editor__row}>
-        <div className={styles.header_editor__item}></div>
-        <div className={styles.header_editor__button} onClick={handleAdd}>
-          Add
+      <div className={styles.header_editor}>
+        {headersTable}
+        <div className={styles.header_editor__row}>
+          <div className={styles.header_editor__item}></div>
+          <div className={styles.header_editor__item}></div>
+          <div className={styles.header_editor__add} onClick={handleAdd}>
+            Add
+          </div>
         </div>
       </div>
     </div>

@@ -1,7 +1,7 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { Select } from '~/components/select/select';
 import useHistory from '~/entities/useHistory';
 import { getRequestUrlString, methods, type TMethod } from '~/utils/rest';
@@ -26,9 +26,12 @@ export function RestClient({ locale, initUrl, initBody, initQuery, method, respo
   const router = useRouter();
   const [url, setUrl] = useState(initUrl || '');
   const [headers, setHeaders] = useState<HeadersItem[]>(
-    initQuery ? Object.entries(initQuery).map(([key, value]) => ({ key, value: value?.toString() ?? '' })) : []
+    initQuery
+      ? Object.entries(initQuery).map(([key, value]) => ({ key, value: value?.toString() ?? '', enabled: true }))
+      : []
   );
   const [body, setBody] = useState(initBody);
+  const activeHeaders = useMemo(() => headers.filter(h => h.enabled), [headers]);
 
   const handleMethodChange = (newMethod: string) => {
     const requestUrl = getRequestUrlString({
@@ -45,7 +48,7 @@ export function RestClient({ locale, initUrl, initBody, initQuery, method, respo
       method,
       url,
       body,
-      headers,
+      headers: activeHeaders,
     });
     pushHistory({ method, url: requestUrl, date: Date.now() });
     router.push(requestUrl);
