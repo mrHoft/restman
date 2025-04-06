@@ -13,8 +13,9 @@
 }
 
 .history__item {
+  width: 100%;
   display: grid;
-  grid-template-columns: 1fr auto;
+  grid-template-columns: 1fr 9fr;
   align-items: center;
   column-gap: 1rem;
   color: var(--color100);
