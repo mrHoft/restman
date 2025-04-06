@@ -1,7 +1,7 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Select } from '~/components/select/select';
 import useHistory from '~/entities/useHistory';
 import useVariables from '~/entities/useVariables';
@@ -11,6 +11,7 @@ import HeadersEditor, { HeadersItem } from '~/widgets/headersEditor/editor';
 import RequestBodyEditor from '~/widgets/requestBodyEditor/editor';
 import { ResponseViewer } from '~/widgets/response/response';
 
+import { Loader } from '~/components/loader/loader';
 import styles from './client.module.css';
 
 interface RestClientProps {
@@ -40,8 +41,9 @@ export function RestClient({ locale, initUrl, initBody, initQuery, method, respo
     router.push(requestUrl);
   };
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    Loader.show();
     const variables = getVariables() ?? {};
     const replaceVariables = (value: string) => {
       return value.replace(/\{\{(\w+)\}\}/g, (match, variable) => {
@@ -59,6 +61,10 @@ export function RestClient({ locale, initUrl, initBody, initQuery, method, respo
     pushHistory({ method, url: requestUrl, date: Date.now() });
     router.push(requestUrl);
   };
+
+  useEffect(() => {
+    Loader.hide();
+  }, [response]);
 
   return (
     <div className={styles.client}>
