@@ -52,7 +52,9 @@ export function RestClient({ locale, initUrl, initBody, initQuery, method, respo
         return variables[variable] ?? match;
       });
     };
-    const activeHeaders = headers.filter(h => h.enabled && h.key && h.value).map(({ key, value }) => ({ key, value: replaceVariables(value) }));
+    const activeHeaders = headers
+      .filter(h => h.enabled && h.key && h.value)
+      .map(({ key, value }) => ({ key, value: replaceVariables(value) }));
     const requestUrl = getRequestUrlString({
       locale,
       method,
@@ -98,7 +100,6 @@ export function RestClient({ locale, initUrl, initBody, initQuery, method, respo
       <HeadersEditor headers={headers} setHeaders={setHeaders} />
       <RequestBodyEditor value={body} onChange={setBody} />
       <CodeGenerator method={method} url={url} body={body} headers={headers} />
-      <div className="horizontal_line" />
       <ResponseViewer data={response.data} status={response.status} />
     </div>
   );

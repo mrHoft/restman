@@ -57,7 +57,7 @@ export default function History({ locale }: { locale: string }) {
           <Link
             className={styles.history__client_link}
             href={{
-              pathname: `/${locale}/client`,
+              pathname: `/${locale}/client/GET`,
             }}
           >
             make your first request!

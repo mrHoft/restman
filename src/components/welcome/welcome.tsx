@@ -14,7 +14,7 @@ export async function Welcome({ dict }: { dict: Record<string, string> }) {
             {dict.greetingWithUser} {user.email}!
           </h2>
           <div className="align_center">
-            <Link href="/client" className="button">
+            <Link href="/client/GET" className="button">
               {dict.restClient}
             </Link>
             <Link href="/history" className="button">

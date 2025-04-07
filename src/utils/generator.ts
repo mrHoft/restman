@@ -5,10 +5,11 @@ export type TRuntime = 'node' | 'go' | 'python' | 'java' | 'csharp' | 'curl' | '
 export function generateCode(runtime: TRuntime, method: string, url: string, body: string, headers: HeadersItem[]) {
   switch (runtime) {
     case 'fetch': {
+      const bodyString = body && method !== 'GET' && method !== 'DELETE' ? `body: '${body}',` : '';
       return `
 fetch('${url}', {
   method: '${method}',
-  body: '${body}',
+  ${bodyString}
   headers: {
     ${headers.map(({ key, value }) => `'${key}': '${value}'`).join(', ')}
   }
@@ -35,13 +36,14 @@ xhr.onreadystatechange = function() {
   }
 };
 
-xhr.send('${body}');`;
+xhr.send(${body && method !== 'GET' && method !== 'DELETE' ? `'${body}'` : ''});`;
     }
 
     case 'curl': {
       const headersString = headers.map(({ key, value }) => `-H '${key}: ${value}'`).join(' ');
+      const bodyString = body && method !== 'GET' && method !== 'DELETE' ? ` --data '${body}'` : '';
 
-      return `curl -X ${method} ${url} ${headersString} -d '${body}'`;
+      return `curl -X ${method} ${url} ${headersString}${bodyString}`;
     }
 
     case 'node': {
@@ -71,22 +73,21 @@ req.on('error', (e) => {
   console.error(e);
 });
 
-if (body) {
-  req.write('${body}');
-}
+${body && method !== 'GET' && method !== 'DELETE' ? `req.write('${body}');` : ''}
 
 req.end();`;
     }
 
     case 'python': {
       const headersString = headers.map(({ key, value }) => `'${key}': '${value}'`).join(', ');
+      const bodyString = body && method !== 'GET' && method !== 'DELETE' ? `body = '${body}'` : '';
 
       return `
 import requests
 
 url = '${url}'
 headers = {${headersString}}
-body = '${body}'
+${bodyString}
 
 response = requests.${method.toLowerCase()}(${url}, data=body, headers=headers)
 
@@ -95,6 +96,10 @@ print(response.text)`;
 
     case 'java': {
       const headersString = headers.map(({ key, value }) => `.setHeader("${key}", "${value}")`).join('\n');
+      const bodyString =
+        body && method !== 'GET' && method !== 'DELETE'
+          ? `con.setDoOutput(true); con.getOutputStream().write("${body}".getBytes());`
+          : '';
 
       return `
 import java.io.IOException;
@@ -109,11 +114,7 @@ public class Main {
     con.setRequestMethod("${method}");
 
     ${headersString}
-
-    if ("${body}" != null) {
-        con.setDoOutput(true);
-        con.getOutputStream().write("${body}".getBytes());
-    }
+    ${bodyString}
 
     int responseCode = con.getResponseCode();
     System.out.println("Response Code: " + responseCode);
@@ -135,6 +136,18 @@ public class Main {
       const headersString = headers
         .map(({ key, value }) => `httpWebRequest.Headers.Add("${key}", "${value}");`)
         .join('\n');
+      const bodyString =
+        body && method !== 'GET' && method !== 'DELETE'
+          ? `
+    {{
+        var byteArray = System.Text.Encoding.UTF8.GetBytes("${body}");
+        httpWebRequest.ContentLength = byteArray.Length;
+        using (var stream = httpWebRequest.GetRequestStream())
+        {{
+            stream.Write(byteArray, 0, byteArray.Length);
+        }}
+    }}`
+          : '';
 
       return `
 using System;
@@ -149,16 +162,7 @@ class Program
     httpWebRequest.Method = "${method}";
 
     ${headersString}
-
-    if ("${body}" != null)
-    {{
-        var byteArray = System.Text.Encoding.UTF8.GetBytes("${body}");
-        httpWebRequest.ContentLength = byteArray.Length;
-        using (var stream = httpWebRequest.GetRequestStream())
-        {{
-            stream.Write(byteArray, 0, byteArray.Length);
-        }}
-    }}
+    ${bodyString}
 
     var httpResponse = (HttpWebResponse)httpWebRequest.GetResponse();
     Console.WriteLine("Response Status Code: " + httpResponse.StatusCode);
@@ -174,6 +178,7 @@ class Program
 
     case 'go': {
       const headersString = headers.map(({ key, value }) => `client.Header.Add("${key}", "${value}")`).join('\n');
+      const bodyString = body && method !== 'GET' && method !== 'DELETE' ? `, []byte("${body}")` : '';
 
       return `
 package main
@@ -186,7 +191,7 @@ import (
 
 func main() {
     client := &http.Client{}
-    req, err := http.NewRequest("${method}", "${url}", []byte("${body}"))
+    req, err := http.NewRequest("${method}", "${url}"${bodyString})
     if err != nil {
         panic(err)
     }

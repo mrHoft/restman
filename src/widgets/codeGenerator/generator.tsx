@@ -5,6 +5,8 @@ import { Select } from '~/components/select/select';
 import { generateCode, type TRuntime } from '~/utils/generator';
 import type { HeadersItem } from '~/widgets/headersEditor/editor';
 
+import styles from './generator.module.css';
+
 const options: TRuntime[] = ['curl', 'fetch', 'xhr', 'node', 'go', 'python', 'java', 'csharp'];
 
 interface GeneratorProps {
@@ -23,11 +25,11 @@ export function CodeGenerator({ method, url, body, headers }: GeneratorProps) {
 
   return (
     <details>
-      <summary style={{ cursor: 'pointer' }}>Generate code</summary>
+      <summary className={styles.generator}>Generate code</summary>
       <div style={{ width: '12rem' }}>
         <Select options={options} name="select" placeholder="runtime" defaultValue={runtime} onChange={handleChange} />
       </div>
-      <pre>
+      <pre className={styles.generator__body}>
         <code style={{ whiteSpace: 'pre-wrap' }}>{generateCode(runtime, method, url, body, headers)}</code>
       </pre>
     </details>
