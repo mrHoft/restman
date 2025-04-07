@@ -1,6 +1,6 @@
-import { lazy } from 'react';
-import { getUser } from '~/app/auth/actions';
+import { lazy, Suspense } from 'react';
 import { executeRestRequest } from '~/app/rest/actions';
+import Loading from '~/components/loader/loading';
 import type { Locale } from '~/i18n-config';
 import { base64Decode } from '~/utils/base64';
 import { isMethod } from '~/utils/rest';
@@ -15,7 +15,6 @@ export default async function Page({
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }) {
   const { locale, slug } = await params;
-  const user = await getUser();
   const [method = 'GET', encodedUrl = '', encodedBody = ''] = slug || [];
   const url = encodedUrl ? base64Decode(encodedUrl) : '';
   const body = encodedBody ? base64Decode(encodedBody) : '';
@@ -32,7 +31,7 @@ export default async function Page({
 
   return (
     <>
-      {user && (
+      <Suspense fallback={<Loading />}>
         <RestClient
           locale={locale}
           method={reqMethod}
@@ -41,7 +40,7 @@ export default async function Page({
           initQuery={search}
           response={response}
         />
-      )}
+      </Suspense>
     </>
   );
 }
