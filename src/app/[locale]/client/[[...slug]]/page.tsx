@@ -1,13 +1,17 @@
+import { lazy, Suspense } from 'react';
 import { executeRestRequest } from '~/app/rest/actions';
+import Loading from '~/components/loader/loading';
+import type { Locale } from '~/i18n-config';
 import { base64Decode } from '~/utils/base64';
 import { isMethod } from '~/utils/rest';
-import { RestClient } from '~/widgets/restClient/client';
+
+const RestClient = lazy(() => import('~/widgets/restClient/client'));
 
 export default async function Page({
   params,
   searchParams,
 }: {
-  params: Promise<{ locale: string; slug?: string[] }>;
+  params: Promise<{ locale: Locale; slug?: string[] }>;
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }) {
   const { locale, slug } = await params;
@@ -26,13 +30,17 @@ export default async function Page({
     : { data: '', status: null };
 
   return (
-    <RestClient
-      locale={locale}
-      method={reqMethod}
-      initUrl={url}
-      initBody={body}
-      initQuery={search}
-      response={response}
-    />
+    <>
+      <Suspense fallback={<Loading />}>
+        <RestClient
+          locale={locale}
+          method={reqMethod}
+          initUrl={url}
+          initBody={body}
+          initQuery={search}
+          response={response}
+        />
+      </Suspense>
+    </>
   );
 }
