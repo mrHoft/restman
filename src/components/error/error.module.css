@@ -16,7 +16,7 @@
   height: 20rem;
   padding: 1rem;
   box-sizing: border-box;
-  border: 2px solid var(--color40);
+  border: var(--border-thickness) solid var(--color30);
   border-radius: var(--border-radius);
   background-color: var(--color10);
   resize: none;

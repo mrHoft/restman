@@ -6,7 +6,7 @@
   margin: 3rem auto;
   width: 80%;
   max-width: 500px;
-  border: 2px solid var(--color40);
+  border: var(--border-thickness) solid var(--color30);
   border-radius: var(--border-radius);
 }
 
@@ -35,7 +35,7 @@
 @media (hover: hover) {
   .input:hover,
   .input:focus {
-    border-color: var(--color60);
+    border-color: var(--color40);
     background-color: var(--color10);
   }
 }

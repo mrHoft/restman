@@ -23,13 +23,13 @@ interface ButtonIconProps {
 }
 
 export function ButtonSquare({ icon, title, loading, active, onClick }: ButtonIconProps) {
-  const [copyed, setCopyed] = useState(false);
+  const [copied, setCopied] = useState(false);
 
   const handleClick = (event: React.MouseEvent) => {
     onClick(event);
     if (icon === 'copy') {
-      setCopyed(true);
-      setTimeout(() => setCopyed(false), 2500);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2500);
     }
   };
 
@@ -42,7 +42,7 @@ export function ButtonSquare({ icon, title, loading, active, onClick }: ButtonIc
       disabled={loading}
     >
       {loading ? <div className={styles.button_loader} /> : <img src={src[icon]} alt={icon} />}
-      {copyed && <div className={styles.copy__msg}>Copyed!</div>}
+      {copied && <div className={styles.copy__msg}>Copied!</div>}
     </button>
   );
 }

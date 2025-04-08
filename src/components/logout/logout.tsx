@@ -20,13 +20,13 @@ export function ButtonLogout({ dict, locale, user }: ButtonLogoutProps) {
   if (!user)
     return (
       <Link href={`/${locale}/login`}>
-        <button className={`${styles.sign} ${styles.in}`}>{dict.login}</button>
+        <button className={`button ${styles.sign} ${styles.in}`}>{dict.login}</button>
       </Link>
     );
 
   return (
     <form action={handleSingOut}>
-      <button className={`${styles.sign} ${styles.out}`}>{dict.logout}</button>
+      <button className={`button ${styles.sign} ${styles.out}`}>{dict.logout}</button>
     </form>
   );
 }

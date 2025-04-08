@@ -55,18 +55,22 @@ export default function Variables({ dict }: { dict: Record<string, string> }) {
           const value = Object.values(el)[0];
           return (
             <div key={index} className={styles.variables__row}>
-              <input
-                type="text"
-                placeholder={dict.namePlaceholder}
-                value={name}
-                onChange={e => handleNameChange(index, value, e.target.value)}
-              />
-              <input
-                type="text"
-                placeholder={dict.valuePlaceholder}
-                value={value}
-                onChange={e => handleValueChange(index, name, e.target.value)}
-              />
+              <div className={styles.variables__item}>
+                <input
+                  type="text"
+                  placeholder={dict.namePlaceholder}
+                  value={name}
+                  onChange={e => handleNameChange(index, value, e.target.value)}
+                />
+              </div>
+              <div className={styles.variables__item}>
+                <input
+                  type="text"
+                  placeholder={dict.valuePlaceholder}
+                  value={value}
+                  onChange={e => handleValueChange(index, name, e.target.value)}
+                />
+              </div>
               <button className={styles.variables__remove} onClick={() => handleRemove(index)}>
                 <img src="/icons/cross.svg" alt="delete" />
               </button>
@@ -88,11 +92,13 @@ export default function Variables({ dict }: { dict: Record<string, string> }) {
   return (
     <div className={styles.variables}>
       <h3 className={styles.variables__title}>{dict.title}</h3>
-      {variablesTable}
-      <div className={styles.variables__row}>
-        <div className={styles.variables__item}></div>
-        <div className={styles.variables__add} onClick={handleAdd}>
-          {dict.add}
+      <div className={styles.variables__table}>
+        {variablesTable}
+        <div className={styles.variables__row}>
+          <div className={styles.variables__item}></div>
+          <div className={styles.variables__add} onClick={handleAdd}>
+            {dict.add}
+          </div>
         </div>
       </div>
     </div>

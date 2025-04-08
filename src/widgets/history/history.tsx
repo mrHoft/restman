@@ -31,7 +31,7 @@ export default function History({ dict, locale }: { dict: Record<string, string>
     }
   }, [getHistory]);
 
-  const switchPage = (page: number) => {
+  const setPage = (page: number) => {
     router.push(`${pathname}?page=${page + 1}`);
   };
 
@@ -50,7 +50,7 @@ export default function History({ dict, locale }: { dict: Record<string, string>
             </div>
           ))}
           <div>
-            <Pagination page={currentPage - 1} pageSize={ItemsForPage} total={history.length} onChange={switchPage} />
+            <Pagination page={currentPage - 1} pageSize={ItemsForPage} total={history.length} onChange={setPage} />
           </div>
         </>
       ) : (

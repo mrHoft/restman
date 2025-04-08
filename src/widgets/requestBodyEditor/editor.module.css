@@ -6,7 +6,7 @@
   tab-size: 2;
   padding: 0.75rem;
   border-radius: var(--border-radius);
-  border: 2px solid var(--color40);
+  border: var(--border-thickness) solid var(--color30);
   min-height: 150px;
   max-height: 12rem;
   overflow: auto;
@@ -33,11 +33,12 @@
 }
 
 .editor__mode {
+  color: var(--color100);
   padding: 0.25rem;
   border-radius: var(--border-radius);
-  border: 2px solid var(--color40);
+  border: none;
   font-size: 0.8rem;
-  background-color: var(--color10);
+  background-color: var(--color30);
 }
 
 .editor__prettify {

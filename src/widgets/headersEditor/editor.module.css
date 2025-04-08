@@ -1,6 +1,6 @@
 .header_editor {
   border-radius: var(--border-radius);
-  border: 2px solid var(--color40);
+  border: var(--border-thickness) solid var(--color30);
   overflow: hidden;
 }
 
@@ -24,7 +24,7 @@
 
 .header_editor__row:not(:last-of-type),
 .header_editor__row_disabled:not(:last-of-type) {
-  border-bottom: 1px solid var(--color40);
+  border-bottom: 1px solid var(--color30);
 }
 
 .header_editor__item,
@@ -35,7 +35,7 @@
 }
 
 .header_editor__item:not(:last-of-type) {
-  border-right: 1px solid var(--color40);
+  border-right: 1px solid var(--color30);
 }
 
 .header_editor__item input[type='text'] {

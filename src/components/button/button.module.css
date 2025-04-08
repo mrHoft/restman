@@ -6,13 +6,10 @@
   align-items: center;
   justify-content: center;
   border: none;
-  border: 2px solid var(--color40);
   border-radius: var(--border-radius);
-  background-color: var(--color10);
+  background-color: var(--color30);
   cursor: pointer;
-  transition:
-    background-color 0.25s linear,
-    border-color 0.25s linear;
+  transition: background-color 0.25s linear;
 }
 
 .button_active {
@@ -48,8 +45,7 @@
 
 @media (hover: hover) {
   .button:hover {
-    background-color: var(--color20);
-    border-color: var(--color50);
+    background-color: var(--color40);
   }
 
   .button:disabled:hover {

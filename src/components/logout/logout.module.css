@@ -1,21 +1,13 @@
 .sign {
   position: relative;
   padding-right: 2rem;
-  height: 2rem;
-  border-radius: var(--border-radius);
-  border: 2px solid var(--color40);
-  font-size: 1rem;
-  color: var(--color100);
-  background-color: var(--color10);
-  transition: background-color 0.25s linear;
-  cursor: pointer;
 }
 
 .sign::after {
   content: '';
   position: absolute;
-  top: -2px;
-  right: -2px;
+  top: 0;
+  right: 0;
   display: block;
   width: 2rem;
   height: 2rem;
@@ -31,11 +23,4 @@
 
 .sign.in::after {
   background-image: url('/icons/login.svg');
-}
-
-@media (hover: hover) {
-  .sign:hover {
-    background-color: var(--color20);
-    border-color: var(--color50);
-  }
 }
