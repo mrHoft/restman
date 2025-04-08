@@ -13,7 +13,7 @@ interface RequestBodyEditorProps {
 }
 
 export default function RequestBodyEditor({ dict, value, onChange, className = '' }: RequestBodyEditorProps) {
-  const modeOptions = ['json', dict.text];
+  const modeOptions = ['json', 'text'];
   const [mode, setMode] = useState('json');
   const editorRef = useRef<HTMLDivElement>(null);
 
@@ -21,7 +21,7 @@ export default function RequestBodyEditor({ dict, value, onChange, className = '
     if (editorRef.current) {
       editorRef.current.innerText = value;
     }
-  }, []);
+  }, [value]);
 
   const tryParseJson = (data: string) => {
     try {

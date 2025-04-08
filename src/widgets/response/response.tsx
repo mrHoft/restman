@@ -10,7 +10,7 @@ interface ResponseViewerProps {
   lapse: number;
 }
 
-export function ResponseViewer({ data, status, message, lapse }: ResponseViewerProps) {
+export function ResponseViewer({ dict, data, status, message, lapse }: ResponseViewerProps) {
   return (
     <section className={styles.response}>
       <div className={styles.response__header}>

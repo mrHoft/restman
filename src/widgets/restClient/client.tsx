@@ -5,8 +5,8 @@ import { useEffect, useState } from 'react';
 import type { RestResponse } from '~/app/rest/actions';
 import { ButtonSquare } from '~/components/button/square';
 import { Loader } from '~/components/loader/loader';
-import { Modal } from '~/components/modal/modal';
 import { Message } from '~/components/message/message';
+import { Modal } from '~/components/modal/modal';
 import { Select } from '~/components/select/select';
 import useHistory from '~/entities/useHistory';
 import useVariables from '~/entities/useVariables';
@@ -79,7 +79,7 @@ export default function RestClient({ dict, locale, initUrl, initBody, initQuery,
   };
 
   const handleCodeGenerator = () => {
-    Modal.show(<CodeGenerator method={method} url={url} body={body} headers={headers} />);
+    Modal.show(<CodeGenerator dict={dict} method={method} url={url} body={body} headers={headers} />);
   };
 
   useEffect(() => {
