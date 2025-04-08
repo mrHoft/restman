@@ -2,7 +2,9 @@
 
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
+import { ButtonSquare } from '~/components/button/square';
 import { Loader } from '~/components/loader/loader';
+import { Modal } from '~/components/modal/modal';
 import { Select } from '~/components/select/select';
 import useHistory from '~/entities/useHistory';
 import useVariables from '~/entities/useVariables';
@@ -68,6 +70,15 @@ export default function RestClient({ locale, initUrl, initBody, initQuery, metho
     router.push(requestUrl);
   };
 
+  const handleNavigate = (url: string) => () => {
+    Loader.show();
+    router.push(url);
+  };
+
+  const handleCodeGenerator = () => {
+    Modal.show(<CodeGenerator method={method} url={url} body={body} headers={headers} />);
+  };
+
   useEffect(() => {
     Loader.hide();
   }, [response]);
@@ -98,9 +109,13 @@ export default function RestClient({ locale, initUrl, initBody, initQuery, metho
           Send
         </button>
       </form>
+      <div className={styles.client__btns}>
+        <ButtonSquare icon="code" title="Generate code" onClick={handleCodeGenerator} />
+        <ButtonSquare icon="list" title="History" onClick={handleNavigate('/history')} />
+        <ButtonSquare icon="hash" title="Variables" onClick={handleNavigate('/variables')} />
+      </div>
       <HeadersEditor headers={headers} setHeaders={setHeaders} />
       <RequestBodyEditor value={body} onChange={setBody} />
-      <CodeGenerator method={method} url={url} body={body} headers={headers} />
       <ResponseViewer data={response.data} status={response.status} />
     </div>
   );

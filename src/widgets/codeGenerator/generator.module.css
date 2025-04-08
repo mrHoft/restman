@@ -1,7 +1,19 @@
 .generator {
+  margin-top: -2rem;
+  display: flex;
+  flex-direction: column;
+  width: 80vw;
+}
+
+.generator__title {
   font-size: 1.2rem;
-  font-weight: bold;
-  cursor: pointer;
+  text-align: center;
+}
+
+.generator__controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
 }
 
 .generator__body {

@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useMemo, useState } from 'react';
+import { Loader } from '~/components/loader/loader';
 import Pagination from '~/components/pagination/pagination';
 import useHistory, { type HistoryRecord } from '~/entities/useHistory';
 
@@ -23,6 +24,7 @@ export default function History({ locale }: { locale: string }) {
   );
 
   useEffect(() => {
+    Loader.hide();
     const storedHistory = getHistory();
     if (storedHistory) {
       setHistory(storedHistory.sort((a, b) => b.date - a.date));
