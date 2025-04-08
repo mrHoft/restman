@@ -5,7 +5,7 @@ import { Footer } from '~/components/footer/footer';
 import { Header } from '~/components/header/header';
 import { Loader } from '~/components/loader/loader';
 import { Message } from '~/components/message/message';
-import { Locale } from '~/i18n-config';
+import type { Locale } from '~/i18n-config';
 import { getUser } from '../auth/actions';
 import { getDictionary } from './dictionaries';
 
