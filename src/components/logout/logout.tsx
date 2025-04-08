@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { signout } from '~/app/auth/actions';
 import type { UserData } from '~/utils/supabase/types';
 
@@ -11,6 +12,11 @@ interface ButtonLogoutProps {
 }
 
 export function ButtonLogout({ dict, locale, user }: ButtonLogoutProps) {
+  const router = useRouter();
+  const handleSingOut = async () => {
+    await signout();
+    router.push(`/${locale}`);
+  };
   if (!user)
     return (
       <Link href={`/${locale}/login`}>
@@ -19,7 +25,7 @@ export function ButtonLogout({ dict, locale, user }: ButtonLogoutProps) {
     );
 
   return (
-    <form action={signout}>
+    <form action={handleSingOut}>
       <button className={`${styles.sign} ${styles.out}`}>{dict.logout}</button>
     </form>
   );
