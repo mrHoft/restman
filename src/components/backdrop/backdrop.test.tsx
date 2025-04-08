@@ -1,10 +1,10 @@
 import '@testing-library/jest-dom';
 import { render } from '@testing-library/react';
-import { Backdop } from './backdop';
+import { Backdrop } from './backdrop';
 
-describe('Backdop', () => {
+describe('Backdrop', () => {
   it('successful renders', () => {
-    const { container } = render(<Backdop />);
+    const { container } = render(<Backdrop />);
 
     expect(container.querySelector('div')).toBeInTheDocument();
   });

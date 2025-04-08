@@ -39,6 +39,7 @@ body {
 
 .main {
   position: relative;
+  padding-bottom: 2.5rem;
   z-index: 1;
   overflow-y: auto;
   flex-grow: 1;

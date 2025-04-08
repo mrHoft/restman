@@ -13,9 +13,7 @@ export const metadata: Metadata = {
 export default async function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html>
-      <body className="body">
-        <main className="main">{children}</main>
-      </body>
+      <body className="body">{children}</body>
     </html>
   );
 }

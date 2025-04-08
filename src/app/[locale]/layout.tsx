@@ -1,3 +1,4 @@
+import { Backdrop } from '~/components/backdrop/backdrop';
 import { Footer } from '~/components/footer/footer';
 import { Header } from '~/components/header/header';
 import { Loader } from '~/components/loader/loader';
@@ -23,6 +24,7 @@ export default async function RootLayout({
     <>
       <Header dict={dict.Header} locale={locale} user={user} />
       <main className="main">{children}</main>
+      <Backdrop />
       <Footer />
       <Loader />
       <Message />
