@@ -11,9 +11,9 @@ export default function LanguageSelector() {
   const { setLocale } = useLocale();
 
   function onSelectChange(event: ChangeEvent<HTMLSelectElement>) {
-    const nextLocale = event.target.value;
-    setLocale(nextLocale);
-    const newPath = pathname.replace(`/${params.locale}`, `/${nextLocale}`);
+    const newLocale = event.target.value;
+    setLocale(newLocale);
+    const newPath = pathname.replace(`/${params.locale}`, `/${newLocale}`);
     router.replace(newPath);
   }
   return (
