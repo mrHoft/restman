@@ -5,6 +5,7 @@ import { Footer } from '~/components/footer/footer';
 import { Header } from '~/components/header/header';
 import { Loader } from '~/components/loader/loader';
 import { Message } from '~/components/message/message';
+import { Modal } from '~/components/modal/modal';
 import { getUser } from '../auth/actions';
 
 import '~/styles/globals.css';
@@ -47,6 +48,7 @@ export default async function RootLayout({
         <Footer />
         <Loader />
         <Message />
+        <Modal />
       </body>
     </html>
   );
