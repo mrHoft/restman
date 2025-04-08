@@ -3,6 +3,7 @@ import { prettify } from '~/utils/pretty';
 import styles from './response.module.css';
 
 interface ResponseViewerProps {
+  dict: Record<string, string>;
   data: string;
   status: number;
   message: string;
@@ -13,7 +14,7 @@ export function ResponseViewer({ data, status, message, lapse }: ResponseViewerP
   return (
     <section className={styles.response}>
       <div className={styles.response__header}>
-        <h3>Response</h3>
+        <h3>{dict.response}</h3>
         {status && (
           <div className={styles.response__status}>
             <span>{status}</span>

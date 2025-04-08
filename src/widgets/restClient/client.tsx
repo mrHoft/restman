@@ -18,6 +18,7 @@ import { ResponseViewer } from '~/widgets/response/response';
 import styles from './client.module.css';
 
 interface RestClientProps {
+  dict: Record<string, string>;
   locale: Locale;
   method: TMethod;
   initUrl: string;
@@ -26,7 +27,7 @@ interface RestClientProps {
   response: RestResponse;
 }
 
-export default function RestClient({ locale, initUrl, initBody, initQuery, method, response }: RestClientProps) {
+export default function RestClient({ dict, locale, initUrl, initBody, initQuery, method, response }: RestClientProps) {
   const { pushHistory } = useHistory();
   const router = useRouter();
   const [url, setUrl] = useState(initUrl || '');
@@ -79,7 +80,7 @@ export default function RestClient({ locale, initUrl, initBody, initQuery, metho
 
   return (
     <div className={styles.client}>
-      <h1 className={styles.client__title}>REST Client</h1>
+      <h1 className={styles.client__title}>{dict.title}</h1>
       <form onSubmit={handleSubmit} className={styles.client__form}>
         <div>
           <Select
@@ -88,7 +89,7 @@ export default function RestClient({ locale, initUrl, initBody, initQuery, metho
             value={method}
             onChange={value => handleMethodChange(value)}
             required={true}
-            placeholder="Method"
+            placeholder={dict.methodPlaceholder}
           />
         </div>
         <input
@@ -96,18 +97,19 @@ export default function RestClient({ locale, initUrl, initBody, initQuery, metho
           name="url"
           value={url}
           onChange={e => setUrl(e.target.value)}
-          placeholder="Enter URL"
+          placeholder={dict.urlPlaceholder}
           className={styles.client__url}
         />
         <button type="submit" className="button">
-          Send
+          {dict.send}
         </button>
       </form>
-      <HeadersEditor headers={headers} setHeaders={setHeaders} />
-      <RequestBodyEditor value={body} onChange={setBody} />
-      <CodeGenerator method={method} url={url} body={body} headers={headers} />
+      <HeadersEditor dict={dict} headers={headers} setHeaders={setHeaders} />
+      <RequestBodyEditor dict={dict} value={body} onChange={setBody} />
+      <CodeGenerator dict={dict} method={method} url={url} body={body} headers={headers} />
       {response.data && (
         <ResponseViewer
+          dict={dict}
           data={response.data ?? response.message ?? ''}
           status={response.status}
           message={response.message}

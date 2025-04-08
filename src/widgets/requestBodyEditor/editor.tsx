@@ -5,15 +5,15 @@ import { Message } from '~/components/message/message';
 
 import styles from './editor.module.css';
 
-const modeOptions = ['json', 'text'];
-
 interface RequestBodyEditorProps {
+  dict: Record<string, string>;
   value: string;
   onChange: (value: string) => void;
   className?: string;
 }
 
-export default function RequestBodyEditor({ value, onChange, className = '' }: RequestBodyEditorProps) {
+export default function RequestBodyEditor({ dict, value, onChange, className = '' }: RequestBodyEditorProps) {
+  const modeOptions = ['json', dict.text];
   const [mode, setMode] = useState('json');
   const editorRef = useRef<HTMLDivElement>(null);
 
@@ -49,7 +49,7 @@ export default function RequestBodyEditor({ value, onChange, className = '' }: R
   return (
     <div className={className}>
       <div className={styles.editor__controls}>
-        <h3 className={styles.editor__title}>Body</h3>
+        <h3 className={styles.editor__title}>{dict.body}</h3>
         <div className={styles.editor__btns}>
           <select value={mode} onChange={e => setMode(e.target.value)} className={styles.editor__mode}>
             {modeOptions.map(mode => (
@@ -60,7 +60,7 @@ export default function RequestBodyEditor({ value, onChange, className = '' }: R
           </select>
           {mode === 'json' && (
             <button onClick={handlePrettify} className={`button ${styles.editor__prettify}`} title="Format JSON">
-              Prettify
+              {dict.prettify}
             </button>
           )}
         </div>
