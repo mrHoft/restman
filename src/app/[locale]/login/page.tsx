@@ -6,5 +6,5 @@ export default async function PageLogin({ params }: { params: Promise<{ locale: 
   const { locale } = await params;
   const dict = await getDictionary(locale);
 
-  return <Login dict={dict.LoginPage} />;
+  return <Login dict={dict.LoginPage} locale={locale} />;
 }

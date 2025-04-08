@@ -45,7 +45,7 @@ export default async function RootLayout({
     <html lang={locale}>
       <body className={`body ${geistSans.variable} ${geistMono.variable}`}>
         <Backdop />
-        <Header dict={dict.Header} user={user} />
+        <Header dict={dict.Header} locale={locale} user={user} />
         <main className="main">{children}</main>
         <Footer />
         <Loader />

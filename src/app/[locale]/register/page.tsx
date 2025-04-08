@@ -6,5 +6,5 @@ export default async function PageRegister({ params }: { params: Promise<{ local
   const { locale } = await params;
   const dict = await getDictionary(locale);
 
-  return <Register dict={dict.RegisterPage} />;
+  return <Register dict={dict.RegisterPage} locale={locale} />;
 }

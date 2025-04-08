@@ -9,7 +9,7 @@ import { registerSchema } from '~/utils/schemas';
 
 import form from '~/styles/form.module.css';
 
-export default function Register({ dict }: { dict: Record<string, string> }) {
+export default function Register({ dict, locale }: { dict: Record<string, string>; locale: string }) {
   const [errors, setErrors] = useState<Record<string, string>>({});
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -39,7 +39,7 @@ export default function Register({ dict }: { dict: Record<string, string> }) {
     await register(data).then(({ error, success }) => {
       Message.show(success ? `${dict.success}` : error, success ? 'regular' : 'error');
       Loader.hide();
-      if (success) redirect('/login');
+      if (success) redirect(`/${locale}/login`);
     });
   };
 
@@ -47,7 +47,7 @@ export default function Register({ dict }: { dict: Record<string, string> }) {
     <div className={form.container}>
       <h1 className={form.title}>{dict.title}</h1>
       <form className={form.form} onSubmit={handleSubmit}>
-        <InputEmail dict={dict} />
+        <InputEmail placeholder={dict.email} />
         <span className={form.input_error}>{errors.email}</span>
         <InputPassword name="password" placeholder={dict.password} />
         <span className={form.input_error}>{errors.password}</span>

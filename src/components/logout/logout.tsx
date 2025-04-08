@@ -4,10 +4,16 @@ import type { UserData } from '~/utils/supabase/types';
 
 import styles from './logout.module.css';
 
-export function ButtonLogout({ dict, user }: { dict: Record<string, string>; user: UserData | null }) {
+interface ButtonLogoutProps {
+  dict: Record<string, string>;
+  locale: string;
+  user: UserData | null;
+}
+
+export function ButtonLogout({ dict, locale, user }: ButtonLogoutProps) {
   if (!user)
     return (
-      <Link href="/login">
+      <Link href={`/${locale}/login`}>
         <button className={`${styles.sign} ${styles.in}`}>{dict.login}</button>
       </Link>
     );
