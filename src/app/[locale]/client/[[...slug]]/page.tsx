@@ -4,6 +4,7 @@ import Loading from '~/components/loader/loading';
 import type { Locale } from '~/i18n-config';
 import { base64Decode } from '~/utils/base64';
 import { isMethod } from '~/utils/rest';
+import { getDictionary } from '../../dictionaries';
 
 const RestClient = lazy(() => import('~/widgets/restClient/client'));
 
@@ -15,6 +16,7 @@ export default async function Page({
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }) {
   const { locale, slug } = await params;
+  const dict = await getDictionary(locale);
   const [method = 'GET', encodedUrl = '', encodedBody = ''] = slug || [];
   const url = encodedUrl ? base64Decode(encodedUrl) : '';
   const body = encodedBody ? base64Decode(encodedBody) : '';
@@ -33,6 +35,7 @@ export default async function Page({
     <>
       <Suspense fallback={<Loading />}>
         <RestClient
+          dict={dict.Client}
           locale={locale}
           method={reqMethod}
           initUrl={url}

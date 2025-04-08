@@ -9,7 +9,7 @@ import type { UserData } from '~/utils/supabase/types';
 
 import styles from './header.module.css';
 
-export function Header({ user }: { user: UserData | null }) {
+export function Header({ dict, user }: { dict: Record<string, string>; user: UserData | null }) {
   const [isSticky, setIsSticky] = useState(false);
 
   useEffect(() => {
@@ -30,14 +30,14 @@ export function Header({ user }: { user: UserData | null }) {
       <div className={styles.header__right}>
         {user ? (
           <Link href="/" className={`button ${styles.header__link}`}>
-            Main page
+            {dict.mainPage}
           </Link>
         ) : (
           <Link href="/register" className={`button ${styles.header__link}`}>
-            Sign up
+            {dict.signUp}
           </Link>
         )}
-        <ButtonLogout user={user} />
+        <ButtonLogout dict={dict} user={user} />
         <LanguageSelector />
         <ThemeSwitcher />
       </div>
