@@ -7,30 +7,69 @@ export interface RestRequestProps {
   body?: string;
 }
 
-export async function executeRestRequest({ method, url, headers, body }: RestRequestProps) {
-  let status = 500;
+export interface RestResponse {
+  data?: string;
+  error?: string;
+  message: string;
+  status: number;
+  lapse: number;
+}
 
-  try {
-    const res = await fetch(url, {
-      method,
-      headers: new Headers(headers),
-      body: method !== 'GET' && method !== 'DELETE' ? body : undefined,
-    });
-
-    status = res.status;
-
-    if (Math.floor(status / 100) >= 4) throw new Error(`HTTP ${status}`);
-
-    const data = await res.json();
-    return {
-      data: JSON.stringify(data, null, 2),
-      status,
-    };
-  } catch (error) {
-    console.error('REST Request failed:', error);
-    return {
-      data: JSON.stringify({ error: (error as Error).message }),
-      status,
-    };
+function getStatus(status: number) {
+  if (status === 500) {
+    return 'Internal error';
   }
+  if (status >= 200 && status < 300) {
+    return 'ok';
+  }
+  if (status >= 300 && status < 400) {
+    return 'in action';
+  }
+  if (status >= 400) {
+    return 'error';
+  }
+  return 'Unknown';
+}
+
+export async function executeRestRequest({ method, url, headers, body }: RestRequestProps): Promise<RestResponse> {
+  const info: { status: number; message: string; contentType: string | null; start: number } = {
+    status: 500,
+    message: 'Internal error',
+    contentType: null,
+    start: Date.now(),
+  };
+
+  const uri = !url.startsWith('http') ? `https://${url}` : url;
+
+  return fetch(uri, {
+    method,
+    headers: new Headers(headers || { 'Content-Type': 'application/json' }),
+    body: method !== 'GET' && method !== 'DELETE' ? body : undefined,
+  })
+    .then(response => {
+      info.status = response.status;
+      info.message = response.statusText || getStatus(response.status);
+      info.contentType = response.headers.get('content-type');
+
+      if (info.contentType && info.contentType.includes('application/json')) {
+        return response.json();
+      }
+
+      return response.text();
+    })
+    .then(data => {
+      const lapse = Date.now() - info.start;
+
+      if (info.contentType && info.contentType.includes('application/json')) {
+        return { data: JSON.stringify(data), message: info.message, status: info.status, lapse };
+      }
+
+      return { data, message: info.message, status: info.status, lapse };
+    })
+    .catch(error => {
+      const lapse = Date.now() - info.start;
+      const message = error instanceof Error ? error.message : info.message;
+
+      return { error: message, message: info.message, status: info.status, lapse };
+    });
 }

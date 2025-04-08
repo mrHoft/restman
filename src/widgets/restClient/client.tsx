@@ -2,9 +2,11 @@
 
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
+import type { RestResponse } from '~/app/rest/actions';
 import { ButtonSquare } from '~/components/button/square';
 import { Loader } from '~/components/loader/loader';
 import { Modal } from '~/components/modal/modal';
+import { Message } from '~/components/message/message';
 import { Select } from '~/components/select/select';
 import useHistory from '~/entities/useHistory';
 import useVariables from '~/entities/useVariables';
@@ -18,15 +20,16 @@ import { ResponseViewer } from '~/widgets/response/response';
 import styles from './client.module.css';
 
 interface RestClientProps {
+  dict: Record<string, string>;
   locale: Locale;
   method: TMethod;
   initUrl: string;
   initBody: string;
   initQuery: { [key: string]: string | string[] | undefined };
-  response: { data: string; status: number | null };
+  response: RestResponse;
 }
 
-export default function RestClient({ locale, initUrl, initBody, initQuery, method, response }: RestClientProps) {
+export default function RestClient({ dict, locale, initUrl, initBody, initQuery, method, response }: RestClientProps) {
   const { pushHistory } = useHistory();
   const router = useRouter();
   const [url, setUrl] = useState(initUrl || '');
@@ -81,11 +84,14 @@ export default function RestClient({ locale, initUrl, initBody, initQuery, metho
 
   useEffect(() => {
     Loader.hide();
+    if (response.error) {
+      Message.show(response.error, 'error');
+    }
   }, [response]);
 
   return (
     <div className={styles.client}>
-      <h1 className={styles.client__title}>REST Client</h1>
+      <h1 className={styles.client__title}>{dict.title}</h1>
       <form onSubmit={handleSubmit} className={styles.client__form}>
         <div>
           <Select
@@ -94,7 +100,7 @@ export default function RestClient({ locale, initUrl, initBody, initQuery, metho
             value={method}
             onChange={value => handleMethodChange(value)}
             required={true}
-            placeholder="Method"
+            placeholder={dict.methodPlaceholder}
           />
         </div>
         <input
@@ -102,11 +108,11 @@ export default function RestClient({ locale, initUrl, initBody, initQuery, metho
           name="url"
           value={url}
           onChange={e => setUrl(e.target.value)}
-          placeholder="Enter URL"
+          placeholder={dict.urlPlaceholder}
           className={styles.client__url}
         />
         <button type="submit" className="button">
-          Send
+          {dict.send}
         </button>
       </form>
       <div className={styles.client__btns}>
@@ -114,9 +120,17 @@ export default function RestClient({ locale, initUrl, initBody, initQuery, metho
         <ButtonSquare icon="list" title="History" onClick={handleNavigate('/history')} />
         <ButtonSquare icon="hash" title="Variables" onClick={handleNavigate('/variables')} />
       </div>
-      <HeadersEditor headers={headers} setHeaders={setHeaders} />
-      <RequestBodyEditor value={body} onChange={setBody} />
-      <ResponseViewer data={response.data} status={response.status} />
+      <HeadersEditor dict={dict} headers={headers} setHeaders={setHeaders} />
+      <RequestBodyEditor dict={dict} value={body} onChange={setBody} />
+      {response.data && (
+        <ResponseViewer
+          dict={dict}
+          data={response.data ?? response.message ?? ''}
+          status={response.status}
+          message={response.message}
+          lapse={response.lapse}
+        />
+      )}
     </div>
   );
 }

@@ -11,11 +11,12 @@ export interface HeadersItem {
 }
 
 interface HeadersEditorProps {
+  dict: Record<string, string>;
   headers: HeadersItem[];
   setHeaders: React.Dispatch<React.SetStateAction<HeadersItem[]>>;
 }
 
-export default function HeadersEditor({ headers, setHeaders }: HeadersEditorProps) {
+export default function HeadersEditor({ dict, headers, setHeaders }: HeadersEditorProps) {
   const handleAdd = () => setHeaders(prev => [...prev, { key: '', value: '', enabled: true }]);
 
   const headersTable = useMemo(() => {
@@ -69,14 +70,14 @@ export default function HeadersEditor({ headers, setHeaders }: HeadersEditorProp
 
   return (
     <div>
-      <h3 className={styles.header_editor__title}>Headers</h3>
+      <h3 className={styles.header_editor__title}>{dict.headers}</h3>
       <div className={styles.header_editor}>
         {headersTable}
         <div className={styles.header_editor__row}>
           <div className={styles.header_editor__item} />
           <div className={styles.header_editor__item} />
           <div className={styles.header_editor__add} onClick={handleAdd}>
-            Add
+            {dict.add}
           </div>
         </div>
       </div>

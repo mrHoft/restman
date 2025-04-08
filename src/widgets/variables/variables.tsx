@@ -20,7 +20,7 @@ export default function Variables({ dict }: { dict: Record<string, string> }) {
       const newVariables = Object.entries(storedVariables).map(([name, value]) => ({ [name]: value }));
       setVars(() => [...newVariables, { '': '' }]);
     }
-  }, []);
+  }, [getVariables]);
 
   const handleAdd = () => setVars(prev => [...prev, { '': '' }]);
 
@@ -75,7 +75,7 @@ export default function Variables({ dict }: { dict: Record<string, string> }) {
         })}
       </>
     );
-  }, [vars, setVars]);
+  }, [vars, dict.namePlaceholder, dict.valuePlaceholder, setVariable, setAllVariables]);
 
   const createResult = (items: Record<string, string>[]) =>
     items.reduce<Record<string, string>>((acc, item) => {

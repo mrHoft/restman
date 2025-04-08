@@ -11,13 +11,14 @@ import styles from './generator.module.css';
 const options: TRuntime[] = ['curl', 'fetch', 'xhr', 'node', 'go', 'python', 'java', 'csharp'];
 
 interface GeneratorProps {
+  dict: Record<string, string>;
   method: string;
   url: string;
   body: string;
   headers: HeadersItem[];
 }
 
-export function CodeGenerator({ method, url, body, headers }: GeneratorProps) {
+export function CodeGenerator({ dict, method, url, body, headers }: GeneratorProps) {
   const [runtime, setRuntime] = React.useState<TRuntime>('curl');
 
   const handleChange = (value: string) => {
@@ -26,13 +27,13 @@ export function CodeGenerator({ method, url, body, headers }: GeneratorProps) {
 
   return (
     <div className={styles.generator}>
-      <h3 className={styles.generator__title}>Generate code</h3>
+      <h3 className={styles.generator__title}>{dict.code}</h3>
       <div className={styles.generator__controls}>
         <div style={{ width: '12rem' }}>
           <Select
             options={options}
             name="select"
-            placeholder="runtime"
+            placeholder={dict.codePlaceholder}
             defaultValue={runtime}
             onChange={handleChange}
           />
