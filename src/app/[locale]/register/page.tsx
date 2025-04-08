@@ -1,5 +1,5 @@
-import Register from '~/components/register/register';
 import type { Locale } from '~/i18n-config';
+import Register from '~/widgets/register/register';
 import { getDictionary } from '../dictionaries';
 
 export default async function PageRegister({ params }: { params: Promise<{ locale: Locale; slug?: string[] }> }) {
