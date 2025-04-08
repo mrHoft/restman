@@ -2,7 +2,9 @@
 
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
+import type { RestResponse } from '~/app/rest/actions';
 import { Loader } from '~/components/loader/loader';
+import { Message } from '~/components/message/message';
 import { Select } from '~/components/select/select';
 import useHistory from '~/entities/useHistory';
 import useVariables from '~/entities/useVariables';
@@ -22,7 +24,7 @@ interface RestClientProps {
   initUrl: string;
   initBody: string;
   initQuery: { [key: string]: string | string[] | undefined };
-  response: { data: string; status: number | null };
+  response: RestResponse;
 }
 
 export default function RestClient({ dict, locale, initUrl, initBody, initQuery, method, response }: RestClientProps) {
@@ -71,6 +73,9 @@ export default function RestClient({ dict, locale, initUrl, initBody, initQuery,
 
   useEffect(() => {
     Loader.hide();
+    if (response.error) {
+      Message.show(response.error, 'error');
+    }
   }, [response]);
 
   return (
@@ -102,7 +107,15 @@ export default function RestClient({ dict, locale, initUrl, initBody, initQuery,
       <HeadersEditor dict={dict} headers={headers} setHeaders={setHeaders} />
       <RequestBodyEditor dict={dict} value={body} onChange={setBody} />
       <CodeGenerator dict={dict} method={method} url={url} body={body} headers={headers} />
-      <ResponseViewer dict={dict} data={response.data} status={response.status} />
+      {response.data && (
+        <ResponseViewer
+          dict={dict}
+          data={response.data ?? response.message ?? ''}
+          status={response.status}
+          message={response.message}
+          lapse={response.lapse}
+        />
+      )}
     </div>
   );
 }
