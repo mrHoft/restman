@@ -3,7 +3,9 @@
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import type { RestResponse } from '~/app/rest/actions';
+import { ButtonSquare } from '~/components/button/square';
 import { Loader } from '~/components/loader/loader';
+import { Modal } from '~/components/modal/modal';
 import { Message } from '~/components/message/message';
 import { Select } from '~/components/select/select';
 import useHistory from '~/entities/useHistory';
@@ -71,6 +73,15 @@ export default function RestClient({ dict, locale, initUrl, initBody, initQuery,
     router.push(requestUrl);
   };
 
+  const handleNavigate = (url: string) => () => {
+    Loader.show();
+    router.push(url);
+  };
+
+  const handleCodeGenerator = () => {
+    Modal.show(<CodeGenerator method={method} url={url} body={body} headers={headers} />);
+  };
+
   useEffect(() => {
     Loader.hide();
     if (response.error) {
@@ -104,9 +115,13 @@ export default function RestClient({ dict, locale, initUrl, initBody, initQuery,
           {dict.send}
         </button>
       </form>
+      <div className={styles.client__btns}>
+        <ButtonSquare icon="code" title="Generate code" onClick={handleCodeGenerator} />
+        <ButtonSquare icon="list" title="History" onClick={handleNavigate('/history')} />
+        <ButtonSquare icon="hash" title="Variables" onClick={handleNavigate('/variables')} />
+      </div>
       <HeadersEditor dict={dict} headers={headers} setHeaders={setHeaders} />
       <RequestBodyEditor dict={dict} value={body} onChange={setBody} />
-      <CodeGenerator dict={dict} method={method} url={url} body={body} headers={headers} />
       {response.data && (
         <ResponseViewer
           dict={dict}

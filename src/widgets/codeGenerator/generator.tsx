@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import { ButtonSquare } from '~/components/button/square';
 import { Select } from '~/components/select/select';
 import { generateCode, type TRuntime } from '~/utils/generator';
 import type { HeadersItem } from '~/widgets/headersEditor/editor';
@@ -25,20 +26,27 @@ export function CodeGenerator({ dict, method, url, body, headers }: GeneratorPro
   };
 
   return (
-    <details>
-      <summary className={styles.generator}>{dict.code}</summary>
-      <div style={{ width: '12rem' }}>
-        <Select
-          options={options}
-          name="select"
-          placeholder={dict.codePlaceholder}
-          defaultValue={runtime}
-          onChange={handleChange}
+    <div className={styles.generator}>
+      <h3 className={styles.generator__title}>{dict.code}</h3>
+      <div className={styles.generator__controls}>
+        <div style={{ width: '12rem' }}>
+          <Select
+            options={options}
+            name="select"
+            placeholder={dict.codePlaceholder}
+            defaultValue={runtime}
+            onChange={handleChange}
+          />
+        </div>
+        <ButtonSquare
+          icon="copy"
+          title="Copy to clipboard"
+          onClick={() => navigator.clipboard.writeText(generateCode(runtime, method, url, body, headers))}
         />
       </div>
       <pre className={styles.generator__body}>
         <code style={{ whiteSpace: 'pre-wrap' }}>{generateCode(runtime, method, url, body, headers)}</code>
       </pre>
-    </details>
+    </div>
   );
 }

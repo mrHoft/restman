@@ -4,6 +4,7 @@ import { Footer } from '~/components/footer/footer';
 import { Header } from '~/components/header/header';
 import { Loader } from '~/components/loader/loader';
 import { Message } from '~/components/message/message';
+import { Modal } from '~/components/modal/modal';
 import type { Locale } from '~/i18n-config';
 import { getUser } from '../auth/actions';
 import { getDictionary } from './dictionaries';
@@ -39,6 +40,7 @@ export default async function RootLayout({
         <Footer />
         <Loader />
         <Message />
+        <Modal />
       </body>
     </html>
   );
