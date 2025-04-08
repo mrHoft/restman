@@ -14,10 +14,10 @@ export const metadata: Metadata = {
 
 export default async function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   const cookieStore = await cookies();
-  const defaultLocale = cookieStore.get('locale')?.value ?? i18n.defaultLocale;
+  const locale = cookieStore.get('locale')?.value ?? i18n.defaultLocale;
 
   return (
-    <html lang={defaultLocale}>
+    <html lang={locale}>
       <body className="body">{children}</body>
     </html>
   );

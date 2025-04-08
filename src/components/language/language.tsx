@@ -12,9 +12,9 @@ export default function LanguageSelector() {
 
   function onSelectChange(event: ChangeEvent<HTMLSelectElement>) {
     const nextLocale = event.target.value;
+    setLocale(nextLocale);
     const newPath = pathname.replace(`/${params.locale}`, `/${nextLocale}`);
     router.replace(newPath);
-    setLocale(nextLocale);
   }
   return (
     <div className={styles.language}>

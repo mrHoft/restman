@@ -18,8 +18,6 @@ export const useLocale = () => {
       samesite: 'lax',
       path: '/',
     });
-
-    document.documentElement.lang = `${locale}`;
   };
 
   return { lang, setLocale };

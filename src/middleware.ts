@@ -5,14 +5,14 @@ import { i18n } from './i18n-config';
 
 export async function middleware(request: NextRequest) {
   const cookieStore = await cookies();
-  const defaultLocale = cookieStore.get('locale')?.value ?? i18n.defaultLocale;
+  const locale = cookieStore.get('locale')?.value ?? i18n.defaultLocale;
   const { pathname } = request.nextUrl;
   const pathnameHasLocale = i18n.locales.some(
     locale => pathname.startsWith(`/${locale}/`) || pathname === `/${locale}`
   );
   if (pathnameHasLocale) return await updateSession(request);
 
-  request.nextUrl.pathname = `/${defaultLocale}${pathname}`;
+  request.nextUrl.pathname = `/${locale}${pathname}`;
   return NextResponse.redirect(request.nextUrl);
 }
 
