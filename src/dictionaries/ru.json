@@ -1,28 +1,24 @@
 {
-  "examplePage": {
-    "title": "Примеры использования компонентов",
-    "buttonForLoader": "Показать лоадер",
-    "buttonForModal": "Показать модальное окно",
-    "buttonForMessage": "Показать сообщение",
-    "selectorPlaceholder": "Выберите вариант",
-    "option1": "Вариант 1",
-    "option2": "Вариант 2",
-    "option3": "Вариант 3",
-    "modalText": "Пример модального окна",
-    "messageText": "Пример всплывающего сообщения"
+  "Header": {
+    "mainPage": "Главная страница",
+    "signUp": "Регистрация",
+    "login": "Вход",
+    "logout": "Выход"
   },
   "RegisterPage": {
     "title": "Регистрация",
     "email": "Электронная почта",
     "password": "Пароль",
     "confirmPassword": "Подтвердите пароль",
-    "submit": "Зарегистрироваться"
+    "submit": "Зарегистрироваться",
+    "success": "Регистрация прошла успешно!"
   },
   "LoginPage": {
     "title": "Вход",
     "email": "Электронная почта",
     "password": "Пароль",
     "submit": "Войти",
+    "buttonToRegister": "Зарегистрироваться",
     "success": "Вход выполнен успешно!"
   },
   "NotFoundPage": {
@@ -43,5 +39,25 @@
     "namePlaceholder": "Имя",
     "valuePlaceholder": "Значение",
     "add": "Добавить"
+  },
+  "Client": {
+    "title": "REST Клиент",
+    "methodPlaceholder": "Метод",
+    "urlPlaceholder": "Введите URL",
+    "send": "Отправить",
+    "headers": "Заголовки",
+    "add": "Добавить",
+    "body": "Тело запроса",
+    "text": "текст",
+    "prettify": "Форматировать",
+    "code": "Сгенерировать код",
+    "codePlaceholder": "среда",
+    "response": "Ответ",
+    "status": "Статус"
+  },
+  "History": {
+    "title": "История запросов",
+    "empty": "История запросов пуста. Время",
+    "linkToClient": "сделать ваш первый запрос!"
   }
 }

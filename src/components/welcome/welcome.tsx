@@ -3,7 +3,7 @@ import { getUser } from '~/app/auth/actions';
 
 import form from '~/styles/form.module.css';
 
-export async function Welcome({ dict }: { dict: Record<string, string> }) {
+export async function Welcome({ dict, locale }: { dict: Record<string, string>; locale: string }) {
   const user = await getUser();
 
   return (
@@ -14,13 +14,13 @@ export async function Welcome({ dict }: { dict: Record<string, string> }) {
             {dict.greetingWithUser} {user.email}!
           </h2>
           <div className="align_center">
-            <Link href="/client/GET" className="button">
+            <Link href={`${locale}/client/GET`} className="button">
               {dict.restClient}
             </Link>
-            <Link href="/history" className="button">
+            <Link href={`${locale}/history`} className="button">
               {dict.history}
             </Link>
-            <Link href="/variables" className="button">
+            <Link href={`${locale}/variables`} className="button">
               {dict.variables}
             </Link>
           </div>
@@ -29,10 +29,10 @@ export async function Welcome({ dict }: { dict: Record<string, string> }) {
         <>
           <h2 className={form.title}>{dict.greetingWithoutUser}</h2>
           <div className="align_center">
-            <Link href="/login" className="button">
+            <Link href={`${locale}/login`} className="button">
               {dict.login}
             </Link>
-            <Link href="/register" className="button">
+            <Link href={`${locale}/register`} className="button">
               {dict.signUp}
             </Link>
           </div>

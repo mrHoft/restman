@@ -10,7 +10,7 @@ import styles from './history.module.css';
 
 export const ItemsForPage = 10;
 
-export default function History({ locale }: { locale: string }) {
+export default function History({ dict, locale }: { dict: Record<string, string>; locale: string }) {
   const { getHistory } = useHistory();
   const [history, setHistory] = useState<HistoryRecord[]>([]);
   const router = useRouter();
@@ -35,7 +35,7 @@ export default function History({ locale }: { locale: string }) {
 
   return (
     <div className={styles.history}>
-      <h2 className={styles.history__title}>History Requests</h2>
+      <h2 className={styles.history__title}>{dict.title}</h2>
 
       {currentHistory.length > 0 ? (
         <>
@@ -53,14 +53,14 @@ export default function History({ locale }: { locale: string }) {
         </>
       ) : (
         <div className={styles.history__empty}>
-          History is empty. It&apos;s time to{' '}
+          {dict.empty}{' '}
           <Link
             className={styles.history__client_link}
             href={{
               pathname: `/${locale}/client/GET`,
             }}
           >
-            make your first request!
+            {dict.linkToClient}
           </Link>
         </div>
       )}

@@ -1,28 +1,24 @@
 {
-  "examplePage": {
-    "title": "Component usage examples",
-    "buttonForLoader": "Show loader",
-    "buttonForModal": "Show modal",
-    "buttonForMessage": "Show message",
-    "selectorPlaceholder": "Select option",
-    "option1": "Option 1",
-    "option2": "Option 2",
-    "option3": "Option 3",
-    "modalText": "Modal example",
-    "messageText": "Message example"
+  "Header": {
+    "mainPage": "Main page",
+    "signUp": "Sign up",
+    "login": "Login",
+    "logout": "Logout"
   },
   "RegisterPage": {
     "title": "Register",
     "email": "Email",
     "password": "Password",
     "confirmPassword": "Confirm password",
-    "submit": "Register"
+    "submit": "Register",
+    "success": "Registration successful!"
   },
   "LoginPage": {
     "title": "Login",
     "email": "Email",
     "password": "Password",
     "submit": "Login",
+    "buttonToRegister": "Register",
     "success": "You've successfully logged in!"
   },
   "NotFoundPage": {
@@ -43,5 +39,25 @@
     "namePlaceholder": "Name",
     "valuePlaceholder": "Value",
     "add": "Add"
+  },
+  "Client": {
+    "title": "REST Client",
+    "methodPlaceholder": "Method",
+    "urlPlaceholder": "Enter URL",
+    "send": "Send",
+    "headers": "Headers",
+    "add": "Add",
+    "body": "Body",
+    "text": "text",
+    "prettify": "Prettify",
+    "code": "Generate code",
+    "codePlaceholder": "runtime",
+    "response": "Response",
+    "status": "Status"
+  },
+  "History": {
+    "title": "History Requests",
+    "empty": "History is empty. It's time to",
+    "linkToClient": "make your first request!"
   }
 }
