@@ -1,0 +1,48 @@
+'use client';
+
+import { useState } from 'react';
+
+import styles from './button.module.css';
+
+type TIcon = 'code' | 'hash' | 'list' | 'copy' | 'edit';
+
+const src: Record<TIcon, string> = {
+  code: '/icons/code.svg',
+  hash: '/icons/hash.svg',
+  list: '/icons/list.svg',
+  copy: '/icons/copy.svg',
+  edit: '/icons/edit.svg',
+};
+
+interface ButtonIconProps {
+  icon: TIcon;
+  title?: string;
+  loading?: boolean;
+  active?: boolean;
+  onClick: (e: React.MouseEvent) => void;
+}
+
+export function ButtonSquare({ icon, title, loading, active, onClick }: ButtonIconProps) {
+  const [copyed, setCopyed] = useState(false);
+
+  const handleClick = (event: React.MouseEvent) => {
+    onClick(event);
+    if (icon === 'copy') {
+      setCopyed(true);
+      setTimeout(() => setCopyed(false), 2500);
+    }
+  };
+
+  return (
+    <button
+      type="button"
+      title={title}
+      className={active ? `${styles.button} ${styles.button_active}` : styles.button}
+      onClick={handleClick}
+      disabled={loading}
+    >
+      {loading ? <div className={styles.button_loader} /> : <img src={src[icon]} alt={icon} />}
+      {copyed && <div className={styles.copy__msg}>Copyed!</div>}
+    </button>
+  );
+}
