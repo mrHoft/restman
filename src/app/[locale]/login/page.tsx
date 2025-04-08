@@ -1,5 +1,5 @@
 import Login from '~/components/login/login';
-import { Locale } from '~/i18n-config';
+import type { Locale } from '~/i18n-config';
 import { getDictionary } from '../dictionaries';
 
 export default async function PageLogin({ params }: { params: Promise<{ locale: Locale; slug?: string[] }> }) {

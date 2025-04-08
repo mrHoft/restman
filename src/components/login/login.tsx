@@ -57,7 +57,7 @@ export default function Login({ dict, locale }: { dict: Record<string, string>; 
           <button className="button" type="submit">
             {dict.submit}
           </button>
-          <Link href={`${locale}/register`} className="button" type="submit">
+          <Link href={`/${locale}/register`} className="button" type="submit">
             {dict.buttonToRegister}
           </Link>
         </div>
