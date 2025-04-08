@@ -43,6 +43,7 @@ export function InputPassword({ name, placeholder }: { name: string; placeholder
           placeholder=" "
           pattern={PATTERN.password}
           onInput={handleInput}
+          title="8 characters, 1 lowercase, 1 uppercase, 1 number, 1 special character"
           required
         />
         <div ref={strength} className={styles.password__strength} />
