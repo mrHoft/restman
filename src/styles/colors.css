@@ -1,18 +1,17 @@
 :root {
-  --border-radius: 0.375rem;
   --color-scheme: 0;
-  --color00: #040608;
-  --color10: #0a1a2a;
-  --color20: #1a2a3a;
-  --color20a: #1a2a3a88;
-  --color30: #2a3a4a;
-  --color40: #3e4e5e;
-  --color50: #586878;
-  --color60: #728292;
-  --color70: #8d9dad;
-  --color80: #a9b9c9;
-  --color90: #b4c4e4;
-  --color100: #fff;
+  --color00: #191716;
+  --color10: #2d2a28;
+  --color20: #403a38;
+  --color20a: #403a3888;
+  --color30: #4c4643;
+  --color40: #655e5a;
+  --color50: #7f7671;
+  --color60: #988d87;
+  --color70: #b1a59e;
+  --color80: #cbbeb4;
+  --color90: #e0d4cb;
+  --color100: #fef7f3;
   --color-accent50: #1c5d80;
   --color-accent60: #2c7da0;
   --color-accent80: #3596c0;
@@ -29,18 +28,18 @@
 @media (prefers-color-scheme: light) {
   :root {
     --color-scheme: 1;
-    --color00: #fff;
-    --color10: #f5f5f5;
-    --color20: #e0e0e0;
-    --color20a: #e0e0e088;
-    --color30: #b8b8b8;
-    --color40: #999;
-    --color50: #7a7a7a;
-    --color60: #5c5c5c;
-    --color70: #3d3d3d;
-    --color80: #292929;
-    --color90: #141414;
-    --color100: #000;
+    --color00: #fef7f3;
+    --color10: #e0d4cb;
+    --color20: #cbbeb4;
+    --color20a: #cbbeb488;
+    --color30: #b1a59e;
+    --color40: #988d87;
+    --color50: #7f7671;
+    --color60: #655e5a;
+    --color70: #4c4643;
+    --color80: #322f2d;
+    --color90: #191716;
+    --color100: #161311;
 
     --link-color: #386989;
     --link-color-hover: #4c9ce2;
@@ -54,21 +53,22 @@
 
 :root.theme-light {
   --color-scheme: 1;
-  --color00: #fff;
-  --color10: #f5f5f5;
-  --color20: #e0e0e0;
-  --color30: #b8b8b8;
-  --color40: #999;
-  --color50: #7a7a7a;
-  --color60: #5c5c5c;
-  --color70: #3d3d3d;
-  --color80: #292929;
-  --color90: #141414;
-  --color100: #000;
+  --color00: #fef7f3;
+  --color10: #e0d4cb;
+  --color20: #cbbeb4;
+  --color20a: #cbbeb488;
+  --color30: #b1a59e;
+  --color40: #988d87;
+  --color50: #7f7671;
+  --color60: #655e5a;
+  --color70: #4c4643;
+  --color80: #403a38;
+  --color90: #2d2a28;
+  --color100: #161311;
 
   --link-color: #386989;
   --link-color-hover: #4c9ce2;
-  --color-logo-bg: #2a3a4a;
+  --color-logo-bg: #2d2a28;
 
   --code-tag: #0451ad;
   --code-string: #a31514;

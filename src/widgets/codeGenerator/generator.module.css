@@ -24,7 +24,7 @@
   padding: 0 0.5rem;
   border-radius: var(--border-radius);
   background-color: var(--color10);
-  border: 2px solid var(--color40);
+  border: var(--border-thickness) solid var(--color30);
   cursor: text;
   user-select: text;
   -webkit-user-select: text;

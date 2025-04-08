@@ -7,7 +7,6 @@ import { ButtonSquare } from '~/components/button/square';
 import { Loader } from '~/components/loader/loader';
 import { Message } from '~/components/message/message';
 import { Modal } from '~/components/modal/modal';
-import { Select } from '~/components/select/select';
 import useHistory from '~/entities/useHistory';
 import useVariables from '~/entities/useVariables';
 import type { Locale } from '~/i18n-config';
@@ -41,10 +40,10 @@ export default function RestClient({ dict, locale, initUrl, initBody, initQuery,
   const [body, setBody] = useState(initBody);
   const { getVariables } = useVariables();
 
-  const handleMethodChange = (newMethod: string) => {
+  const handleMethodChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const requestUrl = getRequestUrlString({
       locale,
-      method: newMethod,
+      method: event.target.value,
     });
     router.push(requestUrl);
   };
@@ -93,24 +92,23 @@ export default function RestClient({ dict, locale, initUrl, initBody, initQuery,
     <div className={styles.client}>
       <h1 className={styles.client__title}>{dict.title}</h1>
       <form onSubmit={handleSubmit} className={styles.client__form}>
-        <div>
-          <Select
-            options={[...methods]}
-            name="method"
-            value={method}
-            onChange={value => handleMethodChange(value)}
-            required={true}
-            placeholder={dict.methodPlaceholder}
+        <div className={styles.client__req}>
+          <select name="method" value={method} onChange={handleMethodChange} className={styles.client__method}>
+            {methods.map(item => (
+              <option key={item} value={item}>
+                {item}
+              </option>
+            ))}
+          </select>
+          <input
+            type="text"
+            name="url"
+            value={url}
+            onChange={e => setUrl(e.target.value)}
+            placeholder={dict.urlPlaceholder}
+            className={styles.client__url}
           />
         </div>
-        <input
-          type="text"
-          name="url"
-          value={url}
-          onChange={e => setUrl(e.target.value)}
-          placeholder={dict.urlPlaceholder}
-          className={styles.client__url}
-        />
         <button type="submit" className="button">
           {dict.send}
         </button>
