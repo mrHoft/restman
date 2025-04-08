@@ -25,9 +25,9 @@
 }
 
 .response__status {
-  font-size: 1rem;
-  font-weight: bold;
-  background-color: var(--color20);
   padding: 0.25rem 0.5rem;
   border-radius: var(--border-radius);
+  background-color: var(--color10);
+  display: flex;
+  column-gap: 0.5rem;
 }

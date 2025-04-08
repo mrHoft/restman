@@ -27,7 +27,7 @@ export default async function Page({
         headers: Object.fromEntries(Object.entries(search).map(([k, v]) => [k, v?.toString() ?? ''])),
         body,
       })
-    : { data: '', status: null };
+    : { data: '', status: 0, message: '', lapse: 0 };
 
   return (
     <>
