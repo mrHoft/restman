@@ -2,13 +2,7 @@ import Link from 'next/link';
 
 import styles from './card.module.css';
 
-interface CardProps {
-  image: string;
-  link: string;
-  name: string;
-  role: string;
-  about: string;
-}
+type CardProps = Record<'image' | 'link' | 'name' | 'role' | 'about', string>;
 
 export default function Card({ image, link, name, role, about }: CardProps) {
   return (
