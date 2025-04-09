@@ -58,7 +58,7 @@ export async function Welcome({ dict, locale }: { dict: Record<string, string>; 
             />
 
             <Link className={styles.about__name} href="https://github.com/Unf0rgettab1e">
-              Anton Davydchik
+              Anton Davydchyk
             </Link>
             <div>Role: developer</div>
             <div>Anton worked with such complex tasks as the REST Client page and authorization using Supabase.</div>
