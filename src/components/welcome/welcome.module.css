@@ -1,12 +1,61 @@
-.welcome {
-  min-height: 100%;
+.about {
+  margin: 2rem auto;
+  padding: 0 1rem;
+  max-width: 60rem;
+}
+
+.about__title {
+  text-align: center;
+}
+
+.about__team {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.about__member {
+  padding: 1rem;
+  width: 15rem;
   display: flex;
   flex-direction: column;
   align-items: center;
+  row-gap: 0.5rem;
+  text-align: center;
+  border: var(--border-thickness) solid var(--color30);
+  border-radius: var(--border-radius);
+}
+
+.about__avatar {
+  width: 80%;
+  border-radius: 50%;
+}
+
+.about__name,
+.about__course_link {
+  color: var(--link-color);
+  text-decoration: none;
+
+  &:hover {
+    color: var(--link-color-hover);
+  }
+}
+
+.about__course_link {
+  display: flex;
+  align-items: center;
+  column-gap: 0.5rem;
+}
+
+.about__course {
+  margin: 0.5rem auto;
+  display: flex;
   justify-content: center;
 }
 
-.welcome__link {
-  margin: 0 1rem;
-  text-decoration: none;
+.about__course_logo {
+  width: 3rem;
+  height: 3rem;
 }
