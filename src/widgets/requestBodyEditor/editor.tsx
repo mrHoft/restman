@@ -21,7 +21,7 @@ export default function RequestBodyEditor({ dict, value, onChange, className = '
     if (editorRef.current) {
       editorRef.current.innerText = value;
     }
-  }, [value]);
+  }, []);
 
   const tryParseJson = (data: string) => {
     try {
