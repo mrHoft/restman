@@ -32,7 +32,16 @@
     "history": "History",
     "variables": "Variables",
     "login": "Login",
-    "signUp": "Sign up"
+    "signUp": "Sign up",
+    "aboutProject": "About the project",
+    "projectDescription": "Restman is an application for working with APIs. It supports not only method selection, URL, headers, but also includes history section with previously executed requests and variables section. To start using the application you just need to sign up.",
+    "aboutTeam": "Our team",
+    "roleDeveloper": "Role: developer",
+    "aboutTony": "Anton worked with such complex tasks as the REST Client page and authorization using Supabase.",
+    "roleLeader": "Role: team leader",
+    "aboutHoft": "Nikolay came up with a design solution for the entire project, set it up and competently described all the tasks, monitored the quality of the code, corrected errors and finalized the shortcomings.",
+    "aboutEugeniya": "Eugeniya's main tasks were routing, localization, and also small layout tasks.",
+    "aboutCourse": "This is a free Front-end programming course run by The Rolling Scopes community. Anyone can study at RS School, regardless of age, employment, or location. Developers from various companies and countries contribute to the training. The course is fully online, making quality education accessible worldwide."
   },
   "Variables": {
     "title": "Variables",

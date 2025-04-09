@@ -42,13 +42,9 @@ export async function Welcome({ dict, locale }: { dict: Record<string, string>; 
         )}
       </div>
       <div className={styles.about}>
-        <h3 className={styles.about__title}>About the project</h3>
-        <p>
-          Restman is an application for working with APIs. It supports not only method selection, URL, headers, but also
-          includes history section with previously executed requests and variables section. To start using the
-          application you just need to sign up.
-        </p>
-        <h3 className={styles.about__title}>Our team</h3>
+        <h3 className={styles.about__title}>{dict.aboutProject}</h3>
+        <p>{dict.projectDescription}</p>
+        <h3 className={styles.about__title}>{dict.aboutTeam}</h3>
         <div className={styles.about__team}>
           <div className={styles.about__member}>
             <img
@@ -60,8 +56,8 @@ export async function Welcome({ dict, locale }: { dict: Record<string, string>; 
             <Link className={styles.about__name} href="https://github.com/Unf0rgettab1e">
               Anton Davydchyk
             </Link>
-            <div>Role: developer</div>
-            <div>Anton worked with such complex tasks as the REST Client page and authorization using Supabase.</div>
+            <div>{dict.roleDeveloper}</div>
+            <div>{dict.aboutTony}</div>
           </div>
           <div className={styles.about__member}>
             <img
@@ -73,11 +69,8 @@ export async function Welcome({ dict, locale }: { dict: Record<string, string>; 
             <Link className={styles.about__name} href="https://github.com/mrHoft">
               Nikolay Hoft
             </Link>
-            <div>Role: team leader</div>
-            <div>
-              Nikolay came up with a design solution for the entire project, set it up and competently described all the
-              tasks, monitored the quality of the code, corrected errors and finalized the shortcomings.
-            </div>
+            <div>{dict.roleLeader}</div>
+            <div>{dict.aboutHoft}</div>
           </div>
           <div className={styles.about__member}>
             <img
@@ -89,8 +82,8 @@ export async function Welcome({ dict, locale }: { dict: Record<string, string>; 
             <Link className={styles.about__name} href="https://github.com/EugeniaRe">
               Eugeniya Repnikova
             </Link>
-            <div>Role: developer</div>
-            <div>Eugeniya&apos;s main tasks were routing, localization, and also small layout tasks.</div>
+            <div>{dict.roleDeveloper}</div>
+            <div>{dict.aboutEugeniya}</div>
           </div>
         </div>
         <h3 className={styles.about__title}>RS School</h3>
@@ -105,11 +98,7 @@ export async function Welcome({ dict, locale }: { dict: Record<string, string>; 
               React Course
             </Link>
           </div>
-          <div>
-            This is a free Front-end programming course run by The Rolling Scopes community. Anyone can study at RS
-            School, regardless of age, employment, or location. Developers from various companies and countries
-            contribute to the training. The course is fully online, making quality education accessible worldwide.
-          </div>
+          <div>{dict.aboutCourse}</div>
         </div>
       </div>
     </>
