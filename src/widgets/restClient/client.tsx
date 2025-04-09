@@ -1,12 +1,13 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import type { RestResponse } from '~/app/rest/actions';
 import { ButtonSquare } from '~/components/button/square';
 import { Loader } from '~/components/loader/loader';
 import { Message } from '~/components/message/message';
 import { Modal } from '~/components/modal/modal';
+import { useDebounce } from '~/entities/useDebounce';
 import useHistory from '~/entities/useHistory';
 import useVariables from '~/entities/useVariables';
 import type { Locale } from '~/i18n-config';
@@ -21,16 +22,25 @@ import styles from './client.module.css';
 interface RestClientProps {
   dict: Record<string, string>;
   locale: Locale;
-  method: TMethod;
+  initMethod: TMethod;
   initUrl: string;
   initBody: string;
   initQuery: { [key: string]: string | string[] | undefined };
   response: RestResponse;
 }
 
-export default function RestClient({ dict, locale, initUrl, initBody, initQuery, method, response }: RestClientProps) {
+export default function RestClient({
+  dict,
+  locale,
+  initUrl,
+  initBody,
+  initQuery,
+  initMethod,
+  response,
+}: RestClientProps) {
   const { pushHistory } = useHistory();
   const router = useRouter();
+  const [method, setMethod] = useState(initMethod);
   const [url, setUrl] = useState(initUrl || '');
   const [headers, setHeaders] = useState<HeadersItem[]>(
     initQuery
@@ -39,37 +49,39 @@ export default function RestClient({ dict, locale, initUrl, initBody, initQuery,
   );
   const [body, setBody] = useState(initBody);
   const { getVariables } = useVariables();
-
-  const handleMethodChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    const requestUrl = getRequestUrlString({
+  const replaceVariables = useCallback(
+    (value: string): string => {
+      const variables = getVariables() ?? {};
+      return value.replace(/\{\{(\w+)\}\}/g, (match, variable) => {
+        return variables[variable] ?? match;
+      });
+    },
+    [getVariables]
+  );
+  const activeHeaders = useMemo(
+    () =>
+      headers
+        .filter(h => h.enabled && h.key && h.value)
+        .map(({ key, value, enabled }) => ({ key, value: replaceVariables(value), enabled })),
+    [headers, replaceVariables]
+  );
+  const debouncedUrl = useDebounce(url);
+  const debouncedHeaders = useDebounce(activeHeaders);
+  const requestPath = useMemo(() => {
+    return getRequestUrlString({
       locale,
-      method: event.target.value,
+      method,
+      url: replaceVariables(debouncedUrl),
+      body: replaceVariables(body),
+      headers: debouncedHeaders,
     });
-    router.push(requestUrl);
-  };
+  }, [locale, method, debouncedUrl, body, debouncedHeaders, replaceVariables]);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     Loader.show();
-    const variables = getVariables() ?? {};
-    const replaceVariables = (value: string) => {
-      return value.replace(/\{\{(\w+)\}\}/g, (match, variable) => {
-        return variables[variable] ?? match;
-      });
-    };
-    const activeHeaders = headers
-      .filter(h => h.enabled && h.key && h.value)
-      .map(({ key, value }) => ({ key, value: replaceVariables(value) }));
-    const requestUrl = getRequestUrlString({
-      locale,
-      method,
-      url: replaceVariables(url),
-      body: replaceVariables(body),
-      headers: activeHeaders,
-    });
-
-    pushHistory({ method, url: requestUrl, date: Date.now() });
-    router.push(requestUrl);
+    pushHistory({ method, url: requestPath, date: Date.now() });
+    router.push(requestPath);
   };
 
   const handleNavigate = (url: string) => () => {
@@ -78,8 +90,12 @@ export default function RestClient({ dict, locale, initUrl, initBody, initQuery,
   };
 
   const handleCodeGenerator = () => {
-    Modal.show(<CodeGenerator dict={dict} method={method} url={url} body={body} headers={headers} />);
+    Modal.show(<CodeGenerator dict={dict} method={method} url={url} body={body} headers={activeHeaders} />);
   };
+
+  useEffect(() => {
+    history.replaceState(null, '', requestPath);
+  }, [requestPath]);
 
   useEffect(() => {
     Loader.hide();
@@ -93,7 +109,12 @@ export default function RestClient({ dict, locale, initUrl, initBody, initQuery,
       <h1 className={styles.client__title}>{dict.title}</h1>
       <form onSubmit={handleSubmit} className={styles.client__form}>
         <div className={styles.client__req}>
-          <select name="method" value={method} onChange={handleMethodChange} className={styles.client__method}>
+          <select
+            name="method"
+            value={method}
+            onChange={e => setMethod(e.target.value as TMethod)}
+            className={styles.client__method}
+          >
             {methods.map(item => (
               <option key={item} value={item}>
                 {item}
@@ -119,7 +140,7 @@ export default function RestClient({ dict, locale, initUrl, initBody, initQuery,
         <ButtonSquare icon="hash" title="Variables" onClick={handleNavigate('/variables')} />
       </div>
       <HeadersEditor dict={dict} headers={headers} setHeaders={setHeaders} />
-      <RequestBodyEditor dict={dict} value={body} onChange={setBody} />
+      <RequestBodyEditor dict={dict} value={body} onBlur={setBody} />
       {response.data && (
         <ResponseViewer
           dict={dict}
