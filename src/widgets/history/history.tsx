@@ -32,7 +32,7 @@ export default function History({ dict, locale }: { dict: Record<string, string>
 
   useEffect(() => {
     Loader.hide();
-  });
+  }, []);
 
   const setPage = (page: number) => {
     router.push(`${pathname}?page=${page + 1}`);
@@ -60,6 +60,7 @@ export default function History({ dict, locale }: { dict: Record<string, string>
         <div className={styles.history__empty}>
           {dict.empty}{' '}
           <Link
+            scroll={false}
             className={styles.history__client_link}
             href={{
               pathname: `/${locale}/client/GET`,

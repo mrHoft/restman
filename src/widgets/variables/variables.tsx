@@ -1,9 +1,9 @@
 'use client';
 
 import { useEffect, useMemo, useState } from 'react';
+import { Loader } from '~/components/loader/loader';
 import useVariables from '~/entities/useVariables';
 
-import { Loader } from '~/components/loader/loader';
 import styles from './variables.module.css';
 
 const initialVariablesState = [{ '': '' }];
@@ -14,7 +14,7 @@ export default function Variables({ dict }: { dict: Record<string, string> }) {
   const [vars, setVars] = useState<Record<string, string>[]>(initialVariablesState);
   useEffect(() => {
     Loader.hide();
-  });
+  }, []);
 
   useEffect(() => {
     const storedVariables = getVariables();

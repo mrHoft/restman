@@ -47,7 +47,7 @@ export default function About({ dict }: { dict: Record<string, string> }) {
       <h3 className={styles.about__title}>RS School</h3>
       <div>
         <div className={styles.about__course}>
-          <Link className={styles.about__course_link} href="https://rs.school/courses/reactjs">
+          <Link scroll={false} className={styles.about__course_link} href="https://rs.school/courses/reactjs">
             <img
               className={styles.about__course_logo}
               src="https://rs.school/_next/static/media/react.5b830964.svg"

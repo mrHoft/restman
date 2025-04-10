@@ -47,7 +47,7 @@ export default function Login({ dict, locale }: { dict: Record<string, string>; 
 
   useEffect(() => {
     Loader.hide();
-  });
+  }, []);
 
   return (
     <div className={form.container}>
@@ -61,7 +61,7 @@ export default function Login({ dict, locale }: { dict: Record<string, string>; 
           <button className="button" type="submit">
             {dict.submit}
           </button>
-          <Link href={`/${locale}/register`} className="button" type="submit">
+          <Link scroll={false} href={`/${locale}/register`} className="button" type="submit">
             {dict.buttonToRegister}
           </Link>
         </div>
