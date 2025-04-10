@@ -65,11 +65,8 @@ export async function register(data: { email: string; password: string }) {
 
 export async function signout() {
   const supabase = await createClient();
-
-  if (userHolder.user) {
-    await supabase.auth.signOut();
-    userHolder.user = null;
-  }
+  await supabase.auth.signOut();
+  userHolder.user = null;
 }
 
 export async function getUser() {
