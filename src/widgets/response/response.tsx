@@ -1,4 +1,4 @@
-import { prettify } from '~/utils/pretty';
+import { CodeEditor } from '../codeEditor/editor';
 
 import styles from './response.module.css';
 
@@ -12,8 +12,8 @@ interface ResponseViewerProps {
 
 export function ResponseViewer({ dict, data, status, message, lapse }: ResponseViewerProps) {
   return (
-    <section className={styles.response}>
-      <div className={styles.response__header}>
+    <section className={styles.response} aria-label="response">
+      <div className={styles.response__controls}>
         <h3>{dict.response}</h3>
         {status && (
           <div className={styles.response__status}>
@@ -23,7 +23,7 @@ export function ResponseViewer({ dict, data, status, message, lapse }: ResponseV
           </div>
         )}
       </div>
-      <div className={styles.response__body}>{prettify(data).result}</div>
+      <CodeEditor name="response" value={data} readonly prettify />
     </section>
   );
 }

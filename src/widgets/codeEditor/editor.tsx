@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { prettifyString, sanitize } from '~/utils/pretty';
 import { ButtonCopy } from './copy';
 import { ButtonPrettify } from './prettify';
@@ -16,7 +16,7 @@ interface CodeEditorProps {
   onBlur?: (value: string) => void;
 }
 
-export default function CodeEditor({ value, name, prettify = false, readonly, onInput, onBlur }: CodeEditorProps) {
+export function CodeEditor({ value, name, prettify = false, readonly, onInput, onBlur }: CodeEditorProps) {
   const [numbers, setNumbers] = useState<{ index: number; height?: number }[]>([]);
   const [pretty, setPretty] = useState(prettify);
   const [mode, setMode] = useState('plain');
@@ -27,20 +27,15 @@ export default function CodeEditor({ value, name, prettify = false, readonly, on
   });
   const ref = useRef<HTMLPreElement>(null);
 
-  const updateNumbers = useCallback(
-    (text: string) => {
-      const lines = text.split('\n');
-      if (lines.length !== numbers.length) {
-        const arr = Array.from(lines).map((_, index) => {
-          return { index };
-        });
-        setNumbers(arr);
-      }
-    },
-    [numbers.length]
-  );
+  const updateNumbers = (text: string) => {
+    const lines = text.split('\n');
+    const arr = Array.from(lines).map((_, index) => {
+      return { index };
+    });
+    setNumbers(arr);
+  };
 
-  const updateCode = useCallback(() => {
+  const updateCode = () => {
     if (ref.current) {
       if (pretty) {
         const { format, result } = prettifyString(code.text);
@@ -58,7 +53,7 @@ export default function CodeEditor({ value, name, prettify = false, readonly, on
         ref.current.innerHTML = sanitize(code.text);
       }
     }
-  }, [code.caret, code.text, pretty]);
+  };
 
   const handleInput = (e: React.FormEvent<HTMLPreElement>) => {
     const text = e.currentTarget.innerText;
@@ -92,16 +87,18 @@ export default function CodeEditor({ value, name, prettify = false, readonly, on
   useEffect(() => {
     updateCode();
     if (!pretty) setMode('plain');
-  }, [pretty, code, updateCode]);
+  }, [pretty]);
 
   useEffect(() => {
-    setCode({
-      text: value,
-      lines: value.split('\n').length,
-      caret: { nodeIndex: 0, offset: 0 },
-    });
-    updateNumbers(value);
-  }, [value, updateNumbers]);
+    if (value) {
+      setCode({
+        text: value,
+        lines: value.split('\n').length,
+        caret: { nodeIndex: 0, offset: 0 },
+      });
+      updateNumbers(value);
+    }
+  }, [value]);
 
   return (
     <div className={styles.editor}>

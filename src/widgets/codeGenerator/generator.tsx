@@ -1,9 +1,9 @@
 'use client';
 
 import React from 'react';
-import { ButtonSquare } from '~/components/button/square';
 import { Select } from '~/components/select/select';
 import { generateCode, type TRuntime } from '~/utils/generator';
+import { CodeEditor } from '~/widgets/codeEditor/editor';
 import type { HeadersItem } from '~/widgets/headersEditor/editor';
 
 import styles from './generator.module.css';
@@ -21,14 +21,15 @@ interface GeneratorProps {
 export function CodeGenerator({ dict, method, url, body, headers }: GeneratorProps) {
   const [runtime, setRuntime] = React.useState<TRuntime>('curl');
   const fullUrl = !url.startsWith('http') ? `https://${url}` : url;
+
   const handleChange = (value: string) => {
     setRuntime(value as TRuntime);
   };
 
   return (
-    <div className={styles.generator}>
-      <h3 className={styles.generator__title}>{dict.code}</h3>
+    <section className={styles.generator} aria-label="code generator">
       <div className={styles.generator__controls}>
+        <h3 className={styles.generator__title}>{dict.code}</h3>
         <div style={{ width: '12rem' }}>
           <Select
             options={options}
@@ -38,15 +39,8 @@ export function CodeGenerator({ dict, method, url, body, headers }: GeneratorPro
             onChange={handleChange}
           />
         </div>
-        <ButtonSquare
-          icon="copy"
-          title="Copy to clipboard"
-          onClick={() => navigator.clipboard.writeText(generateCode(runtime, method, fullUrl, body, headers))}
-        />
       </div>
-      <pre className={styles.generator__body}>
-        <code style={{ whiteSpace: 'pre-wrap' }}>{generateCode(runtime, method, fullUrl, body, headers)}</code>
-      </pre>
-    </div>
+      <CodeEditor name="code" value={generateCode(runtime, method, fullUrl, body, headers)} readonly prettify />
+    </section>
   );
 }

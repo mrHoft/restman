@@ -12,9 +12,9 @@ import useHistory from '~/entities/useHistory';
 import useVariables from '~/entities/useVariables';
 import type { Locale } from '~/i18n-config';
 import { getRequestUrlString, methods, type TMethod } from '~/utils/rest';
+import { CodeEditor } from '~/widgets/codeEditor/editor';
 import { CodeGenerator } from '~/widgets/codeGenerator/generator';
 import HeadersEditor, { HeadersItem } from '~/widgets/headersEditor/editor';
-import RequestBodyEditor from '~/widgets/requestBodyEditor/editor';
 import { ResponseViewer } from '~/widgets/response/response';
 
 import styles from './client.module.css';
@@ -143,7 +143,10 @@ export default function RestClient({
         <ButtonSquare icon="hash" title="Variables" onClick={handleNavigate('/variables')} />
       </div>
       <HeadersEditor dict={dict} headers={headers} setHeaders={setHeaders} />
-      <RequestBodyEditor dict={dict} value={body} onBlur={setBody} />
+      <section aria-label="body">
+        <h3 className={styles.client__section_title}>{dict.body}</h3>
+        <CodeEditor name="body" value={body} onBlur={setBody} />
+      </section>
       {response.data && (
         <ResponseViewer
           dict={dict}
@@ -153,6 +156,7 @@ export default function RestClient({
           lapse={response.lapse}
         />
       )}
+      <CodeGenerator dict={dict} method={method} url={url} body={body} headers={activeHeaders} />
     </div>
   );
 }

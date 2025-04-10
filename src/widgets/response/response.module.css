@@ -13,14 +13,15 @@
   overflow: auto;
 }
 
-.response__header {
+.response__controls {
+  margin-bottom: 0.25rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
-.response__header > h3 {
-  margin: 0 0 0.5rem;
+.response__controls > h3 {
+  margin: 0 0 0.25rem;
   font-size: 1.2rem;
 }
 
