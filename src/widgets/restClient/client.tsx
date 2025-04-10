@@ -19,15 +19,27 @@ import { ResponseViewer } from '~/widgets/response/response';
 
 import styles from './client.module.css';
 
+type TQuery = { [key: string]: string | string[] | undefined };
 interface RestClientProps {
   dict: Record<string, string>;
   locale: Locale;
   initMethod: TMethod;
   initUrl: string;
   initBody: string;
-  initQuery: { [key: string]: string | string[] | undefined };
+  initQuery: TQuery;
   response: RestResponse;
 }
+
+const getInitialHeaders = (query: TQuery) => {
+  const defaultHeader = { key: '', value: '', enabled: true };
+
+  return query
+    ? [
+        ...Object.entries(query).map(([key, value]) => ({ key, value: value?.toString() ?? '', enabled: true })),
+        defaultHeader,
+      ]
+    : [defaultHeader];
+};
 
 export default function RestClient({
   dict,
@@ -42,11 +54,7 @@ export default function RestClient({
   const router = useRouter();
   const [method, setMethod] = useState(initMethod);
   const [url, setUrl] = useState(initUrl || '');
-  const [headers, setHeaders] = useState<HeadersItem[]>(
-    initQuery
-      ? Object.entries(initQuery).map(([key, value]) => ({ key, value: value?.toString() ?? '', enabled: true }))
-      : []
-  );
+  const [headers, setHeaders] = useState<HeadersItem[]>(getInitialHeaders(initQuery));
   const [body, setBody] = useState(initBody);
   const { getVariables } = useVariables();
   const variables = useMemo(() => getVariables() ?? {}, [getVariables]);
@@ -143,10 +151,12 @@ export default function RestClient({
         <ButtonSquare icon="hash" title="Variables" onClick={handleNavigate('/variables')} />
       </div>
       <HeadersEditor dict={dict} headers={headers} setHeaders={setHeaders} />
-      <section aria-label="body">
-        <h3 className={styles.client__section_title}>{dict.body}</h3>
-        <CodeEditor name="body" value={body} onBlur={setBody} />
-      </section>
+      {method !== 'GET' && method !== 'DELETE' && (
+        <section aria-label="body">
+          <h3 className={styles.client__section_title}>{dict.body}</h3>
+          <CodeEditor name="body" value={body} onBlur={setBody} />
+        </section>
+      )}
       {response.data && (
         <ResponseViewer
           dict={dict}

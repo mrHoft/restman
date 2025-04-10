@@ -13,7 +13,9 @@ export interface RequestParams {
 
 export function getRequestUrlString({ locale, method, url = '', body = '', headers = [] }: RequestParams): string {
   const queryString = headers.map(({ key, value }) => `${key}=${value}`).join('&');
-  return `/${locale}/client/${method}/${base64Encode(url.trim()) || ''}/${base64Encode(body) || ''}?${queryString}`;
+  const bodyEncoded = body && method !== 'GET' && method !== 'DELETE' ? `/${base64Encode(body)}` : '';
+
+  return `/${locale}/client/${method}/${base64Encode(url.trim()) || ''}${bodyEncoded}?${queryString}`;
 }
 
 export const isMethod = (method: string): method is TMethod => methods.includes(method as TMethod);
