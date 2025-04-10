@@ -49,14 +49,14 @@ export default function RestClient({
   );
   const [body, setBody] = useState(initBody);
   const { getVariables } = useVariables();
+  const variables = useMemo(() => getVariables() ?? {}, [getVariables]);
   const replaceVariables = useCallback(
     (value: string): string => {
-      const variables = getVariables() ?? {};
       return value.replace(/\{\{(\w+)\}\}/g, (match, variable) => {
         return variables[variable] ?? match;
       });
     },
-    [getVariables]
+    [variables]
   );
   const activeHeaders = useMemo(
     () =>
