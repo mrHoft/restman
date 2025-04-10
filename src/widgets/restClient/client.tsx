@@ -98,10 +98,13 @@ export default function RestClient({
   }, [requestPath]);
 
   useEffect(() => {
-    Loader.hide();
     if (response.error) {
       Message.show(response.error, 'error');
     }
+  }, [response]);
+
+  useEffect(() => {
+    Loader.hide();
   });
 
   return (
