@@ -12,9 +12,11 @@ export default function Variables({ dict }: { dict: Record<string, string> }) {
   const { setVariable, getVariables, setAllVariables } = useVariables();
 
   const [vars, setVars] = useState<Record<string, string>[]>(initialVariablesState);
-
   useEffect(() => {
     Loader.hide();
+  });
+
+  useEffect(() => {
     const storedVariables = getVariables();
     if (storedVariables) {
       const newVariables = Object.entries(storedVariables).map(([name, value]) => ({ [name]: value }));

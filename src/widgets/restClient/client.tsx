@@ -102,7 +102,7 @@ export default function RestClient({
     if (response.error) {
       Message.show(response.error, 'error');
     }
-  }, [response]);
+  });
 
   return (
     <div className={styles.client}>

@@ -20,7 +20,7 @@ interface GeneratorProps {
 
 export function CodeGenerator({ dict, method, url, body, headers }: GeneratorProps) {
   const [runtime, setRuntime] = React.useState<TRuntime>('curl');
-
+  const fullUrl = !url.startsWith('http') ? `https://${url}` : url;
   const handleChange = (value: string) => {
     setRuntime(value as TRuntime);
   };
@@ -41,11 +41,11 @@ export function CodeGenerator({ dict, method, url, body, headers }: GeneratorPro
         <ButtonSquare
           icon="copy"
           title="Copy to clipboard"
-          onClick={() => navigator.clipboard.writeText(generateCode(runtime, method, url, body, headers))}
+          onClick={() => navigator.clipboard.writeText(generateCode(runtime, method, fullUrl, body, headers))}
         />
       </div>
       <pre className={styles.generator__body}>
-        <code style={{ whiteSpace: 'pre-wrap' }}>{generateCode(runtime, method, url, body, headers)}</code>
+        <code style={{ whiteSpace: 'pre-wrap' }}>{generateCode(runtime, method, fullUrl, body, headers)}</code>
       </pre>
     </div>
   );

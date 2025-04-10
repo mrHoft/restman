@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { login } from '~/app/auth/actions';
 import { InputEmail, InputPassword } from '~/components/input';
 import { Loader } from '~/components/loader/loader';
@@ -44,6 +44,10 @@ export default function Login({ dict, locale }: { dict: Record<string, string>; 
       if (success) redirect(`/${locale}`);
     });
   };
+
+  useEffect(() => {
+    Loader.hide();
+  });
 
   return (
     <div className={form.container}>
