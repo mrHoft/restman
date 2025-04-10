@@ -35,7 +35,7 @@
     "signUp": "Sign up"
   },
   "About": {
-    "aboutProject": "About the project",
+    "aboutProject": "About this project",
     "projectDescription": "Restman is an application for working with API requests. It supports method selection, URL, headers, includes history with previously executed requests and variables section. To start using the application you need to sign up.",
     "aboutTeam": "Our team",
     "roleDeveloper": "Role: developer",
