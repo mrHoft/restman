@@ -24,12 +24,15 @@ export default function History({ dict, locale }: { dict: Record<string, string>
   );
 
   useEffect(() => {
-    Loader.hide();
     const storedHistory = getHistory();
     if (storedHistory) {
       setHistory(storedHistory.sort((a, b) => b.date - a.date));
     }
   }, [getHistory]);
+
+  useEffect(() => {
+    Loader.hide();
+  }, []);
 
   const setPage = (page: number) => {
     router.push(`${pathname}?page=${page + 1}`);
@@ -44,7 +47,7 @@ export default function History({ dict, locale }: { dict: Record<string, string>
           {currentHistory.map((item, index) => (
             <div key={index} className={styles.history__item}>
               <div>{item.method}</div>
-              <Link className={styles.history__url} href={`${item.url}`}>
+              <Link scroll={false} className={styles.history__url} href={`${item.url}`}>
                 {item.url}
               </Link>
             </div>
@@ -57,6 +60,7 @@ export default function History({ dict, locale }: { dict: Record<string, string>
         <div className={styles.history__empty}>
           {dict.empty}{' '}
           <Link
+            scroll={false}
             className={styles.history__client_link}
             href={{
               pathname: `/${locale}/client/GET`,

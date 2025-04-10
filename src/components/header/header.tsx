@@ -31,17 +31,17 @@ export function Header({
 
   return (
     <header className={isSticky ? `${styles.header} ${styles.header_sticky}` : styles.header}>
-      <Link href={`/${locale}`} className={styles.header__title}>
+      <Link scroll={false} href={`/${locale}`} className={styles.header__title}>
         <div className={styles.header__logo} />
         <h3 className={styles.header__title_text}>Restman</h3>
       </Link>
       <div className={styles.header__right}>
         {user ? (
-          <Link href={`/${locale}`} className={`button ${styles.header__link}`}>
+          <Link scroll={false} href={`/${locale}`} className={`button ${styles.header__link}`}>
             {dict.mainPage}
           </Link>
         ) : (
-          <Link href={`/${locale}/register`} className={`button ${styles.header__link}`}>
+          <Link scroll={false} href={`/${locale}/register`} className={`button ${styles.header__link}`}>
             {dict.signUp}
           </Link>
         )}

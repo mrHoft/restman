@@ -14,13 +14,13 @@ export async function Welcome({ dict, locale }: { dict: Record<string, string>; 
             {dict.greetingWithUser} {user.email}!
           </h2>
           <div className="align_center">
-            <Link href={`${locale}/client/GET`} className="button">
+            <Link scroll={false} href={`${locale}/client/GET`} className="button">
               {dict.restClient}
             </Link>
-            <Link href={`${locale}/history`} className="button">
+            <Link scroll={false} href={`${locale}/history`} className="button">
               {dict.history}
             </Link>
-            <Link href={`${locale}/variables`} className="button">
+            <Link scroll={false} href={`${locale}/variables`} className="button">
               {dict.variables}
             </Link>
           </div>
@@ -29,10 +29,10 @@ export async function Welcome({ dict, locale }: { dict: Record<string, string>; 
         <>
           <h2 className={form.title}>{dict.greetingWithoutUser}</h2>
           <div className="align_center">
-            <Link href={`${locale}/login`} className="button">
+            <Link scroll={false} href={`${locale}/login`} className="button">
               {dict.login}
             </Link>
-            <Link href={`${locale}/register`} className="button">
+            <Link scroll={false} href={`${locale}/register`} className="button">
               {dict.signUp}
             </Link>
           </div>

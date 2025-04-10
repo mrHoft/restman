@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { login } from '~/app/auth/actions';
 import { InputEmail, InputPassword } from '~/components/input';
 import { Loader } from '~/components/loader/loader';
@@ -45,6 +45,10 @@ export default function Login({ dict, locale }: { dict: Record<string, string>; 
     });
   };
 
+  useEffect(() => {
+    Loader.hide();
+  }, []);
+
   return (
     <div className={form.container}>
       <h1 className={form.title}>{dict.title}</h1>
@@ -57,7 +61,7 @@ export default function Login({ dict, locale }: { dict: Record<string, string>; 
           <button className="button" type="submit">
             {dict.submit}
           </button>
-          <Link href={`/${locale}/register`} className="button" type="submit">
+          <Link scroll={false} href={`/${locale}/register`} className="button" type="submit">
             {dict.buttonToRegister}
           </Link>
         </div>

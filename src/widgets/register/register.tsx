@@ -1,6 +1,6 @@
 'use client';
 import { redirect } from 'next/navigation';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { register } from '~/app/auth/actions';
 import { InputEmail, InputPassword } from '~/components/input';
 import { Loader } from '~/components/loader/loader';
@@ -42,6 +42,10 @@ export default function Register({ dict, locale }: { dict: Record<string, string
       if (success) redirect(`/${locale}/login`);
     });
   };
+
+  useEffect(() => {
+    Loader.hide();
+  }, []);
 
   return (
     <div className={form.container}>

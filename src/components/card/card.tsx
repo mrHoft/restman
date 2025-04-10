@@ -9,7 +9,7 @@ export default function Card({ data }: { data: TCardProps }) {
     <div className={styles.card}>
       <img className={styles.card__avatar} src={data.image} alt="avatar" />
 
-      <Link className={styles.card__name} href={data.link}>
+      <Link scroll={false} className={styles.card__name} href={data.link}>
         {data.name}
       </Link>
       <div>{data.role}</div>

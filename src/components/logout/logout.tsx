@@ -19,7 +19,7 @@ export function ButtonLogout({ dict, locale, user }: ButtonLogoutProps) {
   };
   if (!user)
     return (
-      <Link href={`/${locale}/login`}>
+      <Link scroll={false} href={`/${locale}/login`}>
         <button className={`button ${styles.sign} ${styles.in}`}>{dict.login}</button>
       </Link>
     );
