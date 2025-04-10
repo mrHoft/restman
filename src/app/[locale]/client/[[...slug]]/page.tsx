@@ -37,7 +37,7 @@ export default async function Page({
         <RestClient
           dict={dict.Client}
           locale={locale}
-          method={reqMethod}
+          initMethod={reqMethod}
           initUrl={url}
           initBody={body}
           initQuery={search}

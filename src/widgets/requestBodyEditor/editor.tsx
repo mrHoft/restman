@@ -8,11 +8,11 @@ import styles from './editor.module.css';
 interface RequestBodyEditorProps {
   dict: Record<string, string>;
   value: string;
-  onChange: (value: string) => void;
+  onBlur: (value: string) => void;
   className?: string;
 }
 
-export default function RequestBodyEditor({ dict, value, onChange, className = '' }: RequestBodyEditorProps) {
+export default function RequestBodyEditor({ dict, value, onBlur, className = '' }: RequestBodyEditorProps) {
   const modeOptions = ['json', 'text'];
   const [mode, setMode] = useState('json');
   const editorRef = useRef<HTMLDivElement>(null);
@@ -36,14 +36,14 @@ export default function RequestBodyEditor({ dict, value, onChange, className = '
     if (mode === 'json' && value && editorRef.current) {
       const formatted = tryParseJson(value);
       if (formatted) {
-        onChange(formatted);
+        onBlur(formatted);
         editorRef.current.innerText = formatted;
       }
     }
   };
 
-  const handleInput = (e: React.ChangeEvent<HTMLDivElement>) => {
-    onChange(e.target.innerText);
+  const handleEditorBlur = (e: React.ChangeEvent<HTMLDivElement>) => {
+    onBlur(e.target.innerText);
   };
 
   return (
@@ -68,7 +68,7 @@ export default function RequestBodyEditor({ dict, value, onChange, className = '
       <div
         ref={editorRef}
         contentEditable="true"
-        onInput={handleInput}
+        onBlur={handleEditorBlur}
         className={styles.editor}
         suppressContentEditableWarning
       />
