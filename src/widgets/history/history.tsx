@@ -42,6 +42,7 @@ export default function History({ dict, locale }: { dict: Record<string, string>
     setHistory([]);
     clearHistory();
   };
+
   const handleRemove = (date: number) => {
     const newHistory = history.filter(el => el.date !== date);
     setHistory(newHistory);
