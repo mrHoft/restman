@@ -40,7 +40,7 @@ export function CodeGenerator({ dict, method, url, body, headers }: GeneratorPro
           />
         </div>
       </div>
-      <CodeEditor name="code" value={generateCode(runtime, method, fullUrl, body, headers)} readonly prettify />
+      <CodeEditor name="code" data={generateCode(runtime, method, fullUrl, body, headers)} readonly prettify />
     </section>
   );
 }

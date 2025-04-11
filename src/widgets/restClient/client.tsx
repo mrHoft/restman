@@ -151,21 +151,11 @@ export default function RestClient({
         <ButtonSquare icon="hash" title="Variables" onClick={handleNavigate('/variables')} />
       </div>
       <HeadersEditor dict={dict} headers={headers} setHeaders={setHeaders} />
-      {method !== 'GET' && method !== 'DELETE' && (
-        <section aria-label="body">
-          <h3 className={styles.client__section_title}>{dict.body}</h3>
-          <CodeEditor name="body" value={body} onBlur={setBody} />
-        </section>
-      )}
-      {response.data && (
-        <ResponseViewer
-          dict={dict}
-          data={response.data ?? response.message ?? ''}
-          status={response.status}
-          message={response.message}
-          lapse={response.lapse}
-        />
-      )}
+      <section aria-label="body">
+        <h3 className={styles.client__section_title}>{dict.body}</h3>
+        <CodeEditor name="body" data={body} onBlur={setBody} />
+      </section>
+      {response.data && <ResponseViewer dict={dict} response={response} />}
       <CodeGenerator dict={dict} method={method} url={url} body={body} headers={activeHeaders} />
     </div>
   );

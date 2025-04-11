@@ -8,7 +8,7 @@ import { ButtonPrettify } from './prettify';
 import styles from './editor.module.css';
 
 interface CodeEditorProps {
-  value: string;
+  data: string;
   name: string;
   prettify?: boolean;
   readonly?: boolean;
@@ -16,7 +16,7 @@ interface CodeEditorProps {
   onBlur?: (value: string) => void;
 }
 
-export function CodeEditor({ value, name, prettify = false, readonly, onInput, onBlur }: CodeEditorProps) {
+export function CodeEditor({ data, name, prettify = false, readonly, onInput, onBlur }: CodeEditorProps) {
   const [numbers, setNumbers] = useState<{ index: number; height?: number }[]>([]);
   const [pretty, setPretty] = useState(prettify);
   const [mode, setMode] = useState('plain');
@@ -36,21 +36,33 @@ export function CodeEditor({ value, name, prettify = false, readonly, onInput, o
   };
 
   const updateCode = () => {
-    if (ref.current) {
-      if (pretty) {
-        const { format, result } = prettifyString(code.text);
-        setMode(format);
-        ref.current.innerHTML = result.join('\n');
+    if (ref.current && pretty) {
+      const { format, result } = prettifyString(code.text);
+      setMode(format);
+      ref.current.innerHTML = result.join('\n');
+      if (!readonly) {
         const selection = window.getSelection();
         if (selection && ref.current && code.caret.nodeIndex !== -1) {
           const node = ref.current.childNodes[code.caret.nodeIndex];
           const offset = Math.min(node?.textContent?.length ?? 0, code.caret.offset);
+          console.log(node, offset);
           if (node) {
             selection.setPosition(node, offset);
           }
         }
+      }
+    }
+  };
+
+  const setupCode = (newCode = code) => {
+    console.log('setupCode');
+    if (ref.current) {
+      if (pretty) {
+        const { format, result } = prettifyString(newCode.text);
+        setMode(format);
+        ref.current.innerHTML = result.join('\n');
       } else {
-        ref.current.innerHTML = sanitize(code.text);
+        ref.current.innerHTML = sanitize(newCode.text);
       }
     }
   };
@@ -86,19 +98,25 @@ export function CodeEditor({ value, name, prettify = false, readonly, onInput, o
 
   useEffect(() => {
     updateCode();
+  }, [code.text]);
+
+  useEffect(() => {
+    setupCode(code);
     if (!pretty) setMode('plain');
   }, [pretty]);
 
   useEffect(() => {
-    if (value) {
-      setCode({
-        text: value,
-        lines: value.split('\n').length,
+    if (data) {
+      const newCode = {
+        text: data,
+        lines: data.split('\n').length,
         caret: { nodeIndex: 0, offset: 0 },
-      });
-      updateNumbers(value);
+      };
+      setCode(newCode);
+      setupCode(newCode);
+      updateNumbers(data);
     }
-  }, [value]);
+  }, [data]);
 
   return (
     <div className={styles.editor}>

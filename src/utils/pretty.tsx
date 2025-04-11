@@ -7,7 +7,7 @@ const getLineNumber = (i: number) => {
 };
 
 export function sanitize(text: string) {
-  return text.replaceAll('<', '&lt;').replaceAll('>', '&gt;').replaceAll('"', '&quot;');
+  return text.replaceAll('<', '&lt;').replaceAll('>', '&gt;');
 }
 
 export function PrettyJson({ data }: { data: string }) {
@@ -100,7 +100,7 @@ export function prettify(data: string) {
     return { format: 'JSON', result: <PrettyJson data={data} /> };
   }
   if (data.startsWith('<')) {
-    return { format: 'HTML', result: <PrettyHtml data={data} /> };
+    return { format: 'XML', result: <PrettyHtml data={data} /> };
   }
   return { format: 'plain', result: <pre>{data}</pre> };
 }
@@ -165,7 +165,7 @@ export function prettyHtmlString(data: string) {
       const prev = line.slice(0, index);
       const rest = line.slice(index + match[0].length);
       const last = prettifyLine(rest);
-      return `${prev}<span style="color: var(--code-tag);">${sanitize(replaceValues(match[0]))}</span>${last}`;
+      return `${prev}<span style="color: var(--code-tag);">${replaceValues(sanitize(match[0]))}</span>${last}`;
     }
     return line;
   };
@@ -184,11 +184,11 @@ export function prettyHtmlString(data: string) {
 }
 
 export function prettifyString(data: string): { format: string; result: string[] } {
-  if (data.startsWith('{') || data.startsWith('[')) {
+  if (data.trimStart().startsWith('{') || data.trimStart().startsWith('[')) {
     return PrettyJsonString(data);
   }
-  if (data.startsWith('<')) {
-    return { format: 'HTML', result: prettyHtmlString(data) };
+  if (data.trimStart().startsWith('<')) {
+    return { format: 'XML', result: prettyHtmlString(data) };
   }
   return { format: 'plain', result: data.split('\n') };
 }
