@@ -71,6 +71,7 @@
   },
   "History": {
     "title": "History Requests",
+    "clear": "Clear history",
     "empty": "History is empty. It's time to",
     "linkToClient": "make your first request!"
   }
