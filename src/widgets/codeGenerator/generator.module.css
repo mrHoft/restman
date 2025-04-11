@@ -1,16 +1,15 @@
 .generator {
-  margin-top: -2rem;
   display: flex;
   flex-direction: column;
-  width: 80vw;
 }
 
 .generator__title {
   font-size: 1.2rem;
-  text-align: center;
+  margin: 0 0 0.25rem;
 }
 
 .generator__controls {
+  margin-bottom: 0.25rem;
   display: flex;
   justify-content: space-between;
   align-items: flex-end;

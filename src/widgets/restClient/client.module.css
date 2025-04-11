@@ -14,6 +14,11 @@
   text-align: center;
 }
 
+.client__section_title {
+  font-size: 1.2rem;
+  margin: 0 0 0.25rem;
+}
+
 .client__form {
   display: flex;
   gap: 0.4rem;
