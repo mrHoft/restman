@@ -42,8 +42,8 @@ export default function History({ dict, locale }: { dict: Record<string, string>
     setHistory([]);
     clearHistory();
   };
-  const handleRemove = (index: number) => {
-    const newHistory = history.filter((_, i) => i !== index);
+  const handleRemove = (date: number) => {
+    const newHistory = history.filter(el => el.date !== date);
     setHistory(newHistory);
     updateHistory(newHistory);
   };
@@ -63,7 +63,7 @@ export default function History({ dict, locale }: { dict: Record<string, string>
               <Link scroll={false} className={styles.history__url} href={`${item.url}`}>
                 {item.url}
               </Link>
-              <button className={styles.history__remove} onClick={() => handleRemove(index)}>
+              <button className={styles.history__remove} onClick={() => handleRemove(item.date)}>
                 <img src="/icons/cross.svg" alt="delete" />
               </button>
             </div>

@@ -13,8 +13,8 @@ export interface HistoryRecord {
 
 const pushHistory = (record: HistoryRecord) => storage.push('history', record);
 const getHistory = () => storage.get<HistoryRecord[]>('history');
-const clearHistory = () => storage.set(`history`, []);
-const updateHistory = (records: HistoryRecord[]) => storage.set(`history`, records);
+const clearHistory = () => storage.set('history', []);
+const updateHistory = (records: HistoryRecord[]) => storage.set('history', records);
 
 export default function useHistory() {
   return { pushHistory, getHistory, clearHistory, updateHistory };
