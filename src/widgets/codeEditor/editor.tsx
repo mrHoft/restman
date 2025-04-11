@@ -45,7 +45,6 @@ export function CodeEditor({ data, name, prettify = false, readonly, onInput, on
         if (selection && ref.current && code.caret.nodeIndex !== -1) {
           const node = ref.current.childNodes[code.caret.nodeIndex];
           const offset = Math.min(node?.textContent?.length ?? 0, code.caret.offset);
-          console.log(node, offset);
           if (node) {
             selection.setPosition(node, offset);
           }
@@ -55,7 +54,6 @@ export function CodeEditor({ data, name, prettify = false, readonly, onInput, on
   };
 
   const setupCode = (newCode = code) => {
-    console.log('setupCode');
     if (ref.current) {
       if (pretty) {
         const { format, result } = prettifyString(newCode.text);
