@@ -12,9 +12,8 @@ export async function createClient() {
       setAll(cookiesToSet) {
         try {
           cookiesToSet.forEach(({ name, value, options }) => cookieStore.set(name, value, options));
-        } catch (error) {
-          // TODO: Handle or just hide this stupid error (cookies can not be set on server side)
-          console.log('Annoying error: ', error instanceof Error ? error.message : error);
+        } catch {
+          // cookies can not be set on server side
         }
       },
     },

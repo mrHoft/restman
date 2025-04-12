@@ -12,7 +12,7 @@ import styles from './history.module.css';
 export const ItemsForPage = 10;
 
 export default function History({ dict, locale }: { dict: Record<string, string>; locale: string }) {
-  const { getHistory } = useHistory();
+  const { getHistory, clearHistory, updateHistory } = useHistory();
   const [history, setHistory] = useState<HistoryRecord[]>([]);
   const router = useRouter();
   const pathname = usePathname();
@@ -38,18 +38,35 @@ export default function History({ dict, locale }: { dict: Record<string, string>
     router.push(`${pathname}?page=${page + 1}`);
   };
 
+  const handleClear = () => {
+    setHistory([]);
+    clearHistory();
+  };
+
+  const handleRemove = (date: number) => {
+    const newHistory = history.filter(el => el.date !== date);
+    setHistory(newHistory);
+    updateHistory(newHistory);
+  };
+
   return (
     <div className={styles.history}>
       <h2 className={styles.history__title}>{dict.title}</h2>
 
       {currentHistory.length > 0 ? (
         <>
+          <button className={`button ${styles.history__clear}`} onClick={handleClear}>
+            {dict.clear}
+          </button>
           {currentHistory.map((item, index) => (
             <div key={index} className={styles.history__item}>
               <div>{item.method}</div>
               <Link scroll={false} className={styles.history__url} href={`${item.url}`}>
                 {item.url}
               </Link>
+              <button className={styles.history__remove} onClick={() => handleRemove(item.date)}>
+                <img src="/icons/cross.svg" alt="delete" />
+              </button>
             </div>
           ))}
           <div>

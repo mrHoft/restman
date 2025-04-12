@@ -14,8 +14,9 @@
 - Changing method leads to switching route in the URL.
 - Entered URL is parses to base64-encoded string.
 - Header editor with options to change existing and add new headers.
-- Request body editor have an option for prettifying entered data. Entered body places to the URL as base64-encoded.
-- Read-only response section with status code.
+- Request body editor have an option for prettifying entered data. Entered body places to the address string as base64-encoded.
+- We use debounce to change the address string while user changes method, URL, body and headers.
+- Response section is read-only. There is syntax highlighted and prettified response, status code, text, content-type and lapsed time.
 - User can generate a code to make a request in selected language.
 
 ### History route
