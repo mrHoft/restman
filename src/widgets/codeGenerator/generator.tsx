@@ -12,13 +12,15 @@ const options: TRuntime[] = ['curl', 'fetch', 'xhr', 'node', 'go', 'python', 'ja
 
 interface GeneratorProps {
   dict: Record<string, string>;
-  method: string;
-  url: string;
-  body: string;
-  headers: HeadersItem[];
+  data: {
+    method: string;
+    url: string;
+    body: string;
+    headers: HeadersItem[];
+  };
 }
 
-export function CodeGenerator({ dict, method, url, body, headers }: GeneratorProps) {
+export function CodeGenerator({ dict, data: { method, url, body, headers } }: GeneratorProps) {
   const [runtime, setRuntime] = React.useState<TRuntime>('curl');
   const fullUrl = !url.startsWith('http') ? `https://${url}` : url;
 
