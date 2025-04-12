@@ -35,15 +35,29 @@ interface RestClientState {
   body: string;
 }
 
-const defaultHeader = { key: '', value: '', enabled: true };
+const defaultHeader = { key: 'Content-type', value: 'application/json', enabled: true };
+const blankHeader = { key: '', value: '', enabled: true };
 
 const getInitialHeaders = (query: TQuery) => {
-  return query
+  const headers = query
     ? [
         ...Object.entries(query).map(([key, value]) => ({ key, value: value?.toString() ?? '', enabled: true })),
-        defaultHeader,
+        blankHeader,
       ]
-    : [defaultHeader];
+    : [defaultHeader, blankHeader];
+
+  const knownHeaders: string[] = [];
+  headers.filter(h => {
+    const known = knownHeaders.includes(h.key);
+    knownHeaders.push(h.key);
+    return !known;
+  });
+
+  if (headers.findIndex(h => h.key === defaultHeader.key) === -1) {
+    headers.unshift(defaultHeader);
+  }
+
+  return headers;
 };
 
 export default function RestClient({
@@ -73,7 +87,7 @@ export default function RestClient({
 
   const replaceVariables = useCallback(
     (value: string): string => {
-      return value.replace(/\{\{(\w+)\}\}/g, (match, variable) => {
+      return value.replace(/\{\{([^\}]+)\}\}/g, (match, variable) => {
         return variables[variable] ?? match;
       });
     },
@@ -136,6 +150,7 @@ export default function RestClient({
   }, [requestPath]);
 
   useEffect(() => {
+    Loader.hide();
     if (response.error) {
       Message.show(response.error, 'error');
     }
