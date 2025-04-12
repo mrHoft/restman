@@ -38,7 +38,7 @@ const Select = React.forwardRef<HTMLSelectElement, TSelectProps>(
           title={title}
           onChange={handleChange}
           onBlur={handleBlur}
-          aria-placeholder={placeholder ? 'true' : 'false'}
+          data-placeholder={placeholder ? 'true' : 'false'}
         >
           {options.map((role, i) => (
             <option key={i}>{role}</option>

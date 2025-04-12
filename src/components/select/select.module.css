@@ -28,7 +28,7 @@
   line-height: 1.5;
   -webkit-text-fill-color: var(--color100);
 }
-.select__element[aria-placeholder='true'] {
+.select__element[data-placeholder='true'] {
   padding: 1rem 0 0.6rem;
 }
 
