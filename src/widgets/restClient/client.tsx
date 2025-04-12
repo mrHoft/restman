@@ -17,6 +17,7 @@ import { CodeGenerator } from '~/widgets/codeGenerator/generator';
 import HeadersEditor, { HeadersItem } from '~/widgets/headersEditor/editor';
 import { ResponseViewer } from '~/widgets/response/response';
 
+import { getLifespan } from '~/utils/cookie';
 import styles from './client.module.css';
 
 type TQuery = { [key: string]: string | string[] | undefined };
@@ -88,6 +89,8 @@ export default function RestClient({
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     Loader.show();
+    const a = getLifespan(1);
+    console.log(a);
     pushHistory({ method, url: requestPath, date: Date.now() });
     router.push(requestPath);
   };
