@@ -21,7 +21,7 @@
 }
 
 .response__controls > h3 {
-  margin: 0 0 0.25rem;
+  margin: 0;
   font-size: 1.2rem;
 }
 
@@ -31,4 +31,5 @@
   background-color: var(--color10);
   display: flex;
   column-gap: 0.5rem;
+  border: var(--border-thickness) solid var(--color30);
 }

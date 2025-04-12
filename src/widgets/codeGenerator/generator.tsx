@@ -32,14 +32,8 @@ export function CodeGenerator({ dict, data: { method, url, body, headers } }: Ge
     <section className={styles.generator} aria-label="code generator">
       <div className={styles.generator__controls}>
         <h3 className={styles.generator__title}>{dict.code}</h3>
-        <div style={{ width: '12rem' }}>
-          <Select
-            options={options}
-            name="select"
-            placeholder={dict.codePlaceholder}
-            defaultValue={runtime}
-            onChange={handleChange}
-          />
+        <div style={{ width: '8rem' }}>
+          <Select options={options} name="select" defaultValue={runtime} onChange={handleChange} />
         </div>
       </div>
       <CodeEditor name="code" data={generateCode(runtime, method, fullUrl, body, headers)} readonly prettify />

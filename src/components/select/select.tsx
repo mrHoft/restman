@@ -1,4 +1,4 @@
-'use client'
+'use client';
 
 import React from 'react';
 
@@ -7,7 +7,7 @@ import styles from './select.module.css';
 export type TSelectProps = {
   options: string[];
   name: string;
-  placeholder: string;
+  placeholder?: string;
   defaultValue?: string | number;
   value?: string | number;
   required?: boolean;
@@ -38,12 +38,13 @@ const Select = React.forwardRef<HTMLSelectElement, TSelectProps>(
           title={title}
           onChange={handleChange}
           onBlur={handleBlur}
+          aria-placeholder={placeholder ? 'true' : 'false'}
         >
           {options.map((role, i) => (
             <option key={i}>{role}</option>
           ))}
         </select>
-        <div className={styles.select__placeholder}>{placeholder}</div>
+        {placeholder && <div className={styles.select__placeholder}>{placeholder}</div>}
       </div>
     );
   }

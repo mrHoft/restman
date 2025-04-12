@@ -67,10 +67,8 @@ export default function RestClient({
     body: initBody,
   });
   const [stateWithVariables, setStateWithVariables] = useState<RestClientState & { headers: HeadersItem[] }>({
-    method: initMethod,
-    url: initUrl,
-    body: initBody,
-    headers: [],
+    ...state,
+    headers,
   });
 
   const replaceVariables = useCallback(
