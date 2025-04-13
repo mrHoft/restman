@@ -30,9 +30,7 @@ export default function History({ dict, locale }: { dict: Record<string, string>
     }
   }, [getHistory]);
 
-  useEffect(() => {
-    Loader.hide();
-  }, []);
+  useEffect(Loader.hide, []);
 
   const setPage = (page: number) => {
     router.push(`${pathname}?page=${page + 1}`);

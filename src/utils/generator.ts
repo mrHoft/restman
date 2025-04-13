@@ -6,8 +6,7 @@ export function generateCode(runtime: TRuntime, method: string, url: string, bod
   switch (runtime) {
     case 'fetch': {
       const bodyString = body && method !== 'GET' && method !== 'DELETE' ? `body: '${body}',` : '';
-      return `
-fetch('${url}', {
+      return `fetch('${url}', {
   method: '${method}',
   ${bodyString}
   headers: {
@@ -20,8 +19,7 @@ fetch('${url}', {
     }
 
     case 'xhr': {
-      return `
-const xhr = new XMLHttpRequest();
+      return `const xhr = new XMLHttpRequest();
 xhr.open('${method}', '${url}', true);
 
 ${headers.map(({ key, value }) => `xhr.setRequestHeader('${key}', '${value}');`).join('\n')}
@@ -49,8 +47,7 @@ xhr.send(${body && method !== 'GET' && method !== 'DELETE' ? `'${body}'` : ''});
     case 'node': {
       const headersString = headers.map(({ key, value }) => `'${key}': '${value}'`).join(', ');
 
-      return `
-const https = require('https');
+      return `const https = require('https');
 
 const options = {
   hostname: '${new URL(url).hostname}',
@@ -82,8 +79,7 @@ req.end();`;
       const headersString = headers.map(({ key, value }) => `'${key}': '${value}'`).join(', ');
       const bodyString = body && method !== 'GET' && method !== 'DELETE' ? `body = '${body}'` : '';
 
-      return `
-import requests
+      return `import requests
 
 url = '${url}'
 headers = {${headersString}}
@@ -101,8 +97,7 @@ print(response.text)`;
           ? `con.setDoOutput(true); con.getOutputStream().write("${body}".getBytes());`
           : '';
 
-      return `
-import java.io.IOException;
+      return `import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
@@ -149,8 +144,7 @@ public class Main {
     }}`
           : '';
 
-      return `
-using System;
+      return `using System;
 using System.IO;
 using System.Net;
 
@@ -180,8 +174,7 @@ class Program
       const headersString = headers.map(({ key, value }) => `client.Header.Add("${key}", "${value}")`).join('\n');
       const bodyString = body && method !== 'GET' && method !== 'DELETE' ? `, []byte("${body}")` : '';
 
-      return `
-package main
+      return `package main
 
 import (
     "fmt"

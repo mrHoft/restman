@@ -44,8 +44,9 @@
 }
 
 .history__remove {
-  cursor: pointer;
   position: absolute;
+  width: 2rem;
+  height: 2rem;
   top: 50%;
   right: 0.5rem;
   transform: translateY(-50%);
@@ -53,13 +54,15 @@
   border: none;
   border-radius: var(--border-radius);
   transition: background-color 0.25s linear;
+  cursor: pointer;
 
   &:hover {
-    background-color: var(--color20);
+    background-color: var(--color40);
   }
 }
 
 .history__remove img {
+  display: block;
   filter: invert(var(--color-scheme));
 }
 

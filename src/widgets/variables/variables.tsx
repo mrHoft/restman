@@ -10,17 +10,15 @@ const initialVariablesState = [{ '': '' }];
 
 export default function Variables({ dict }: { dict: Record<string, string> }) {
   const { setVariable, getVariables, setAllVariables } = useVariables();
-
   const [vars, setVars] = useState<Record<string, string>[]>(initialVariablesState);
-  useEffect(() => {
-    Loader.hide();
-  }, []);
+
+  useEffect(Loader.hide, []);
 
   useEffect(() => {
     const storedVariables = getVariables();
     if (storedVariables) {
       const newVariables = Object.entries(storedVariables).map(([name, value]) => ({ [name]: value }));
-      setVars(() => [...newVariables, { '': '' }]);
+      setVars([...newVariables, { '': '' }]);
     }
   }, [getVariables]);
 
@@ -30,7 +28,7 @@ export default function Variables({ dict }: { dict: Record<string, string> }) {
     const handleNameChange = (i: number, value: string, name: string) => {
       const newVariables = [...vars];
       newVariables[i] = { [name]: value };
-      setVars(() => newVariables);
+      setVars(newVariables);
 
       const result = createResult(newVariables);
       setAllVariables(result);
@@ -40,7 +38,7 @@ export default function Variables({ dict }: { dict: Record<string, string> }) {
       setVariable(name, value);
       const newVariables = [...vars];
       newVariables[i] = { [name]: value };
-      setVars(() => newVariables);
+      setVars(newVariables);
     };
 
     const handleRemove = (index: number) => {
