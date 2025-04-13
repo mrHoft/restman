@@ -18,11 +18,11 @@ export function Header({
   locale: string;
   user: UserData | null;
 }) {
-  const [isSticky, setIsSticky] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsSticky(window.scrollY > 16);
+      setIsScrolled(window.scrollY > 0);
     };
 
     window.addEventListener('scroll', handleScroll);
@@ -30,7 +30,7 @@ export function Header({
   }, []);
 
   return (
-    <header className={isSticky ? `${styles.header} ${styles.header_sticky}` : styles.header}>
+    <header className={`${styles.header} ${isScrolled ? styles.header_scrolled : ''}`}>
       <Link scroll={false} href={`/${locale}`} className={styles.header__title}>
         <div className={styles.header__logo} />
         <h3 className={styles.header__title_text}>Restman</h3>
