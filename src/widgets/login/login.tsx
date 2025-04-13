@@ -45,9 +45,7 @@ export default function Login({ dict, locale }: { dict: Record<string, string>; 
     });
   };
 
-  useEffect(() => {
-    Loader.hide();
-  }, []);
+  useEffect(Loader.hide, []);
 
   return (
     <div className={form.container}>

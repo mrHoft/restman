@@ -12,13 +12,15 @@ const options: TRuntime[] = ['curl', 'fetch', 'xhr', 'node', 'go', 'python', 'ja
 
 interface GeneratorProps {
   dict: Record<string, string>;
-  method: string;
-  url: string;
-  body: string;
-  headers: HeadersItem[];
+  data: {
+    method: string;
+    url: string;
+    body: string;
+    headers: HeadersItem[];
+  };
 }
 
-export function CodeGenerator({ dict, method, url, body, headers }: GeneratorProps) {
+export function CodeGenerator({ dict, data: { method, url, body, headers } }: GeneratorProps) {
   const [runtime, setRuntime] = React.useState<TRuntime>('curl');
   const fullUrl = !url.startsWith('http') ? `https://${url}` : url;
 
@@ -30,14 +32,8 @@ export function CodeGenerator({ dict, method, url, body, headers }: GeneratorPro
     <section className={styles.generator} aria-label="code generator">
       <div className={styles.generator__controls}>
         <h3 className={styles.generator__title}>{dict.code}</h3>
-        <div style={{ width: '12rem' }}>
-          <Select
-            options={options}
-            name="select"
-            placeholder={dict.codePlaceholder}
-            defaultValue={runtime}
-            onChange={handleChange}
-          />
+        <div style={{ width: '8rem' }}>
+          <Select options={options} name="select" defaultValue={runtime} onChange={handleChange} />
         </div>
       </div>
       <CodeEditor name="code" data={generateCode(runtime, method, fullUrl, body, headers)} readonly prettify />
