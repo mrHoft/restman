@@ -36,15 +36,9 @@ interface RestClientState {
 }
 
 const defaultHeader = { key: 'Content-type', value: 'application/json', enabled: true };
-const blankHeader = { key: '', value: '', enabled: true };
 
 const getInitialHeaders = (query: TQuery) => {
-  const headers = query
-    ? [
-        ...Object.entries(query).map(([key, value]) => ({ key, value: value?.toString() ?? '', enabled: true })),
-        blankHeader,
-      ]
-    : [defaultHeader, blankHeader];
+  const headers = Object.entries(query).map(([key, value]) => ({ key, value: value?.toString() ?? '', enabled: true }));
 
   const knownHeaders: string[] = [];
   headers.filter(h => {
@@ -72,7 +66,7 @@ export default function RestClient({
   const { pushHistory } = useHistory();
   const { getVariables } = useVariables();
   const router = useRouter();
-  const [headers, setHeaders] = useState<HeadersItem[]>(getInitialHeaders(initQuery));
+  const [headers, setHeaders] = useState<HeadersItem[]>(() => getInitialHeaders(initQuery));
   const [requestPath, setRequestPath] = useState('');
   const variables = useMemo(() => getVariables() ?? {}, [getVariables]);
   const [state, setState] = useState<RestClientState>({
