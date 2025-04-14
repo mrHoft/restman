@@ -5,6 +5,7 @@
 
 # testing
 /coverage
+/src/utils/__snapshots__
 
 # next.js
 /.next/
