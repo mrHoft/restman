@@ -15,6 +15,7 @@ describe('Prettify Utilities', () => {
       const { getByText } = render(<PrettyJson data={jsonData} />);
 
       expect(getByText(/"name":/)).toBeInTheDocument();
+
       expect(getByText(/"test"/)).toBeInTheDocument();
     });
 
@@ -32,6 +33,7 @@ describe('Prettify Utilities', () => {
       const { container, getByText } = render(<PrettyHtml data={htmlData} />);
 
       expect(container.querySelectorAll('span')).toHaveLength(3);
+
       expect(getByText('test')).toBeInTheDocument();
     });
   });
@@ -62,6 +64,7 @@ describe('Prettify Utilities', () => {
       const result = PrettyJsonString(value);
 
       expect(result.format).toBe('JSON');
+
       expect(result.result.length).toBe(4);
     });
 
@@ -70,6 +73,7 @@ describe('Prettify Utilities', () => {
       const result = PrettyJsonString(value);
 
       expect(result.format).toBe('plain');
+
       expect(result.result[0]).toContain('{ invalid: json }');
     });
   });
@@ -79,6 +83,7 @@ describe('Prettify Utilities', () => {
       const result = prettifyString('{"id": 5, "title": "test"}');
 
       expect(result.format).toBe('JSON');
+
       expect(result.result.length).toBe(4);
     });
 
@@ -86,6 +91,7 @@ describe('Prettify Utilities', () => {
       const result = prettifyString('<div>test</div>');
 
       expect(result.format).toBe('XML');
+
       expect(result.result.some(line => line.includes('&lt;div&gt;'))).toBe(true);
     });
 
@@ -93,6 +99,7 @@ describe('Prettify Utilities', () => {
       const result = prettifyString('plain text');
 
       expect(result.format).toBe('plain');
+
       expect(result.result.length).toBe(1);
     });
   });

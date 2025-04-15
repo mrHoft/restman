@@ -11,9 +11,13 @@ describe('generateCode', () => {
     const result = generateCode('fetch', postMethod, url, body, headers);
 
     expect(result).toContain(postMethod);
+
     expect(result).toContain(url);
+
     expect(result).toContain(body);
+
     expect(result).toContain(headers[0].key);
+
     expect(result).toContain(headers[0].value);
 
     const resultGetMethod = generateCode('fetch', getMethod, url, body, headers);
@@ -25,9 +29,13 @@ describe('generateCode', () => {
     const result = generateCode('xhr', postMethod, url, body, headers);
 
     expect(result).toContain(postMethod);
+
     expect(result).toContain(url);
+
     expect(result).toContain(body);
+
     expect(result).toContain(headers[0].key);
+
     expect(result).toContain(headers[0].value);
 
     const resultGetMethod = generateCode('xhr', getMethod, url, body, headers);
@@ -39,9 +47,13 @@ describe('generateCode', () => {
     const result = generateCode('curl', postMethod, url, body, headers);
 
     expect(result).toContain(postMethod);
+
     expect(result).toContain(url);
+
     expect(result).toContain(body);
+
     expect(result).toContain(headers[0].key);
+
     expect(result).toContain(headers[0].value);
 
     const resultGetMethod = generateCode('curl', getMethod, url, body, headers);
@@ -53,9 +65,13 @@ describe('generateCode', () => {
     const result = generateCode('node', postMethod, url, body, headers);
 
     expect(result).toContain(postMethod);
+
     expect(result).toContain(url.slice(8));
+
     expect(result).toContain(body);
+
     expect(result).toContain(headers[0].key);
+
     expect(result).toContain(headers[0].value);
 
     const resultGetMethod = generateCode('node', getMethod, url, body, headers);
@@ -67,9 +83,13 @@ describe('generateCode', () => {
     const result = generateCode('python', postMethod, url, body, headers);
 
     expect(result).toContain(postMethod.toLowerCase());
+
     expect(result).toContain(url);
+
     expect(result).toContain(body);
+
     expect(result).toContain(headers[0].key);
+
     expect(result).toContain(headers[0].value);
 
     const resultGetMethod = generateCode('python', getMethod, url, body, headers);
@@ -81,9 +101,13 @@ describe('generateCode', () => {
     const result = generateCode('java', postMethod, url, body, headers);
 
     expect(result).toContain(postMethod);
+
     expect(result).toContain(url);
+
     expect(result).toContain(body);
+
     expect(result).toContain(headers[0].key);
+
     expect(result).toContain(headers[0].value);
 
     const resultGetMethod = generateCode('java', getMethod, url, body, headers);
@@ -95,9 +119,13 @@ describe('generateCode', () => {
     const result = generateCode('csharp', postMethod, url, body, headers);
 
     expect(result).toContain(postMethod);
+
     expect(result).toContain(url);
+
     expect(result).toContain(body);
+
     expect(result).toContain(headers[0].key);
+
     expect(result).toContain(headers[0].value);
 
     const resultGetMethod = generateCode('csharp', getMethod, url, body, headers);
@@ -109,9 +137,13 @@ describe('generateCode', () => {
     const result = generateCode('go', postMethod, url, body, headers);
 
     expect(result).toContain(postMethod);
+
     expect(result).toContain(url);
+
     expect(result).toContain(body);
+
     expect(result).toContain(headers[0].key);
+
     expect(result).toContain(headers[0].value);
 
     const resultGetMethod = generateCode('go', getMethod, url, body, headers);
