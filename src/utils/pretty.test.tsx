@@ -32,7 +32,7 @@ describe('Prettify Utilities', () => {
       const htmlData = '<div>test</div>';
       const { container, getByText } = render(<PrettyHtml data={htmlData} />);
 
-      expect(container.querySelectorAll('span')).toHaveLength(3);
+      expect(container.querySelectorAll('span').length).toBe(3);
 
       expect(getByText('test')).toBeInTheDocument();
     });
