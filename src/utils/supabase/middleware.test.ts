@@ -1,6 +1,9 @@
+/**
+ * @jest-environment node
+ */
+
 import { createServerClient } from '@supabase/ssr';
 import { NextRequest } from 'next/server';
-import 'whatwg-fetch';
 import { updateSession } from './middleware';
 
 jest.mock('@supabase/ssr', () => ({
