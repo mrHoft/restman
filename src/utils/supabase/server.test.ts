@@ -48,7 +48,6 @@ describe('createClient', () => {
     (setMock as jest.Mock).mockImplementation(() => {
       throw new Error('Cannot set cookie');
     });
-
     await createClient();
     const supabaseCookies = (createServerClient as jest.Mock).mock.calls[0][2].cookies;
     const cookiesToSet = [{ name: 'test', value: 'value', options: { option1: 'value1' } }];

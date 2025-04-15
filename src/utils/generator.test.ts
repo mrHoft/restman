@@ -54,7 +54,6 @@ describe('generateCode', () => {
 
     expect(result).toContain(postMethod);
     expect(result).toContain(url.slice(8));
-
     expect(result).toContain(body);
     expect(result).toContain(headers[0].key);
     expect(result).toContain(headers[0].value);

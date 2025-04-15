@@ -33,7 +33,6 @@ describe('Schemas', () => {
       const result = loginSchema.safeParse(invalidData);
 
       expect(result.success).toBe(false);
-
       expect(result.error?.issues[0].message).toBe('Invalid email address');
     });
   });

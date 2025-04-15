@@ -21,6 +21,7 @@ describe('createClient', () => {
 
   it('should call createBrowserClient with correct environment variables', () => {
     createClient();
+
     expect(mockCreateBrowserClient).toHaveBeenCalledWith(mockUrl, mockAnonKey);
   });
 });

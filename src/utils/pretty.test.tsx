@@ -1,5 +1,5 @@
 import '@testing-library/jest-dom';
-import { render, screen } from '@testing-library/react';
+import { render } from '@testing-library/react';
 import { prettify, prettifyString, PrettyHtml, PrettyJson, PrettyJsonString, sanitize } from './pretty';
 
 describe('Prettify Utilities', () => {
@@ -12,32 +12,30 @@ describe('Prettify Utilities', () => {
   describe('PrettyJson', () => {
     it('should render formatted JSON', () => {
       const jsonData = JSON.stringify({ name: 'test', value: 5 });
+      const { getByText } = render(<PrettyJson data={jsonData} />);
 
-      render(<PrettyJson data={jsonData} />);
-
-      expect(screen.getByText(/"name":/)).toBeInTheDocument();
-
-      expect(screen.getByText(/"test"/)).toBeInTheDocument();
+      expect(getByText(/"name":/)).toBeInTheDocument();
+      expect(getByText(/"test"/)).toBeInTheDocument();
     });
 
     it('should handle invalid JSON', () => {
       const invalidJson = 'invalid: json';
+      const { getByText } = render(<PrettyJson data={invalidJson} />);
 
-      render(<PrettyJson data={invalidJson} />);
-
-      expect(screen.getByText('invalid: json')).toBeInTheDocument();
+      expect(getByText('invalid: json')).toBeInTheDocument();
     });
   });
 
   describe('PrettyHtml', () => {
     it('should render formatted HTML', () => {
       const htmlData = '<div>test</div>';
+      const { container, getByText } = render(<PrettyHtml data={htmlData} />);
 
-      render(<PrettyHtml data={htmlData} />);
-
-      expect(screen.getByText(/<div>/)).toBeInTheDocument();
+      expect(container.querySelectorAll('span')).toHaveLength(3);
+      expect(getByText('test')).toBeInTheDocument();
     });
   });
+
   describe('prettify', () => {
     it('should format JSON', () => {
       const result = prettify('{"key": "value"}');
@@ -64,7 +62,6 @@ describe('Prettify Utilities', () => {
       const result = PrettyJsonString(value);
 
       expect(result.format).toBe('JSON');
-
       expect(result.result.length).toBe(4);
     });
 
@@ -73,7 +70,6 @@ describe('Prettify Utilities', () => {
       const result = PrettyJsonString(value);
 
       expect(result.format).toBe('plain');
-
       expect(result.result[0]).toContain('{ invalid: json }');
     });
   });
@@ -83,15 +79,13 @@ describe('Prettify Utilities', () => {
       const result = prettifyString('{"id": 5, "title": "test"}');
 
       expect(result.format).toBe('JSON');
-
-      expect(result.result).toHaveLength(4);
+      expect(result.result.length).toBe(4);
     });
 
     it('should format HTML strings', () => {
       const result = prettifyString('<div>test</div>');
 
       expect(result.format).toBe('XML');
-
       expect(result.result.some(line => line.includes('&lt;div&gt;'))).toBe(true);
     });
 
@@ -99,8 +93,7 @@ describe('Prettify Utilities', () => {
       const result = prettifyString('plain text');
 
       expect(result.format).toBe('plain');
-
-      expect(result.result).toHaveLength(1);
+      expect(result.result.length).toBe(1);
     });
   });
 });

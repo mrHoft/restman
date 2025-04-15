@@ -1,5 +1,4 @@
 import { createServerClient } from '@supabase/ssr';
-import { NextURL } from 'next/dist/server/web/next-url';
 import { NextRequest } from 'next/server';
 import 'whatwg-fetch';
 import { updateSession } from './middleware';
@@ -11,7 +10,6 @@ jest.mock('@supabase/ssr', () => ({
 const mockAuth = { getUser: jest.fn() };
 const mockSupabase = { auth: mockAuth };
 (createServerClient as jest.Mock).mockReturnValue(mockSupabase);
-
 const mockGetUser = mockAuth.getUser;
 
 const createMockRequest = (pathname: string, cookies = {}) => {
@@ -29,7 +27,7 @@ const createMockRequest = (pathname: string, cookies = {}) => {
     origin: url.origin,
     toString: () => url.toString(),
     clone: () => {
-      const clonedUrl = new NextURL(url.origin);
+      const clonedUrl = new URL(url.origin);
       return clonedUrl;
     },
   };
