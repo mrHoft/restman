@@ -16,6 +16,7 @@ jest.mock('next/headers', () => ({
 describe('createClient', () => {
   it('should call cookies function', async () => {
     await createClient();
+
     expect(cookies).toHaveBeenCalled();
   });
 
@@ -26,13 +27,13 @@ describe('createClient', () => {
     (getAllMock as jest.Mock).mockReturnValue(cookiesToGet);
     await createClient();
     const supabaseCookies = (createServerClient as jest.Mock).mock.calls[0][2].cookies;
+
     expect(supabaseCookies.getAll()).toEqual(cookiesToGet);
   });
 
   it('should handle setAll correctly', async () => {
     const cookieStore = await cookies();
     const setMock = cookieStore.set;
-
     const cookiesToSet = [{ name: 'test', value: 'value', options: { option1: 'value1' } }];
     await createClient();
     const supabaseCookies = (createServerClient as jest.Mock).mock.calls[0][2].cookies;

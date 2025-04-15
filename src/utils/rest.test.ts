@@ -36,15 +36,21 @@ describe('rest', () => {
   describe('isMethod', () => {
     it('should return true for valid methods', () => {
       expect(isMethod('GET')).toBe(true);
+
       expect(isMethod('POST')).toBe(true);
+
       expect(isMethod('PUT')).toBe(true);
+
       expect(isMethod('PATCH')).toBe(true);
+
       expect(isMethod('DELETE')).toBe(true);
     });
 
     it('should return false for invalid methods', () => {
       expect(isMethod('METHOD')).toBe(false);
+
       expect(isMethod('')).toBe(false);
+
       expect(isMethod('get')).toBe(false);
     });
   });

@@ -18,9 +18,7 @@ const createMockRequest = (pathname: string, cookies = {}) => {
   const origin = 'http://example.com';
   const urlString = `${origin}${pathname}`;
   const url = new URL(urlString);
-
   const request = new Request(urlString);
-
   const cookieStore = {
     getAll: () => Object.entries(cookies).map(([name, value]) => ({ name, value })),
     set: jest.fn(),
@@ -35,7 +33,6 @@ const createMockRequest = (pathname: string, cookies = {}) => {
       return clonedUrl;
     },
   };
-
   const mockRequest = {
     ...request,
     cookies: cookieStore,
@@ -52,7 +49,6 @@ describe('middleware', () => {
 
   it('should redirect unauthorized user from protected route', async () => {
     mockGetUser.mockResolvedValue({ data: { user: null } });
-
     const request = createMockRequest('/client');
     const response = await updateSession(request);
 
@@ -61,7 +57,6 @@ describe('middleware', () => {
 
   it('should redirect authorized user from auth route', async () => {
     mockGetUser.mockResolvedValue({ data: { user: { email: 'user@mail.com' } } });
-
     const request = createMockRequest('/login');
     const response = await updateSession(request);
 
@@ -70,7 +65,6 @@ describe('middleware', () => {
 
   it('should allow access to protected routes for authorized user ', async () => {
     mockGetUser.mockResolvedValue({ data: { user: { email: 'user@mail.com' } } });
-
     const request = createMockRequest('/client');
     const response = await updateSession(request);
 
@@ -79,7 +73,6 @@ describe('middleware', () => {
 
   it('should allow access to auth routes for unauthorized user', async () => {
     mockGetUser.mockResolvedValue({ data: { user: null } });
-
     const request = createMockRequest('/register');
     const response = await updateSession(request);
 
@@ -88,13 +81,12 @@ describe('middleware', () => {
 
   it('should call cookies setAll', async () => {
     mockGetUser.mockResolvedValue({ data: { user: { email: 'user@mail.com' } } });
-
     const request = createMockRequest('/client', { cookie: 'test' });
-
     await updateSession(request);
     const mockSetAll = (createServerClient as jest.Mock).mock.calls[0][2].cookies.setAll;
     const cookiesToSet = [{ name: 'example-name', value: 'example-value' }];
     mockSetAll(cookiesToSet);
+
     expect(request.cookies.set).toHaveBeenCalled();
   });
 });

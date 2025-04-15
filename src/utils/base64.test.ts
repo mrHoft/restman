@@ -5,6 +5,7 @@ describe('base64', () => {
     const value = 'Test string';
     const encoded = base64Encode(value);
     const decoded = base64Decode(encoded);
+
     expect(value).toEqual(decoded);
   });
 

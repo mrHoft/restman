@@ -12,14 +12,19 @@ describe('Prettify Utilities', () => {
   describe('PrettyJson', () => {
     it('should render formatted JSON', () => {
       const jsonData = JSON.stringify({ name: 'test', value: 5 });
+
       render(<PrettyJson data={jsonData} />);
+
       expect(screen.getByText(/"name":/)).toBeInTheDocument();
+
       expect(screen.getByText(/"test"/)).toBeInTheDocument();
     });
 
     it('should handle invalid JSON', () => {
       const invalidJson = 'invalid: json';
+
       render(<PrettyJson data={invalidJson} />);
+
       expect(screen.getByText('invalid: json')).toBeInTheDocument();
     });
   });
@@ -27,23 +32,28 @@ describe('Prettify Utilities', () => {
   describe('PrettyHtml', () => {
     it('should render formatted HTML', () => {
       const htmlData = '<div>test</div>';
+
       render(<PrettyHtml data={htmlData} />);
+
       expect(screen.getByText(/<div>/)).toBeInTheDocument();
     });
   });
   describe('prettify', () => {
     it('should format JSON', () => {
       const result = prettify('{"key": "value"}');
+
       expect(result.format).toBe('JSON');
     });
 
     it('should format XML/HTML', () => {
       const result = prettify('<div>test</div>');
+
       expect(result.format).toBe('XML');
     });
 
     it('should plain text', () => {
       const result = prettify('plain text');
+
       expect(result.format).toBe('plain');
     });
   });
@@ -54,6 +64,7 @@ describe('Prettify Utilities', () => {
       const result = PrettyJsonString(value);
 
       expect(result.format).toBe('JSON');
+
       expect(result.result.length).toBe(4);
     });
 
@@ -62,6 +73,7 @@ describe('Prettify Utilities', () => {
       const result = PrettyJsonString(value);
 
       expect(result.format).toBe('plain');
+
       expect(result.result[0]).toContain('{ invalid: json }');
     });
   });
@@ -69,19 +81,25 @@ describe('Prettify Utilities', () => {
   describe('prettifyString', () => {
     it('should format JSON strings', () => {
       const result = prettifyString('{"id": 5, "title": "test"}');
+
       expect(result.format).toBe('JSON');
+
       expect(result.result).toHaveLength(4);
     });
 
     it('should format HTML strings', () => {
       const result = prettifyString('<div>test</div>');
+
       expect(result.format).toBe('XML');
+
       expect(result.result.some(line => line.includes('&lt;div&gt;'))).toBe(true);
     });
 
     it('should handle plain text strings', () => {
       const result = prettifyString('plain text');
+
       expect(result.format).toBe('plain');
+
       expect(result.result).toHaveLength(1);
     });
   });
