@@ -2,7 +2,7 @@ import Link from 'next/link';
 
 import styles from './card.module.css';
 
-type TCardProps = Record<'id' | 'image' | 'link' | 'name' | 'role' | 'about', string>;
+type TCardProps = Record<'id' | 'link' | 'name' | 'role' | 'about', string> & { image: string | undefined };
 
 export default function Card({ data }: { data: TCardProps }) {
   return (
