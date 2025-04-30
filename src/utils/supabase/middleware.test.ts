@@ -66,7 +66,7 @@ describe('middleware', () => {
 
   it('should allow access to protected routes for authorized user ', async () => {
     mockGetUser.mockResolvedValue({ data: { user: { email: 'user@mail.com' } } });
-    const request = createMockRequest('/');
+    const request = createMockRequest('/history');
     const response = await updateSession(request);
 
     expect(response.status).toBe(200);
