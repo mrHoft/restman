@@ -33,6 +33,7 @@ export default async function Page({
       })
     : { data: '', status: 0, message: '', lapse: 0 };
   const user = await getUser();
+
   return (
     <>
       <Suspense fallback={<Loading />}>

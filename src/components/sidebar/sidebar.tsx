@@ -40,7 +40,6 @@ export function Sidebar({ dict, locale, user }: SidebarProps) {
       Modal.show(<CodeGenerator dict={dict} data={{ method, url, body, headers }} />);
     }
   };
-  console.log(params[2]);
   return (
     <aside className={styles.sidebar}>
       {user && (params[2] == 'history' || params[2] == 'variables' || params[2] == 'about') && (
