@@ -10,7 +10,7 @@ describe('rest', () => {
       const headers = [{ key: 'Content-Type', value: 'application/json' }];
 
       expect(getRequestUrlString({ locale, method, url, body, headers })).toBe(
-        '/en/client/POST/aHR0cHMlM0ElMkYlMkZleGFtcGxlLmNvbQ==/JTdCJTIyaWQlMjIlM0ElMjAzMCUyQyUyMCUyMm5hbWUlMjIlM0ElMjAlMjJKb2huJTIyJTdE?Content-Type=application/json'
+        '/en/POST/aHR0cHMlM0ElMkYlMkZleGFtcGxlLmNvbQ==/JTdCJTIyaWQlMjIlM0ElMjAzMCUyQyUyMCUyMm5hbWUlMjIlM0ElMjAlMjJKb2huJTIyJTdE?Content-Type=application/json'
       );
     });
 
@@ -18,7 +18,7 @@ describe('rest', () => {
       const locale = 'en';
       const method = 'GET';
 
-      expect(getRequestUrlString({ locale, method })).toBe('/en/client/GET//?');
+      expect(getRequestUrlString({ locale, method })).toBe('/en/GET//?');
     });
 
     it('should trim url before encoding', () => {
@@ -28,7 +28,7 @@ describe('rest', () => {
       const headers = [{ key: 'Content-Type', value: 'application/json' }];
 
       expect(getRequestUrlString({ locale, method, url, headers })).toBe(
-        '/en/client/POST/aHR0cHMlM0ElMkYlMkZleGFtcGxlLmNvbQ==/?Content-Type=application/json'
+        '/en/POST/aHR0cHMlM0ElMkYlMkZleGFtcGxlLmNvbQ==/?Content-Type=application/json'
       );
     });
   });

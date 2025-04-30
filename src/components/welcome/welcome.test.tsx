@@ -34,7 +34,7 @@ describe('Welcome', () => {
     const { container } = render(res);
     const links = container.querySelectorAll<HTMLAnchorElement>('a');
 
-    expect(links[0].href.endsWith('/client/GET')).toBeTruthy();
+    expect(links[0].href.endsWith('/GET')).toBeTruthy();
     expect(links[1].href.endsWith('/history')).toBeTruthy();
     expect(links[2].href.endsWith('/variables')).toBeTruthy();
   });
