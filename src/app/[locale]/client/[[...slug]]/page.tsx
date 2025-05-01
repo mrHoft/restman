@@ -1,12 +1,11 @@
-import { lazy, Suspense } from 'react';
+import { Suspense } from 'react';
 import { executeRestRequest } from '~/app/rest/actions';
 import Loading from '~/components/loader/loading';
 import type { Locale } from '~/i18n-config';
 import { base64Decode } from '~/utils/base64';
 import { isMethod } from '~/utils/rest';
+import RestClient from '~/widgets/restClient/client';
 import { getDictionary } from '../../dictionaries';
-
-const RestClient = lazy(() => import('~/widgets/restClient/client'));
 
 export default async function Page({
   params,
