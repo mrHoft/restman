@@ -1,6 +1,4 @@
-import { Suspense } from 'react';
 import { executeRestRequest } from '~/app/rest/actions';
-import Loading from '~/components/loader/loading';
 import type { Locale } from '~/i18n-config';
 import { base64Decode } from '~/utils/base64';
 import { isMethod } from '~/utils/rest';
@@ -32,17 +30,15 @@ export default async function Page({
 
   return (
     <>
-      <Suspense fallback={<Loading />}>
-        <RestClient
-          dict={dict.Client}
-          locale={locale}
-          initMethod={reqMethod}
-          initUrl={url}
-          initBody={body}
-          initQuery={search}
-          response={response}
-        />
-      </Suspense>
+      <RestClient
+        dict={dict.Client}
+        locale={locale}
+        initMethod={reqMethod}
+        initUrl={url}
+        initBody={body}
+        initQuery={search}
+        response={response}
+      />
     </>
   );
 }
