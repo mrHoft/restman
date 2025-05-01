@@ -50,7 +50,7 @@ describe('middleware', () => {
 
   it('should redirect unauthorized user from protected route', async () => {
     mockGetUser.mockResolvedValue({ data: { user: null } });
-    const request = createMockRequest('/client');
+    const request = createMockRequest('/history');
     const response = await updateSession(request);
 
     expect(response.headers.get('location')).toBe('http://example.com/');
@@ -66,7 +66,7 @@ describe('middleware', () => {
 
   it('should allow access to protected routes for authorized user ', async () => {
     mockGetUser.mockResolvedValue({ data: { user: { email: 'user@mail.com' } } });
-    const request = createMockRequest('/client');
+    const request = createMockRequest('/history');
     const response = await updateSession(request);
 
     expect(response.status).toBe(200);
@@ -82,7 +82,7 @@ describe('middleware', () => {
 
   it('should call cookies setAll', async () => {
     mockGetUser.mockResolvedValue({ data: { user: { email: 'user@mail.com' } } });
-    const request = createMockRequest('/client', { cookie: 'test' });
+    const request = createMockRequest('/history', { cookie: 'test' });
     await updateSession(request);
     const mockSetAll = (createServerClient as jest.Mock).mock.calls[0][2].cookies.setAll;
     const cookiesToSet = [{ name: 'example-name', value: 'example-value' }];

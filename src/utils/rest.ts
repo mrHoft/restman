@@ -16,7 +16,7 @@ export function getRequestUrlString({ locale, method, url = '', body = '', heade
   const urlEncoded = base64Encode(url.trim()) ?? '';
   const bodyEncoded = base64Encode(body) ?? '';
 
-  return `/${locale}/client/${method}/${urlEncoded}/${bodyEncoded}?${queryString}`;
+  return `/${locale}/${method}/${urlEncoded}/${bodyEncoded}?${queryString}`;
 }
 
 export const isMethod = (method: string): method is TMethod => methods.includes(method as TMethod);
