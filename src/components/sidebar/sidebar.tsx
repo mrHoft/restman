@@ -33,19 +33,19 @@ export function Sidebar({ dict, locale, user }: SidebarProps) {
       value: value?.toString() ?? '',
       enabled: true,
     }));
-    const method = params[2] ?? '';
-    const url = base64Decode(params[3] ?? '');
-    const body = base64Decode(params[4] ? params[4].split('?')[0] : '');
+    const method = params[3] ?? '';
+    const url = base64Decode(params[4] ?? '');
+    const body = base64Decode(params[5] ? params[5].split('?')[0] : '');
     if (methods.includes(method as TMethod)) {
       Modal.show(<CodeGenerator dict={dict} data={{ method, url, body, headers }} />);
     }
   };
   return (
     <aside className={styles.sidebar}>
-      {user && (params[2] == 'history' || params[2] == 'variables' || params[2] == 'about') && (
-        <ButtonSquare icon="server" title="REST client" onClick={handleNavigate('GET')} />
+      {user && params[2] !== 'client' && (
+        <ButtonSquare icon="server" title="REST client" onClick={handleNavigate('client/GET')} />
       )}
-      {user && params[2] !== 'history' && params[2] !== 'variables' && params[2] !== 'about' && (
+      {user && params[2] === 'client' && (
         <ButtonSquare icon="code" title="Generate code" onClick={handleCodeGenerator} />
       )}
       {user && params[2] !== 'history' && (

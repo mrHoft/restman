@@ -3,7 +3,7 @@ import type { Locale } from '~/i18n-config';
 import { base64Decode } from '~/utils/base64';
 import { isMethod } from '~/utils/rest';
 import RestClient from '~/widgets/restClient/client';
-import { getDictionary } from '../dictionaries';
+import { getDictionary } from '../../dictionaries';
 
 export default async function Page({
   params,

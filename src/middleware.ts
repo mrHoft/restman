@@ -7,10 +7,18 @@ export async function middleware(request: NextRequest) {
   const cookieStore = await cookies();
   const locale = cookieStore.get('locale')?.value ?? i18n.defaultLocale;
   const { pathname } = request.nextUrl;
+
+  if (pathname === '/' || pathname === `/${locale}` || pathname === `/${locale}/`) {
+    request.nextUrl.pathname = `/${locale}/client`;
+    return NextResponse.redirect(request.nextUrl);
+  }
+
   const pathnameHasLocale = i18n.locales.some(
     locale => pathname.startsWith(`/${locale}/`) || pathname === `/${locale}`
   );
-  if (pathnameHasLocale) return await updateSession(request);
+  if (pathnameHasLocale) {
+    return await updateSession(request);
+  }
 
   request.nextUrl.pathname = `/${locale}${pathname}`;
   return NextResponse.redirect(request.nextUrl);

@@ -36,11 +36,7 @@ export function Header({
         <h3 className={styles.header__title_text}>Restman</h3>
       </Link>
       <div className={styles.header__right}>
-        {user ? (
-          <Link scroll={false} href={`/${locale}`} className={`button ${styles.header__link}`}>
-            {dict.mainPage}
-          </Link>
-        ) : (
+        {user === null && (
           <Link scroll={false} href={`/${locale}/register`} className={`button ${styles.header__link}`}>
             {dict.signUp}
           </Link>

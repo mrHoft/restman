@@ -1,7 +1,7 @@
 import { createServerClient } from '@supabase/ssr';
 import { NextResponse, type NextRequest } from 'next/server';
 
-const protectedRoutes = ['/history', '/variables'];
+const protectedRoutes = ['/client', '/history', '/variables'];
 const authRoutes = ['/login', '/register'];
 
 function isProtectedRoute(pathname: string) {
@@ -40,9 +40,14 @@ export async function updateSession(request: NextRequest) {
     data: { user },
   } = await supabase.auth.getUser();
   const { pathname } = request.nextUrl;
-  if ((!user && isProtectedRoute(pathname)) || (user && isAuthRoute(pathname))) {
+  if (!user && isProtectedRoute(pathname)) {
     const url = request.nextUrl.clone();
-    url.pathname = '/';
+    url.pathname = '/login';
+    return NextResponse.redirect(url);
+  }
+  if (user && isAuthRoute(pathname)) {
+    const url = request.nextUrl.clone();
+    url.pathname = '/client';
     return NextResponse.redirect(url);
   }
 
