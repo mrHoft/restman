@@ -1,14 +1,9 @@
-import { lazy, Suspense } from 'react';
-import { getUser } from '~/app/auth/actions';
 import { executeRestRequest } from '~/app/rest/actions';
-import Loading from '~/components/loader/loading';
-import { Welcome } from '~/components/welcome/welcome';
 import type { Locale } from '~/i18n-config';
 import { base64Decode } from '~/utils/base64';
 import { isMethod } from '~/utils/rest';
+import RestClient from '~/widgets/restClient/client';
 import { getDictionary } from '../dictionaries';
-
-const RestClient = lazy(() => import('~/widgets/restClient/client'));
 
 export default async function Page({
   params,
@@ -32,25 +27,18 @@ export default async function Page({
         body,
       })
     : { data: '', status: 0, message: '', lapse: 0 };
-  const user = await getUser();
 
   return (
     <>
-      <Suspense fallback={<Loading />}>
-        {!user ? (
-          <Welcome dict={dict.MainPage} locale={locale} />
-        ) : (
-          <RestClient
-            dict={dict.Client}
-            locale={locale}
-            initMethod={reqMethod}
-            initUrl={url}
-            initBody={body}
-            initQuery={search}
-            response={response}
-          />
-        )}
-      </Suspense>
+      <RestClient
+        dict={dict.Client}
+        locale={locale}
+        initMethod={reqMethod}
+        initUrl={url}
+        initBody={body}
+        initQuery={search}
+        response={response}
+      />
     </>
   );
 }
