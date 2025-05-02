@@ -5,10 +5,10 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import type { RestResponse } from '~/app/rest/actions';
 import { Loader } from '~/components/loader/loader';
 import { Message } from '~/components/message/message';
-import { useDebounce } from '~/entities/useDebounce';
 import useHistory from '~/entities/useHistory';
 import useVariables from '~/entities/useVariables';
 import type { Locale } from '~/i18n-config';
+import { debounce } from '~/utils/debounce';
 import { getRequestUrlString, methods, type TMethod } from '~/utils/rest';
 import { CodeEditor } from '~/widgets/codeEditor/editor';
 import { CodeGenerator } from '~/widgets/codeGenerator/generator';
@@ -31,6 +31,7 @@ interface RestClientState {
   method: TMethod;
   url: string;
   body: string;
+  headers: HeadersItem[];
 }
 
 const defaultHeader = { key: 'Content-type', value: 'application/json', enabled: true };
@@ -65,17 +66,19 @@ export default function RestClient({
   const { getVariables } = useVariables();
   const router = useRouter();
   const [headers, setHeaders] = useState<HeadersItem[]>(() => getInitialHeaders(initQuery));
+  const [activeHeaders, setActiveHeaders] = useState<HeadersItem[]>(headers);
+  const [activeUrl, setActiveUrl] = useState(initUrl);
   const [requestPath, setRequestPath] = useState('');
-  const variables = useMemo(() => getVariables() ?? {}, [getVariables]);
   const [state, setState] = useState<RestClientState>({
     method: initMethod,
     url: initUrl,
     body: initBody,
+    headers: getInitialHeaders(initQuery),
   });
-  const [stateWithVariables, setStateWithVariables] = useState<RestClientState & { headers: HeadersItem[] }>({
-    ...state,
-    headers,
-  });
+  const [stateWithVariables, setStateWithVariables] = useState<RestClientState>(state);
+  const variables = useMemo(() => getVariables() ?? {}, [getVariables]);
+  const debouncedUrl = useCallback(debounce(setActiveUrl), [setActiveUrl]);
+  const debouncedHeaders = useCallback(debounce(setActiveHeaders), [setActiveHeaders]);
 
   const replaceVariables = useCallback(
     (value: string): string => {
@@ -86,22 +89,25 @@ export default function RestClient({
     [variables]
   );
 
-  const activeHeaders = useMemo(
-    () =>
-      headers
-        .filter(h => h.enabled && h.key && h.value)
-        .map(({ key, value, enabled }) => ({ key, value: replaceVariables(value), enabled })),
-    [headers, replaceVariables]
-  );
-
-  const debouncedUrl = useDebounce(state.url);
-  const debouncedHeaders = useDebounce(activeHeaders);
-
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     Loader.show();
-    pushHistory({ method: state.method, url: requestPath, date: Date.now() });
-    router.push(requestPath);
+    debouncedUrl.cancel();
+    debouncedHeaders.cancel();
+    const actualUrl = replaceVariables(state.url);
+    const actualHeaders = headers
+      .filter(h => h.enabled && h.key && h.value)
+      .map(({ key, value, enabled }) => ({ key, value: replaceVariables(value), enabled }));
+    const data = {
+      locale,
+      method: state.method,
+      url: actualUrl,
+      body: replaceVariables(state.body),
+      headers: actualHeaders,
+    };
+
+    pushHistory({ method: state.method, url: actualUrl, date: Date.now() });
+    router.push(getRequestUrlString(data));
   };
 
   const handleMethodChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -110,6 +116,7 @@ export default function RestClient({
 
   const handleURLChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setState(prev => ({ ...prev, url: e.target.value }));
+    debouncedUrl(e.target.value);
   };
 
   const handleBodyChange = (body: string) => {
@@ -117,16 +124,24 @@ export default function RestClient({
   };
 
   useEffect(() => {
+    debouncedHeaders(
+      headers
+        .filter(h => h.enabled && h.key && h.value)
+        .map(({ key, value, enabled }) => ({ key, value: replaceVariables(value), enabled }))
+    );
+  }, [headers]);
+
+  useEffect(() => {
     const data = {
       locale,
       method: state.method,
-      url: replaceVariables(debouncedUrl),
+      url: replaceVariables(activeUrl),
       body: replaceVariables(state.body),
-      headers: debouncedHeaders,
+      headers: activeHeaders,
     };
     setRequestPath(getRequestUrlString(data));
     setStateWithVariables(data);
-  }, [locale, state, debouncedUrl, debouncedHeaders, replaceVariables]);
+  }, [locale, state.method, state.body, activeUrl, activeHeaders, replaceVariables]);
 
   useEffect(() => {
     history.replaceState(null, '', requestPath);
