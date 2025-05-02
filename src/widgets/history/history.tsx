@@ -78,7 +78,7 @@ export default function History({ dict, locale }: { dict: Record<string, string>
             scroll={false}
             className={styles.history__client_link}
             href={{
-              pathname: `/${locale}/client/GET`,
+              pathname: `/${locale}/GET`,
             }}
           >
             {dict.linkToClient}

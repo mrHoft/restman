@@ -35,7 +35,7 @@ describe('Sidebar', () => {
   });
 
   it('opens code generator modal', () => {
-    usePathnameMock = () => 'path/en/client/GET/test/?testHeader=testValue';
+    usePathnameMock = () => 'path/en/GET/test/?testHeader=testValue';
     const { getByTitle, queryByText } = render(
       <>
         <Sidebar dict={dict} locale="en" user={{ id: '1', created_at: '' }} />
