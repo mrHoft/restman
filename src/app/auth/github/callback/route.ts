@@ -13,6 +13,7 @@ export async function GET(request: NextRequest) {
 
   if (!code) {
     request.nextUrl.pathname = '/login?error=no_code';
+    request.nextUrl.search = '';
     return NextResponse.redirect(request.nextUrl);
   }
 
@@ -49,9 +50,11 @@ export async function GET(request: NextRequest) {
     await createSession(user);
   } catch (error) {
     request.nextUrl.pathname = `/login?error=${error}`;
+    request.nextUrl.search = '';
     return NextResponse.redirect(request.nextUrl);
   }
 
   request.nextUrl.pathname = '/client';
+  request.nextUrl.search = '';
   return NextResponse.redirect(request.nextUrl);
 }

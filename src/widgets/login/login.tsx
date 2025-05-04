@@ -40,13 +40,6 @@ export default function Login({ dict, locale }: { dict: Record<string, string>; 
 
     Message.show(dict.disabledCredentials, 'error');
     Loader.hide();
-    /* 
-    await login(data).then(({ error, success }) => {
-      Message.show(success ? `${dict.success}` : error, success ? 'regular' : 'error');
-      Loader.hide();
-      if (success) redirect(`/${locale}`);
-    });
-    */
   };
 
   useEffect(Loader.hide, []);

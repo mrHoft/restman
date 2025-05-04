@@ -1,6 +1,5 @@
 import { cookies } from 'next/headers';
 import { NextResponse, type NextRequest } from 'next/server';
-// import { updateSession } from '~/utils/supabase/middleware';
 import { updateSession } from './app/auth/session';
 import { i18n } from './i18n-config';
 

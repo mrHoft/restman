@@ -36,13 +36,6 @@ export default function Register({ dict }: { dict: Record<string, string>; local
 
     Message.show(dict.disabledCredentials, 'error');
     Loader.hide();
-    /* 
-    await register(data).then(({ error, success }) => {
-      Message.show(success ? `${dict.success}` : error, success ? 'regular' : 'error');
-      Loader.hide();
-      if (success) redirect(`/${locale}/login`);
-    });
-    */
   };
 
   useEffect(Loader.hide, []);
