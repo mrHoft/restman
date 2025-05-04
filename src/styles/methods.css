@@ -1,0 +1,19 @@
+.get {
+  color: var(--code-number);
+}
+
+.post {
+  color: var(--color-post-method);
+}
+
+.put {
+  color: var(--code-tag);
+}
+
+.patch {
+  color: var(--color-patch-method);
+}
+
+.delete {
+  color: var(--code-string);
+}
