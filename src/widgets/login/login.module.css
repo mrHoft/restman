@@ -1,0 +1,10 @@
+.github {
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: 50%;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 1.5rem;
+  background-image: url(/icons/github-logo.svg);
+  filter: invert(var(--color-scheme));
+}

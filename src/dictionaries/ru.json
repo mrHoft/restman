@@ -19,7 +19,9 @@
     "password": "Пароль",
     "submit": "Войти",
     "buttonToRegister": "Зарегистрироваться",
-    "success": "Вход выполнен успешно!"
+    "success": "Вход выполнен успешно!",
+    "oauth": "OAuth",
+    "disabledCredentials": "Вход по логину-паролю отключен. Доспупна только GitHub авторизация."
   },
   "NotFoundPage": {
     "title": "Страница не найдена",

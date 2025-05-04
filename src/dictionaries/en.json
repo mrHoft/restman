@@ -19,7 +19,9 @@
     "password": "Password",
     "submit": "Login",
     "buttonToRegister": "Register",
-    "success": "You've successfully logged in!"
+    "success": "You've successfully logged in!",
+    "oauth": "OAuth",
+    "disabledCredentials": "Login by credentials was disabled: only GitHub OAuth is available."
   },
   "NotFoundPage": {
     "title": "Page not found",
