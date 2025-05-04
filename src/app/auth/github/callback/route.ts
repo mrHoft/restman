@@ -5,7 +5,7 @@ import { createSession } from '../../session';
 import type { UserInfo } from '../../types';
 
 const GITHUB_CLIENT_ID = process.env.NEXT_PUBLIC_GITHUB_CLIENT_ID ?? 'unknown';
-const GITHUB_CLIENT_SECRET = process.env.NEXT_PUBLIC_GITHUB_CLIENT_SECRET ?? 'unknown';
+const GITHUB_CLIENT_SECRET = process.env.GITHUB_CLIENT_SECRET ?? 'unknown';
 
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);
