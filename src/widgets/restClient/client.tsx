@@ -111,8 +111,6 @@ export default function RestClient({
       method: state.method,
       url: state.url,
       linkToClient: getRequestUrlString(data),
-      body: state.body,
-      headers: headers.filter(h => h.enabled && h.key && h.value),
     });
     router.push(getRequestUrlString(data));
   };
