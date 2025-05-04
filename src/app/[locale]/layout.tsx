@@ -6,7 +6,7 @@ import { Message } from '~/components/message/message';
 import { Modal } from '~/components/modal/modal';
 import { Sidebar } from '~/components/sidebar/sidebar';
 import type { Locale } from '~/i18n-config';
-import { getUser } from '../auth/actions';
+import { getUser } from '../auth/session';
 import { getDictionary } from './dictionaries';
 
 export async function generateStaticParams() {

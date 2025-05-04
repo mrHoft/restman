@@ -2,10 +2,10 @@
 
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
+import type { UserInfo } from '~/app/auth/types';
 import LanguageSelector from '~/components/language/language';
 import { ButtonLogout } from '~/components/logout/logout';
 import ThemeSwitcher from '~/components/theme/theme';
-import type { UserData } from '~/utils/supabase/types';
 
 import styles from './header.module.css';
 
@@ -16,7 +16,7 @@ export function Header({
 }: {
   dict: Record<string, string>;
   locale: string;
-  user: UserData | null;
+  user: UserInfo | null;
 }) {
   const [isScrolled, setIsScrolled] = useState(false);
 
