@@ -106,7 +106,12 @@ export default function RestClient({
       headers: actualHeaders,
     };
 
-    pushHistory({ method: state.method, url: actualUrl, date: Date.now() });
+    pushHistory({
+      date: Date.now(),
+      method: state.method,
+      url: state.url,
+      linkToClient: getRequestUrlString(data),
+    });
     router.push(getRequestUrlString(data));
   };
 

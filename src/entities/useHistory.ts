@@ -9,6 +9,7 @@ export interface HistoryRecord {
   date: number;
   method: TMethod;
   url: string;
+  linkToClient: string;
 }
 
 const pushHistory = (record: HistoryRecord) => storage.push('history', record);
