@@ -2,6 +2,7 @@
 
 import { TMethod } from '~/utils/rest';
 import Storage from '~/utils/storage';
+import { HeadersItem } from '~/widgets/headersEditor/editor';
 
 const storage = new Storage();
 
@@ -9,6 +10,9 @@ export interface HistoryRecord {
   date: number;
   method: TMethod;
   url: string;
+  linkToClient: string;
+  body?: string;
+  headers?: HeadersItem[];
 }
 
 const pushHistory = (record: HistoryRecord) => storage.push('history', record);

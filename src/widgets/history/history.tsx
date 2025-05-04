@@ -59,7 +59,7 @@ export default function History({ dict, locale }: { dict: Record<string, string>
           {currentHistory.map((item, index) => (
             <div key={index} className={styles.history__item}>
               <div>{item.method}</div>
-              <Link scroll={false} className={styles.history__url} href={`${item.url}`}>
+              <Link scroll={false} className={styles.history__url} href={`${item.linkToClient}`}>
                 {item.url}
               </Link>
               <button className={styles.history__remove} onClick={() => handleRemove(item.date)}>
