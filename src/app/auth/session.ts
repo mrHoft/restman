@@ -22,9 +22,11 @@ export async function decrypt(session: string | undefined = '') {
       algorithms: ['HS256'],
     });
     return payload.sub;
-  } catch (error) {
+  } catch {
     console.log('Failed to verify session');
   }
+
+  return null;
 }
 
 export async function createSession(user: UserInfo) {

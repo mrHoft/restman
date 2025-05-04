@@ -1,7 +1,5 @@
 'use client';
-import { redirect } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import { register } from '~/app/auth/actions';
 import { InputEmail, InputPassword } from '~/components/input';
 import { Loader } from '~/components/loader/loader';
 import { Message } from '~/components/message/message';
@@ -9,7 +7,7 @@ import { registerSchema } from '~/utils/schemas';
 
 import form from '~/styles/form.module.css';
 
-export default function Register({ dict, locale }: { dict: Record<string, string>; locale: string }) {
+export default function Register({ dict }: { dict: Record<string, string>; locale: string }) {
   const [errors, setErrors] = useState<Record<string, string>>({});
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -36,11 +34,15 @@ export default function Register({ dict, locale }: { dict: Record<string, string
       return;
     }
 
+    Message.show(dict.disabledCredentials, 'error');
+    Loader.hide();
+    /* 
     await register(data).then(({ error, success }) => {
       Message.show(success ? `${dict.success}` : error, success ? 'regular' : 'error');
       Loader.hide();
       if (success) redirect(`/${locale}/login`);
     });
+    */
   };
 
   useEffect(Loader.hide, []);
@@ -55,6 +57,7 @@ export default function Register({ dict, locale }: { dict: Record<string, string
         <span className={form.input_error}>{errors.password}</span>
         <InputPassword name="confirmPassword" placeholder={dict.confirmPassword} />
         <span className={form.input_error}>{errors.confirmPassword}</span>
+        <p>{dict.disabledCredentials}</p>
         <button className="button" type="submit">
           {dict.submit}
         </button>
