@@ -2,10 +2,10 @@
 
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
+import type { UserInfo } from '~/app/auth/types';
 import LanguageSelector from '~/components/language/language';
 import { ButtonLogout } from '~/components/logout/logout';
 import ThemeSwitcher from '~/components/theme/theme';
-import type { UserData } from '~/utils/supabase/types';
 
 import styles from './header.module.css';
 
@@ -16,7 +16,7 @@ export function Header({
 }: {
   dict: Record<string, string>;
   locale: string;
-  user: UserData | null;
+  user: UserInfo | null;
 }) {
   const [isScrolled, setIsScrolled] = useState(false);
 
@@ -36,11 +36,7 @@ export function Header({
         <h3 className={styles.header__title_text}>Restman</h3>
       </Link>
       <div className={styles.header__right}>
-        {user ? (
-          <Link scroll={false} href={`/${locale}`} className={`button ${styles.header__link}`}>
-            {dict.mainPage}
-          </Link>
-        ) : (
+        {user === null && (
           <Link scroll={false} href={`/${locale}/register`} className={`button ${styles.header__link}`}>
             {dict.signUp}
           </Link>

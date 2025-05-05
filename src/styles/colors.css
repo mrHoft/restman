@@ -23,6 +23,9 @@
   --code-tag: #9cdcfe;
   --code-string: #ce9178;
   --code-number: #b5cea8;
+
+  --color-post-method: #ffe47e;
+  --color-patch-method: #c0a8e1;
 }
 
 @media (prefers-color-scheme: light) {
@@ -48,6 +51,9 @@
     --code-tag: #0451ad;
     --code-string: #a31514;
     --code-number: #098658;
+
+    --color-post-method: #ad7a03;
+    --color-patch-method: #623497;
   }
 }
 
@@ -73,4 +79,7 @@
   --code-tag: #0451ad;
   --code-string: #a31514;
   --code-number: #098658;
+
+  --color-post-method: #ad7a03;
+  --color-patch-method: #623497;
 }

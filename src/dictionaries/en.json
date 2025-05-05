@@ -11,7 +11,8 @@
     "password": "Password",
     "confirmPassword": "Confirm password",
     "submit": "Register",
-    "success": "Registration successful!"
+    "success": "Registration successful!",
+    "disabledCredentials": "Registration by credentials was disabled: only GitHub OAuth is available."
   },
   "LoginPage": {
     "title": "Login",
@@ -19,7 +20,9 @@
     "password": "Password",
     "submit": "Login",
     "buttonToRegister": "Register",
-    "success": "You've successfully logged in!"
+    "success": "You've successfully logged in!",
+    "oauth": "OAuth",
+    "disabledCredentials": "Login by credentials was disabled: only GitHub OAuth is available."
   },
   "NotFoundPage": {
     "title": "Page not found",

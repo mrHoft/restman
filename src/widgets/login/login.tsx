@@ -1,15 +1,15 @@
 'use client';
 
 import Link from 'next/link';
-import { redirect } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import { login } from '~/app/auth/actions';
+import { initiateGitHubOAuth } from '~/app/auth/github/login';
 import { InputEmail, InputPassword } from '~/components/input';
 import { Loader } from '~/components/loader/loader';
 import { Message } from '~/components/message/message';
 import { loginSchema } from '~/utils/schemas';
 
 import form from '~/styles/form.module.css';
+import styles from './login.module.css';
 
 export default function Login({ dict, locale }: { dict: Record<string, string>; locale: string }) {
   const [errors, setErrors] = useState<Record<string, string>>({});
@@ -38,11 +38,8 @@ export default function Login({ dict, locale }: { dict: Record<string, string>; 
       return;
     }
 
-    await login(data).then(({ error, success }) => {
-      Message.show(success ? `${dict.success}` : error, success ? 'regular' : 'error');
-      Loader.hide();
-      if (success) redirect(`/${locale}`);
-    });
+    Message.show(dict.disabledCredentials, 'error');
+    Loader.hide();
   };
 
   useEffect(Loader.hide, []);
@@ -55,7 +52,14 @@ export default function Login({ dict, locale }: { dict: Record<string, string>; 
         <span className={form.input_error}>{errors.email}</span>
         <InputPassword name="password" placeholder={dict.password} />
         <span className={form.input_error}>{errors.password}</span>
+        <p>{dict.disabledCredentials}</p>
         <div className={form.form__btns}>
+          <button className="button" type="button" onClick={initiateGitHubOAuth}>
+            <div className="align_center">
+              <div className={styles.github} />
+              {dict.oauth}
+            </div>
+          </button>
           <button className="button" type="submit">
             {dict.submit}
           </button>

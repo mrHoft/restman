@@ -1,12 +1,12 @@
 'use client';
 
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import type { UserInfo } from '~/app/auth/types';
 import { ButtonSquare } from '~/components/button/square';
 import { Loader } from '~/components/loader/loader';
 import { Modal } from '~/components/modal/modal';
 import { base64Decode } from '~/utils/base64';
 import { methods, type TMethod } from '~/utils/rest';
-import type { UserData } from '~/utils/supabase/types';
 import { CodeGenerator } from '~/widgets/codeGenerator/generator';
 
 import styles from './sidebar.module.css';
@@ -14,7 +14,7 @@ import styles from './sidebar.module.css';
 interface SidebarProps {
   dict: Record<string, string>;
   locale: string;
-  user: UserData | null;
+  user: UserInfo | null;
 }
 
 export function Sidebar({ dict, locale, user }: SidebarProps) {
@@ -40,7 +40,6 @@ export function Sidebar({ dict, locale, user }: SidebarProps) {
       Modal.show(<CodeGenerator dict={dict} data={{ method, url, body, headers }} />);
     }
   };
-
   return (
     <aside className={styles.sidebar}>
       {user && params[2] !== 'client' && (

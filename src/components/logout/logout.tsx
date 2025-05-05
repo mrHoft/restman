@@ -1,22 +1,20 @@
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
-import { signout } from '~/app/auth/actions';
-import type { UserData } from '~/utils/supabase/types';
+import { deleteSession } from '~/app/auth/session';
+import type { UserInfo } from '~/app/auth/types';
 
 import styles from './logout.module.css';
 
 interface ButtonLogoutProps {
   dict: Record<string, string>;
   locale: string;
-  user: UserData | null;
+  user: UserInfo | null;
 }
 
 export function ButtonLogout({ dict, locale, user }: ButtonLogoutProps) {
-  const router = useRouter();
   const handleSingOut = async () => {
-    await signout();
-    router.push(`/${locale}`);
+    deleteSession();
   };
+
   if (!user)
     return (
       <Link scroll={false} href={`/${locale}/login`}>
