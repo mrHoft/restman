@@ -15,7 +15,7 @@ export function HeadersViewer({ dict, headers }: HeadersViewerProps) {
       <div className={styles.headers__controls}>
         <h3>{dict.headers}</h3>
       </div>
-      <div className={styles.headers__body}>
+      <div className={styles.headers__body} contentEditable={false}>
         {Object.entries(headers).map(([key, value]) => (
           <div key={key}>
             <strong>{key}:</strong>{' '}

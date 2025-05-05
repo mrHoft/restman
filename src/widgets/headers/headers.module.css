@@ -9,9 +9,8 @@
   border: var(--border-thickness) solid var(--color30);
   word-break: break-word;
   cursor: text;
-  user-select: text;
-  -webkit-user-select: none;
   user-select: none;
+  -webkit-user-select: none;
   overflow: auto;
 }
 
