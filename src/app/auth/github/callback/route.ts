@@ -56,7 +56,7 @@ export async function GET(request: NextRequest) {
       return response.json();
     });
 
-    if (daytecMembers.filter(item => item.id === user.id).length === 0) {
+    if (!daytecMembers.some(item => item.id === user.id)) {
       throw new Error('daytec_only');
     }
     await createSession(user);
