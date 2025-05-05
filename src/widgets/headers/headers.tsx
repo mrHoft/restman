@@ -18,7 +18,10 @@ export function HeadersViewer({ dict, headers }: HeadersViewerProps) {
       <div className={styles.response__body}>
         {Object.entries(headers).map(([key, value]) => (
           <div key={key}>
-            <strong>{key}:</strong> {value}
+            <strong>{key}:</strong>{' '}
+            {typeof value === 'string'
+              ? value?.toString().replace(/\\/g, '')
+              : JSON.stringify(value, null, 2).replace(/\\/g, '')}
           </div>
         ))}
       </div>
