@@ -70,6 +70,7 @@
     "code": "Generate code",
     "codePlaceholder": "runtime",
     "response": "Response",
+    "responseHeaders": "Response headers",
     "status": "Status"
   },
   "History": {

@@ -1,6 +1,7 @@
 import type { RestResponse } from '~/app/rest/actions';
 import { CodeEditor } from '../codeEditor/editor';
 
+import { HeadersViewer } from '../headers/headers';
 import styles from './response.module.css';
 
 interface ResponseViewerProps {
@@ -26,6 +27,7 @@ export function ResponseViewer({ dict, response }: ResponseViewerProps) {
         )}
       </div>
       <CodeEditor name="response" data={data ?? message ?? ''} readonly prettify />
+      {response.headers && <HeadersViewer dict={dict} headers={response.headers} />}
     </section>
   );
 }

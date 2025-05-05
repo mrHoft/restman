@@ -70,6 +70,7 @@
     "code": "Сгенерировать код",
     "codePlaceholder": "среда",
     "response": "Ответ",
+    "responseHeaders": "Заголовки ответа",
     "status": "Статус"
   },
   "History": {
