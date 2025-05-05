@@ -11,11 +11,11 @@ export function HeadersViewer({ dict, headers }: HeadersViewerProps) {
   if (!headers || Object.keys(headers).length === 0) return null;
 
   return (
-    <section className={styles.response} aria-label="headers">
-      <div className={styles.response__controls}>
+    <div className={styles.headers} aria-label="headers">
+      <div className={styles.headers__controls}>
         <h3>{dict.headers}</h3>
       </div>
-      <div className={styles.response__body}>
+      <div className={styles.headers__body}>
         {Object.entries(headers).map(([key, value]) => (
           <div key={key}>
             <strong>{key}:</strong>{' '}
@@ -25,6 +25,6 @@ export function HeadersViewer({ dict, headers }: HeadersViewerProps) {
           </div>
         ))}
       </div>
-    </section>
+    </div>
   );
 }
