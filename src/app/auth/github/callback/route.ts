@@ -47,6 +47,18 @@ export async function GET(request: NextRequest) {
       })
       .then(data => data as UserInfo);
 
+    const daytecMembers: UserInfo[] = await fetch('https://api.github.com/orgs/daytec-org/members', {
+      headers: { Authorization: `Bearer ${token}` },
+    }).then(response => {
+      if (response.status !== 200) {
+        throw new Error(response.statusText);
+      }
+      return response.json();
+    });
+
+    if (!daytecMembers.some(item => item.id === user.id)) {
+      throw new Error('daytec_only');
+    }
     await createSession(user);
   } catch (error) {
     request.nextUrl.pathname = `/login?error=${error}`;
