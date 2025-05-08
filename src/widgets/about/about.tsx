@@ -31,6 +31,14 @@ export default function About({ dict }: { dict: Record<string, string> }) {
         role: dict.roleDeveloper,
         about: dict.aboutEugeniya,
       },
+      {
+        id: '#04',
+        image: 'https://avatars.githubusercontent.com/u/149455058?v=4',
+        link: 'https://github.com/sergiozeppo',
+        name: dict.Sergey,
+        role: dict.roleDeveloper,
+        about: dict.aboutSergey,
+      },
     ],
     [dict]
   );
