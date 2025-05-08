@@ -8,8 +8,6 @@ interface HeadersViewerProps {
 }
 
 export function HeadersViewer({ dict, headers }: HeadersViewerProps) {
-  if (!headers || Object.keys(headers).length === 0) return null;
-
   return (
     <div className={styles.headers} aria-label="headers">
       <div className={styles.headers__controls}>
@@ -20,8 +18,8 @@ export function HeadersViewer({ dict, headers }: HeadersViewerProps) {
           <div key={key}>
             <strong>{key}:</strong>{' '}
             {typeof value === 'string'
-              ? value?.toString().replace(/\\/g, '')
-              : JSON.stringify(value, null, 2).replace(/\\/g, '')}
+              ? value?.replaceAll('\\', '')
+              : JSON.stringify(value, null, 2).replaceAll('\\', '')}
           </div>
         ))}
       </div>

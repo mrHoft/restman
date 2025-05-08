@@ -1,7 +1,6 @@
 import type { RestResponse } from '~/app/rest/actions';
-import { CodeEditor } from '../codeEditor/editor';
-
-import { HeadersViewer } from '../headers/headers';
+import { CodeEditor } from '~/widgets/codeEditor/editor';
+import { HeadersViewer } from '~/widgets/headers/headers';
 import styles from './response.module.css';
 
 interface ResponseViewerProps {
