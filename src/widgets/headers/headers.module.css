@@ -1,0 +1,28 @@
+.headers__body {
+  box-sizing: border-box;
+  width: 100%;
+  height: 12rem;
+  font-size: 1rem;
+  padding: 0.5rem 1.5rem;
+  border-radius: var(--border-radius);
+  background-color: var(--color10);
+  border: var(--border-thickness) solid var(--color30);
+  word-break: break-word;
+  cursor: text;
+  user-select: none;
+  -webkit-user-select: none;
+  overflow: auto;
+}
+
+.headers__controls {
+  margin-bottom: 0.25rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.headers__controls > h3 {
+  margin: 0;
+  padding-top: 0.5rem;
+  font-size: 1.2rem;
+}

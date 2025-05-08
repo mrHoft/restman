@@ -13,6 +13,7 @@ export interface RestResponse {
   message: string;
   status: number;
   contentType?: string;
+  headers?: Record<string, string>;
   lapse: number;
 }
 
@@ -33,7 +34,13 @@ function getStatus(status: number) {
 }
 
 export async function executeRestRequest({ method, url, headers, body }: RestRequestProps): Promise<RestResponse> {
-  const info: { status: number; message: string; contentType: string; start: number } = {
+  const info: {
+    status: number;
+    message: string;
+    contentType: string;
+    start: number;
+    headers?: Record<string, string>;
+  } = {
     status: 500,
     message: 'Internal error',
     contentType: 'text/plain',
@@ -52,6 +59,12 @@ export async function executeRestRequest({ method, url, headers, body }: RestReq
       info.message = response.statusText || getStatus(response.status);
       info.contentType = response.headers.get('content-type') ?? 'text/plain';
 
+      const responseHeaders: Record<string, string> = {};
+      response.headers.forEach((value, key) => {
+        responseHeaders[key] = value;
+      });
+      info.headers = responseHeaders;
+
       if (info.contentType && info.contentType.includes('application/json')) {
         return response.json();
       }
@@ -67,11 +80,19 @@ export async function executeRestRequest({ method, url, headers, body }: RestReq
           message: info.message,
           status: info.status,
           contentType: info.contentType,
+          headers: info.headers,
           lapse,
         };
       }
 
-      return { data, message: info.message, status: info.status, contentType: info.contentType, lapse };
+      return {
+        data,
+        message: info.message,
+        status: info.status,
+        contentType: info.contentType,
+        headers: info.headers,
+        lapse,
+      };
     })
     .catch(error => {
       const lapse = Date.now() - info.start;
