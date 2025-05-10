@@ -1,5 +1,3 @@
-'use client';
-
 import { useEffect, useRef, useState } from 'react';
 import { prettifyString, sanitize } from '~/utils/pretty';
 import { ButtonCopy } from './copy';
@@ -17,29 +15,31 @@ interface CodeEditorProps {
 }
 
 export function CodeEditor({ data, name, prettify = false, readonly, onInput, onBlur }: CodeEditorProps) {
-  const [numbers, setNumbers] = useState<{ index: number; height?: number }[]>([]);
+  const [numbers, setNumbers] = useState<{ index: number }[]>([]);
   const [pretty, setPretty] = useState(prettify);
   const [mode, setMode] = useState('plain');
   const [code, setCode] = useState({
-    text: '',
-    lines: 0,
+    text: data || '',
+    lines: data ? data.split('\n').length : 1,
     caret: { nodeIndex: 0, offset: 0 },
   });
   const ref = useRef<HTMLPreElement>(null);
+  const numbersRef = useRef<HTMLDivElement>(null);
 
   const updateNumbers = (text: string) => {
     const lines = text.split('\n');
-    const arr = Array.from(lines).map((_, index) => {
-      return { index };
-    });
+    const arr = Array.from(lines).map((_, index) => ({ index }));
     setNumbers(arr);
   };
 
   const updateCode = () => {
-    if (ref.current && pretty) {
+    if (!ref.current) return;
+
+    if (pretty) {
       const { format, result } = prettifyString(code.text);
       setMode(format);
       ref.current.innerHTML = result.join('\n');
+      updateNumbers(result.join('\n'));
       if (!readonly) {
         const selection = window.getSelection();
         if (selection && ref.current && code.caret.nodeIndex !== -1) {
@@ -50,20 +50,51 @@ export function CodeEditor({ data, name, prettify = false, readonly, onInput, on
           }
         }
       }
+    } else {
+      ref.current.innerHTML = sanitize(code.text);
+      updateNumbers(code.text);
     }
   };
 
   const setupCode = (newCode = code) => {
-    if (ref.current) {
-      if (pretty) {
-        const { format, result } = prettifyString(newCode.text);
-        setMode(format);
-        ref.current.innerHTML = result.join('\n');
-      } else {
-        ref.current.innerHTML = sanitize(newCode.text);
-      }
+    if (!ref.current) return;
+
+    if (pretty) {
+      const { format, result } = prettifyString(newCode.text);
+      setMode(format);
+      ref.current.innerHTML = result.join('\n');
+      updateNumbers(result.join('\n'));
+    } else {
+      ref.current.innerHTML = sanitize(newCode.text);
+      updateNumbers(newCode.text);
     }
   };
+
+  useEffect(() => {
+    if (ref.current) {
+      setupCode();
+    }
+  }, []);
+
+  useEffect(() => {
+    updateCode();
+  }, [code.text]);
+
+  useEffect(() => {
+    setupCode();
+    if (!pretty) setMode('plain');
+  }, [pretty]);
+
+  useEffect(() => {
+    if (data !== code.text) {
+      const newCode = {
+        text: data,
+        lines: data.split('\n').length,
+        caret: { nodeIndex: 0, offset: 0 },
+      };
+      setCode(newCode);
+    }
+  }, [data]);
 
   const handleInput = (e: React.FormEvent<HTMLPreElement>) => {
     const text = e.currentTarget.innerText;
@@ -94,39 +125,15 @@ export function CodeEditor({ data, name, prettify = false, readonly, onInput, on
     }
   };
 
-  useEffect(() => {
-    updateCode();
-  }, [code.text]);
-
-  useEffect(() => {
-    setupCode(code);
-    if (!pretty) setMode('plain');
-  }, [pretty]);
-
-  useEffect(() => {
-    if (data) {
-      const newCode = {
-        text: data,
-        lines: data.split('\n').length,
-        caret: { nodeIndex: 0, offset: 0 },
-      };
-      setCode(newCode);
-      setupCode(newCode);
-      updateNumbers(data);
-    }
-  }, [data]);
-
   return (
     <div className={styles.editor}>
       <div className={styles.editor__mode}>{mode}</div>
       <ButtonPrettify name={name} defaultChecked={prettify} onClick={() => setPretty(prev => !prev)} />
       <ButtonCopy onClick={handleCopy} />
       <div className={styles.editor__code}>
-        <div className={styles.editor__numbers}>
-          {numbers.map(({ height }, index) => (
-            <div key={index} style={{ height }}>
-              {index + 1}
-            </div>
+        <div className={styles.editor__numbers} ref={numbersRef}>
+          {numbers.map((_, index) => (
+            <div key={index}>{index + 1}</div>
           ))}
         </div>
         <pre
