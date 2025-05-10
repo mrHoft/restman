@@ -4,8 +4,8 @@ import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import type { UserInfo } from '~/app/auth/types';
 import LanguageSelector from '~/components/language/language';
-import { ButtonLogout } from '~/components/logout/logout';
 import ThemeSwitcher from '~/components/theme/theme';
+import { UserMenu } from '~/components/userMenu/menu';
 
 import styles from './header.module.css';
 
@@ -36,14 +36,9 @@ export function Header({
         <h3 className={styles.header__title_text}>Restman</h3>
       </Link>
       <div className={styles.header__right}>
-        {user === null && (
-          <Link scroll={false} href={`/${locale}/register`} className={`button ${styles.header__link}`}>
-            {dict.signUp}
-          </Link>
-        )}
-        <ButtonLogout dict={dict} locale={locale} user={user} />
         <LanguageSelector />
         <ThemeSwitcher />
+        <UserMenu dict={dict} locale={locale} user={user} />
       </div>
     </header>
   );
