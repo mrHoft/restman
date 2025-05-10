@@ -36,9 +36,9 @@ export function Header({
         <h3 className={styles.header__title_text}>Restman</h3>
       </Link>
       <div className={styles.header__right}>
-        <UserMenu dict={dict} locale={locale} user={user} />
         <LanguageSelector />
         <ThemeSwitcher />
+        <UserMenu dict={dict} locale={locale} user={user} />
       </div>
     </header>
   );

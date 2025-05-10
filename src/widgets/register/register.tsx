@@ -1,4 +1,5 @@
 'use client';
+import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { InputEmail, InputPassword } from '~/components/input';
 import { Loader } from '~/components/loader/loader';
@@ -7,7 +8,7 @@ import { registerSchema } from '~/utils/schemas';
 
 import form from '~/styles/form.module.css';
 
-export default function Register({ dict }: { dict: Record<string, string>; locale: string }) {
+export default function Register({ dict, locale }: { dict: Record<string, string>; locale: string }) {
   const [errors, setErrors] = useState<Record<string, string>>({});
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -51,9 +52,14 @@ export default function Register({ dict }: { dict: Record<string, string>; local
         <InputPassword name="confirmPassword" placeholder={dict.confirmPassword} />
         <span className={form.input_error}>{errors.confirmPassword}</span>
         <p>{dict.disabledCredentials}</p>
-        <button className="button" type="submit">
-          {dict.submit}
-        </button>
+        <div className={form.form__btns}>
+          <button className="button" type="submit">
+            {dict.submit}
+          </button>
+          <Link scroll={false} href={`/${locale}/login`} className="button">
+            {dict.buttonToLogin}
+          </Link>
+        </div>
       </form>
     </div>
   );

@@ -1,8 +1,8 @@
-.user_menu {
+.user {
   position: relative;
 }
 
-.user_menu_wrapper {
+.user__btn {
   width: 2rem;
   height: 2rem;
   display: flex;
@@ -10,24 +10,25 @@
   align-items: center;
   border-radius: 50%;
   background-color: var(--color50);
+  cursor: pointer;
 }
 
-.user_menu_icon {
+.user__btn_icon {
   width: 1.5rem;
   height: 1.5rem;
   filter: invert(var(--color-scheme));
 }
 
-.user_menu_avatar {
+.user__btn_avatar {
   width: 2rem;
   height: 2rem;
   border-radius: 50%;
 }
 
-.user_menu_open {
+.user__menu {
   position: absolute;
-  min-width: 8rem;
-  right: -150%;
+  min-width: 10rem;
+  right: -1rem;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -36,32 +37,34 @@
   border-radius: var(--border-radius);
 }
 
-.user_menu_name,
-.user_menu_item {
+.user__menu_name,
+.user__menu_item {
   position: relative;
-  width: calc(100% - 2rem);
+  width: 100%;
   padding: 0.5rem 1rem;
+  box-sizing: border-box;
   text-align: center;
   text-decoration: none;
   color: var(--color100);
   border-radius: var(--border-radius);
 }
 
-.user_menu_item {
+.user__menu_item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   cursor: pointer;
   transition: background-color 0.25s linear;
 
   &:hover {
-    color: var(--color100);
     background-color: var(--color20);
   }
 }
 
-.user_menu_item::after {
+.user__menu_item::before {
   content: '';
   position: absolute;
-  top: 10%;
-  left: 5%;
+  left: 0.5rem;
   display: block;
   width: 2rem;
   height: 2rem;
@@ -70,11 +73,12 @@
   background-size: 1.25rem;
   filter: invert(var(--color-scheme));
 }
-
-.user_menu_item.out::after {
+.user__menu_item.out::before {
   background-image: url('/icons/logout.svg');
 }
-
-.user_menu_item.in::after {
+.user__menu_item.in::before {
   background-image: url('/icons/login.svg');
+}
+.user__menu_item.plus::before {
+  background-image: url('/icons/user-plus.svg');
 }

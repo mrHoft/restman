@@ -11,6 +11,7 @@
     "password": "Password",
     "confirmPassword": "Confirm password",
     "submit": "Register",
+    "buttonToLogin": "Login",
     "success": "Registration successful!",
     "disabledCredentials": "Registration by credentials was disabled: only GitHub OAuth is available."
   },
