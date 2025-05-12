@@ -65,6 +65,8 @@ export async function executeRestRequest({ method, url, headers, body }: RestReq
       });
       info.headers = responseHeaders;
 
+      if (info.status === 204) return '';
+
       if (info.contentType && info.contentType.includes('application/json')) {
         return response.json();
       }
@@ -74,19 +76,8 @@ export async function executeRestRequest({ method, url, headers, body }: RestReq
     .then(data => {
       const lapse = Date.now() - info.start;
 
-      if (info.contentType && info.contentType.includes('application/json')) {
-        return {
-          data: JSON.stringify(data),
-          message: info.message,
-          status: info.status,
-          contentType: info.contentType,
-          headers: info.headers,
-          lapse,
-        };
-      }
-
       return {
-        data,
+        data: info.contentType.includes('application/json') ? JSON.stringify(data) : data,
         message: info.message,
         status: info.status,
         contentType: info.contentType,
