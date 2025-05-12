@@ -43,6 +43,11 @@ export async function middleware(request: NextRequest) {
     request.nextUrl.pathname = `/${locale}${pathname}`;
     return NextResponse.redirect(request.nextUrl);
   }
+  if (pathname.includes('%3F')) {
+    const [path, query] = pathname.split('%3F');
+    const newUrl = new URL(path + '?' + query, request.url);
+    return NextResponse.redirect(newUrl);
+  }
 
   return NextResponse.next();
 }
