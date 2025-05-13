@@ -61,8 +61,8 @@ export async function GET(request: NextRequest) {
     }
     await createSession(user);
   } catch (error) {
-    request.nextUrl.pathname = `/login?error=${error}`;
-    request.nextUrl.search = '';
+    request.nextUrl.pathname = `/login`;
+    request.nextUrl.search = `error=${error}`;
     return NextResponse.redirect(request.nextUrl);
   }
 

@@ -11,7 +11,15 @@ import { loginSchema } from '~/utils/schemas';
 import form from '~/styles/form.module.css';
 import styles from './login.module.css';
 
-export default function Login({ dict, locale }: { dict: Record<string, string>; locale: string }) {
+export default function Login({
+  dict,
+  locale,
+  error,
+}: {
+  dict: Record<string, string>;
+  locale: string;
+  error: string | string[] | undefined;
+}) {
   const [errors, setErrors] = useState<Record<string, string>>({});
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -41,6 +49,10 @@ export default function Login({ dict, locale }: { dict: Record<string, string>; 
     Message.show(dict.disabledCredentials, 'error');
     Loader.hide();
   };
+
+  useEffect(() => {
+    if (error && typeof error === 'string') Message.show(error, 'error');
+  }, [error]);
 
   useEffect(Loader.hide, []);
 
