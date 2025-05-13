@@ -51,7 +51,7 @@ export default function Login({
   };
 
   useEffect(() => {
-    if (error) Message.show(error, 'error');
+    if (error && typeof error === 'string') Message.show(error, 'error');
   }, [error]);
 
   useEffect(Loader.hide, []);
