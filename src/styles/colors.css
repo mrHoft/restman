@@ -26,9 +26,9 @@
 
   --color-get: #098658;
   --color-post: #ad7a03;
-  --color-put: #0451ad;
-  --color-patch: #623497;
-  --color-delete: #a31514;
+  --color-put: #3a7bd5;
+  --color-patch: #875fc0;
+  --color-delete: #d3393d;
 }
 
 @media (prefers-color-scheme: light) {
@@ -54,6 +54,12 @@
     --code-tag: #0451ad;
     --code-string: #a31514;
     --code-number: #098658;
+
+    --color-get: #098658;
+    --color-post: #ad7a03;
+    --color-put: #0451ad;
+    --color-patch: #623497;
+    --color-delete: #a31514;
   }
 }
 
@@ -79,4 +85,10 @@
   --code-tag: #0451ad;
   --code-string: #a31514;
   --code-number: #098658;
+
+  --color-get: #098658;
+  --color-post: #ad7a03;
+  --color-put: #0451ad;
+  --color-patch: #623497;
+  --color-delete: #a31514;
 }
