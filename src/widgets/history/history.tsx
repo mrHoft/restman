@@ -7,7 +7,6 @@ import { Loader } from '~/components/loader/loader';
 import Pagination from '~/components/pagination/pagination';
 import useHistory, { type HistoryRecord } from '~/entities/useHistory';
 
-import '~/styles/methods.css';
 import styles from './history.module.css';
 
 export const ItemsForPage = 10;
@@ -59,7 +58,7 @@ export default function History({ dict, locale }: { dict: Record<string, string>
           </button>
           {currentHistory.map((item, index) => (
             <div key={index} className={styles.history__item}>
-              <div className={`${item.method.toLowerCase()}`}>{item.method}</div>
+              <div style={{ color: `var(--color-${item.method.toLowerCase()})` }}>{item.method}</div>
               <Link scroll={false} className={styles.history__url} href={`${item.linkToClient}`}>
                 {item.url}
               </Link>
