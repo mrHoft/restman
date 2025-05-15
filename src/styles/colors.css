@@ -24,8 +24,11 @@
   --code-string: #ce9178;
   --code-number: #b5cea8;
 
-  --color-post-method: #ffe47e;
-  --color-patch-method: #c0a8e1;
+  --color-get: #098658;
+  --color-post: #ad7a03;
+  --color-put: #0451ad;
+  --color-patch: #623497;
+  --color-delete: #a31514;
 }
 
 @media (prefers-color-scheme: light) {
@@ -51,9 +54,6 @@
     --code-tag: #0451ad;
     --code-string: #a31514;
     --code-number: #098658;
-
-    --color-post-method: #ad7a03;
-    --color-patch-method: #623497;
   }
 }
 
@@ -74,12 +74,9 @@
 
   --link-color: #386989;
   --link-color-hover: #4c9ce2;
-  --color-logo-bg: #2d2a28;
+  --color-logo-bg: #1b1714;
 
   --code-tag: #0451ad;
   --code-string: #a31514;
   --code-number: #098658;
-
-  --color-post-method: #ad7a03;
-  --color-patch-method: #623497;
 }

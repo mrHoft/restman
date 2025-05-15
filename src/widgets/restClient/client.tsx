@@ -166,9 +166,15 @@ export default function RestClient({
       <h1 className={styles.client__title}>{dict.title}</h1>
       <form onSubmit={handleSubmit} className={styles.client__form}>
         <div className={styles.client__req}>
-          <select name="method" value={state.method} onChange={handleMethodChange} className={styles.client__method}>
+          <select
+            name="method"
+            value={state.method}
+            style={{ color: `var(--color-${state.method.toLowerCase()})` }}
+            onChange={handleMethodChange}
+            className={styles.client__method}
+          >
             {methods.map(item => (
-              <option key={item} value={item}>
+              <option key={item} value={item} style={{ color: `var(--color-${item.toLowerCase()})` }}>
                 {item}
               </option>
             ))}
