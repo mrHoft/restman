@@ -15,6 +15,7 @@ import { CodeGenerator } from '~/widgets/codeGenerator/generator';
 import HeadersEditor, { HeadersItem } from '~/widgets/headersEditor/editor';
 import { ResponseViewer } from '~/widgets/response/response';
 
+import { Tabs } from '../tabs/tabs';
 import styles from './client.module.css';
 
 type TQuery = { [key: string]: string | string[] | undefined };
@@ -192,13 +193,31 @@ export default function RestClient({
           {dict.send}
         </button>
       </form>
-      <HeadersEditor dict={dict} headers={headers} setHeaders={setHeaders} />
-      <section aria-label="body">
-        <h3 className={styles.client__section_title}>{dict.body}</h3>
-        <CodeEditor name="body" data={state.body} onBlur={handleBodyChange} />
-      </section>
-      {response.data && <ResponseViewer dict={dict} response={response} />}
-      <CodeGenerator dict={dict} data={stateWithVariables} />
+      <Tabs
+        tabs={[
+          {
+            label: dict.headers,
+            content: <HeadersEditor dict={dict} headers={headers} setHeaders={setHeaders} />,
+          },
+          {
+            label: dict.body,
+            content: (
+              <section aria-label="body">
+                <h3 className={styles.client__section_title}>{dict.body}</h3>
+                <CodeEditor name="body" data={state.body} onBlur={handleBodyChange} />
+              </section>
+            ),
+          },
+          {
+            label: dict.response,
+            content: response.data ? <ResponseViewer dict={dict} response={response} /> : <p>Nothing here</p>,
+          },
+          {
+            label: dict.codeGen,
+            content: <CodeGenerator dict={dict} data={stateWithVariables} />,
+          },
+        ]}
+      />
     </div>
   );
 }
