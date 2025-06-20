@@ -214,14 +214,14 @@ export default function RestClient({
               : null,
             {
               label: dict.response,
-              content: response.data ? <ResponseViewer dict={dict} response={response} /> : <p>Nothing here</p>,
+              content: response.data ? <ResponseViewer dict={dict} response={response} /> : dict.responseEmpty,
             },
             {
               label: dict.responseHeaders,
               content: response.headers ? (
                 <HeadersViewer dict={dict} headers={response.headers} />
               ) : (
-                <p>Nothing here</p>
+                dict.responseHeadersEmpty
               ),
             },
             {
