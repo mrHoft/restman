@@ -15,6 +15,7 @@ import { CodeGenerator } from '~/widgets/codeGenerator/generator';
 import HeadersEditor, { HeadersItem } from '~/widgets/headersEditor/editor';
 import { ResponseViewer } from '~/widgets/response/response';
 
+import { HeadersViewer } from '../headers/headers';
 import { Tab, Tabs } from '../tabs/tabs';
 import styles from './client.module.css';
 
@@ -214,6 +215,14 @@ export default function RestClient({
             {
               label: dict.response,
               content: response.data ? <ResponseViewer dict={dict} response={response} /> : <p>Nothing here</p>,
+            },
+            {
+              label: dict.responseHeaders,
+              content: response.headers ? (
+                <HeadersViewer dict={dict} headers={response.headers} />
+              ) : (
+                <p>Nothing here</p>
+              ),
             },
             {
               label: dict.code,
