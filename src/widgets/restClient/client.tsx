@@ -194,13 +194,10 @@ export default function RestClient({
           {dict.send}
         </button>
       </form>
+      <HeadersEditor dict={dict} headers={headers} setHeaders={setHeaders} />
       <Tabs
         tabs={
           [
-            {
-              label: dict.headers,
-              content: <HeadersEditor dict={dict} headers={headers} setHeaders={setHeaders} />,
-            },
             ['POST', 'PUT', 'PATCH'].includes(state.method.toUpperCase())
               ? {
                   label: dict.body,
