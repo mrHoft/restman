@@ -163,6 +163,38 @@ export default function RestClient({
 
   useEffect(Loader.hide, []);
 
+  const tabs = useMemo(() => {
+    return [
+      ['POST', 'PUT', 'PATCH'].includes(state.method.toUpperCase())
+        ? {
+            label: dict.body,
+            content: (
+              <section aria-label="body">
+                <h3 className={styles.client__section_title}>{dict.body}</h3>
+                <CodeEditor name="body" data={state.body} onBlur={handleBodyChange} />
+              </section>
+            ),
+          }
+        : null,
+      {
+        label: dict.response,
+        content: response.data ? <ResponseViewer dict={dict} response={response} /> : dict.responseEmpty,
+      },
+      {
+        label: dict.responseHeaders,
+        content: response.headers ? (
+          <HeadersViewer dict={dict} headers={response.headers} />
+        ) : (
+          dict.responseHeadersEmpty
+        ),
+      },
+      {
+        label: dict.code,
+        content: <CodeGenerator dict={dict} data={stateWithVariables} />,
+      },
+    ].filter(Boolean) as Tab[];
+  }, [dict, state, response, handleBodyChange, stateWithVariables]);
+
   return (
     <div className={styles.client}>
       <h1 className={styles.client__title}>{dict.title}</h1>
@@ -195,39 +227,7 @@ export default function RestClient({
         </button>
       </form>
       <HeadersEditor dict={dict} headers={headers} setHeaders={setHeaders} />
-      <Tabs
-        tabs={
-          [
-            ['POST', 'PUT', 'PATCH'].includes(state.method.toUpperCase())
-              ? {
-                  label: dict.body,
-                  content: (
-                    <section aria-label="body">
-                      <h3 className={styles.client__section_title}>{dict.body}</h3>
-                      <CodeEditor name="body" data={state.body} onBlur={handleBodyChange} />
-                    </section>
-                  ),
-                }
-              : null,
-            {
-              label: dict.response,
-              content: response.data ? <ResponseViewer dict={dict} response={response} /> : dict.responseEmpty,
-            },
-            {
-              label: dict.responseHeaders,
-              content: response.headers ? (
-                <HeadersViewer dict={dict} headers={response.headers} />
-              ) : (
-                dict.responseHeadersEmpty
-              ),
-            },
-            {
-              label: dict.code,
-              content: <CodeGenerator dict={dict} data={stateWithVariables} />,
-            },
-          ].filter(Boolean) as Tab[]
-        }
-      />
+      <Tabs tabs={tabs} />
     </div>
   );
 }
