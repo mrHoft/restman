@@ -6,27 +6,23 @@ export interface Tab {
   content: React.ReactNode;
 }
 
-interface TabsProps {
-  tabs: Tab[];
-}
-
-export function Tabs({ tabs }: TabsProps) {
+export function Tabs({ tabs }: { tabs: Tab[] }) {
   const [activeIndex, setActiveIndex] = useState(0);
 
   return (
     <div className={styles.tabs}>
-      <div className={styles.tabsHeader}>
+      <div className={styles.tabs__header}>
         {tabs.map((tab, index) => (
           <button
             key={index}
-            className={`${styles.tabButton} ${index === activeIndex ? styles.active : ''}`}
+            className={index === activeIndex ? `${styles.tabs__button} ${styles.active}` : styles.tabs__button}
             onClick={() => setActiveIndex(index)}
           >
             {tab.label}
           </button>
         ))}
       </div>
-      <div className={styles.tabsContent}>{tabs[activeIndex].content}</div>
+      <div className={styles.tabs__content}>{tabs[activeIndex].content}</div>
     </div>
   );
 }

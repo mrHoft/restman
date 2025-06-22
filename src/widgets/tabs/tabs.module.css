@@ -9,7 +9,7 @@
   box-sizing: border-box;
 }
 
-.tabsHeader {
+.tabs__header {
   display: flex;
   padding: 0.5rem 1rem;
   background-color: var(--color10);
@@ -17,7 +17,7 @@
   border-bottom: var(--border-thickness) solid var(--color30);
 }
 
-.tabButton {
+.tabs__button {
   box-sizing: border-box;
   color: var(--color100);
   text-decoration: none;
@@ -30,7 +30,7 @@
   transition: background-color 0.25s linear;
 }
 
-.tabButton:hover {
+.tabs__button:hover {
   background-color: var(--color20);
 }
 
@@ -38,7 +38,7 @@
   background-color: var(--color30);
 }
 
-.tabsContent {
+.tabs__content {
   flex-grow: 1;
   overflow-y: auto;
   padding: 1rem 1.5rem;
