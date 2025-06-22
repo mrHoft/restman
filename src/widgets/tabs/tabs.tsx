@@ -6,11 +6,11 @@ export interface Tab {
   content: React.ReactNode;
 }
 
-export function Tabs({ tabs }: { tabs: Tab[] }) {
+export function Tabs({ tabs, grow }: { tabs: Tab[], grow?: boolean }) {
   const [activeIndex, setActiveIndex] = useState(0);
 
   return (
-    <div className={styles.tabs}>
+    <div className={grow ? `${styles.tabs} ${styles.tabs__grow}` : styles.tabs}>
       <div className={styles.tabs__header}>
         {tabs.map((tab, index) => (
           <button

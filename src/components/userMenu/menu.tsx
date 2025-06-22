@@ -46,7 +46,7 @@ export function UserMenu({ dict, locale, user }: UserMenuProps) {
         {!user ? (
           <img className={styles.user__btn_icon} src="/icons/user.svg" alt="user icon" />
         ) : (
-          <Image width={32} height={32} className={styles.user__btn_avatar} src={user.avatar_url} alt="user icon" />
+          <Image width={32} height={32} className={styles.user__btn_avatar} src={user.avatar_url} overrideSrc={user.avatar_url} alt="user icon" />
         )}
       </div>
       {isOpen && (
